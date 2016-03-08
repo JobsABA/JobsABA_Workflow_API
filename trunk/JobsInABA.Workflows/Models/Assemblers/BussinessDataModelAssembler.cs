@@ -24,6 +24,8 @@ namespace JobsInABA.Workflows.Models.Assemblers
                 model.StartDate = BusinessDTO.StartDate;
                 model.upddt = BusinessDTO.upddt;
                 model.upduser = BusinessDTO.upduser;
+                model.Description = BusinessDTO.Description;
+                
             }
 
             if (businessUserMapDTO != null)
