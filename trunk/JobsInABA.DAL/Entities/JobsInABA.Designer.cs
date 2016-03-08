@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Projects\JobsInAba\Project\JobsABA_24_2_2016_Arjun_Hardik_WorkFlow-master\JobsABA_24_2_2016_Arjun_Hardik_WorkFlow-master\trunk\JobsInABA.DAL\Entities\JobsInABA.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Hardik Working\JobsABA_Working\JobsABA_Workflow_API_Git\trunk\JobsInABA.DAL\Entities\JobsInABA.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
