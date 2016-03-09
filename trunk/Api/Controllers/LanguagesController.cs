@@ -26,7 +26,7 @@ namespace Api.Controllers
 
         public IEnumerable<LanguageDTO> GetLanguagesByUserID(int id)
         {
-            return db.Get().Where(p=>p.UserID==id);
+            return db.Get().Where(p => p.UserID == id);
         }
 
         // GET: api/Languages/5
@@ -93,9 +93,9 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Create(language);
+            var objLang = db.Create(language);
 
-            return CreatedAtRoute("DefaultApi", new { id = language.LanguageID }, language);
+            return CreatedAtRoute("DefaultApi", new { id = language.LanguageID }, objLang);
         }
 
         // DELETE: api/Languages/5

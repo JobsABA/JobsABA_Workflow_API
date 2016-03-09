@@ -26,14 +26,14 @@ namespace JobsInABA.Web.Api
 
         public IEnumerable<SkillDTO> GetSkillsByUserID(int id)
         {
-            return db.Get().Where(p=>p.UserID==id);
+            return db.Get().Where(p => p.UserID == id);
         }
 
         // GET: api/Skills/5
         [ResponseType(typeof(Skill))]
         public IHttpActionResult GetSkill(int id)
         {
-            SkillDTO  skill = db.Get(id);
+            SkillDTO skill = db.Get(id);
             if (skill == null)
             {
                 return NotFound();
@@ -59,7 +59,7 @@ namespace JobsInABA.Web.Api
             {
                 return BadRequest();
             }
-            
+
             try
             {
                 db.Update(skill);
@@ -92,9 +92,9 @@ namespace JobsInABA.Web.Api
                 return BadRequest(ModelState);
             }
 
-            db.Create(skill);
-            
-            return CreatedAtRoute("DefaultApi", new { id = skill.SkillID }, skill);
+            var objSkill = db.Create(skill);
+
+            return CreatedAtRoute("DefaultApi", new { id = skill.SkillID }, objSkill);
         }
 
         // DELETE: api/Skills/5
@@ -108,13 +108,13 @@ namespace JobsInABA.Web.Api
             }
 
             db.Delete(id);
-            
+
             return Ok(skill);
         }
 
         private bool SkillExists(int id)
         {
-            return db.Get(id)!=null;
+            return db.Get(id) != null;
         }
     }
 }

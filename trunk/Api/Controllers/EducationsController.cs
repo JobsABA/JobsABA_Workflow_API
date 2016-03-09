@@ -26,7 +26,7 @@ namespace Api.Controllers
 
         public IEnumerable<EducationDTO> GetEducationsByUserID(int id)
         {
-            return db.Get().Where(p=>p.UserID==id);
+            return db.Get().Where(p => p.UserID == id);
         }
 
         // GET: api/Educations/5
@@ -91,15 +91,15 @@ namespace Api.Controllers
             //education.Description = "na";
             //education.InstituteName = "inst";
             //education.IsActive = true;
-            
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Create(education);
+            var objEducation = db.Create(education);
 
-            return CreatedAtRoute("DefaultApi", new { id = education.EducationID }, education);
+            return CreatedAtRoute("DefaultApi", new { id = education.EducationID }, objEducation);
         }
 
         // DELETE: api/Educations/5

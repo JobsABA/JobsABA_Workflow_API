@@ -47,11 +47,11 @@ namespace Api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAchievement(int id, AchievementDTO achievement)
         {
-            achievement = new AchievementDTO();
-            achievement.Date = DateTime.Now;
-            achievement.Name = "achimod";
-            achievement.UserID = 42;
-            achievement.AchievementID = id;
+            //achievement = new AchievementDTO();
+            //achievement.Date = DateTime.Now;
+            //achievement.Name = "achimod";
+            //achievement.UserID = 42;
+            //achievement.AchievementID = id;
 
             if (!ModelState.IsValid)
             {
@@ -86,19 +86,19 @@ namespace Api.Controllers
         [ResponseType(typeof(AchievementDTO))]
         public IHttpActionResult PostAchievement(AchievementDTO achievement)
         {
-            achievement = new AchievementDTO();
-            achievement.Date = DateTime.Now;
-            achievement.Name = "My Business achievement 2";
-            achievement.BusinessID = 27;
+            //achievement = new AchievementDTO();
+            //achievement.Date = DateTime.Now;
+            //achievement.Name = "My Business achievement 2";
+            //achievement.BusinessID = 27;
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Create(achievement);
+            var objAchievement = db.Create(achievement);
 
-            return CreatedAtRoute("DefaultApi", new { id = achievement.AchievementID }, achievement);
+            return CreatedAtRoute("DefaultApi", new { id = achievement.AchievementID }, objAchievement);
         }
 
         // DELETE: api/Achievements/5
@@ -111,7 +111,7 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            db.Create(achievement);
+            db.Delete(id);
 
             return Ok(achievement);
         }

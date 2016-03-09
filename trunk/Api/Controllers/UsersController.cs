@@ -59,11 +59,11 @@ namespace Api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUser(int id, UserDataModel user)
         {
-            //user = new UserDataModel();
+            user = new UserDataModel();
             //user.UserName = "Modifiedcreated4@gmail.com";
-            //user.FirstName = "ModifTest4";
-            //user.MiddleName = "U";
-            //user.LastName = "User4";
+            user.FirstName = "ModifTest4";
+            user.MiddleName = "U";
+            user.LastName = "User4";
             //user.DOB = DateTime.Now;
             //user.IsActive = true;
             //user.IsDeleted = false;
@@ -71,7 +71,7 @@ namespace Api.Controllers
             //user.insdt = DateTime.Now;
             //user.upduser = 41;
             //user.upddt = DateTime.Now;
-            //user.UserID = id;
+            user.UserID = id;
 
             //user.UserAccountID = 17;
             //user.UserAccountUserName = "Modifiedcreated4@gmail.com";
@@ -85,23 +85,23 @@ namespace Api.Controllers
 
             //user.UserAddressID = 25;
             //user.UserAddressTitle = "Primary Address";
-            //user.UserAddressLine1 = "ModiAddress Line 1";
+            user.UserAddressLine1 = "ModiAddress Line 1";
             //user.UserAddressLine2 = "Address Line 2";
             //user.UserAddressLine3 = "Address Line 3";
-            //user.UserAddressCity = "Surat";
-            //user.UserAddressState = "Gujarat";
-            //user.UserAddressZipCode = "360001";
+            user.UserAddressCity = "Surat";
+            user.UserAddressState = "Gujarat";
+            user.UserAddressZipCode = "360001";
             //user.UserAddressCountryID = 1;
             //user.UserAddressAddressTypeID = 1;
 
             //user.UserEmailID = 24;
-            //user.UserEmailAddress = "Modifiedcreated4@gmail.com";
+            user.UserEmailAddress = "Modifiedcreated4@gmail.com";
             //user.UserEmailTypeID = 1;
 
             //user.UserPhoneID = 29;
             //user.UserPhoneCountryID = 1;
             //user.UserPhoneAddressBookID = 1;
-            //user.UserPhoneNumber = "7866148847";
+            user.UserPhoneNumber = "7866148847";
             //user.UserPhoneExt = "+91";
             //user.UserPhoneTypeID = 1;
 
