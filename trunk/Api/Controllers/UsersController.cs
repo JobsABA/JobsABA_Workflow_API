@@ -187,9 +187,9 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Create(user);
-            EmailService.SendPasswordResetEmail(user.UserName, user.UserName);
-            return CreatedAtRoute("DefaultApi", new { id = user.UserID }, user);
+            var objUser = db.Create(user);
+            //EmailService.SendPasswordResetEmail(user.UserName, user.UserName);
+            return CreatedAtRoute("DefaultApi", new { id = user.UserID }, objUser);
         }
 
         // DELETE: api/Users/5
