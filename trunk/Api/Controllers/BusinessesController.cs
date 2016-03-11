@@ -20,17 +20,9 @@ namespace Api.Controllers
             return db.Get();
         }
 
-        public IEnumerable<BusinessDataModel> GetBusinessesBySearch(string searchText, int from, int to)
+        public IEnumerable<BusinessDataModel> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
         {
-            if (string.IsNullOrEmpty(searchText))
-                return db.Get();
-            else
-                return db.GetBusinessesBySearch(searchText, from, to);
-            //().Where(p => p.Name == searchText ||
-            //        p.Abbreviation == searchText ||
-            //        p.BusinessEmailAddress == searchText ||
-            //        p.BusinessPhoneNumber == searchText)
-            //        .Skip(from).Take(to - from);
+            return db.GetBusinessesBySearch(companyname, city, from, to);
         }
 
         public IEnumerable<string> GetBusinessNames()

@@ -26,7 +26,15 @@
             companyName: '',
             City: ''
         }
-
+        $scope.jobPagingModel = {
+            pagingJobList: [],
+            isComplete: true,
+            isLastRecord: false,
+            initialFrom: 0,
+            initialTo:4,
+            dataLoadPerReq: 4,
+            totalReocrd: 0,
+        }
     }
 
     //for display full description for job
@@ -36,58 +44,95 @@
 
     //get job list
     $scope.getJobList = function () {
-        var params = {};
-        //if (($scope.Keywords.length > 0 || $scope.Location.length > 0 || $scope.CompnayName.length > 0) && ($scope.JobSearchModel.companyName.length == 0 && $scope.JobSearchModel.City.length == 0)) {
-        //    params = {
-        //        searchText: $scope.Keywords,
-        //        city: $scope.Location,
-        //        userID: $rootScope.userId,
-        //        company: $scope.CompnayName,
-        //        from: 1,
-        //        to: 1000
-        //    }
-        //    $scope.Keywords = '';
-        //    $scope.Location = '';
-        //}
-        //else {
-        //    params = {
-        //        searchText: '',
-        //        company: $scope.JobSearchModel.companyName,
-        //        city: $scope.JobSearchModel.City,
-        //        userID: $rootScope.userId,
-        //        from: 1,
-        //        to: 10
-        //    }
-        //}
-        params = {
-            searchText: '',
-            from: 1,
-            to: 2
-        }
-
-        $("#jobsInABAListDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
-            $("#jobsInABAListDiv").unblock();
-            for (var i = 0; i < data.length; i++) {
-                var newobj = new Object();
-                var newRow = [];
-                if (data[i].Business != null && data[i].Business != "" && data[i].Business.BusinessImages != undefined && data[i].Business.BusinessImages.length > 0) {
-                    for (var j = 0; j < data[i].Business.BusinessImages.length; j++) {
-                        if (data[i].Business.BusinessImages[j].IsPrimary == true) {
-                            newobj["ImageExtension"] = data[i].Business.BusinessImages[j].Image.ImageExtension;
-                        }
-                    }
-                    newRow.push(newobj);
+        if ($scope.jobPagingModel.isComplete && !$scope.jobPagingModel.isLastRecord) {
+            $scope.jobPagingModel.isComplete = false;
+            var params = {};
+            if (($scope.Keywords.length > 0 || $scope.Location.length > 0 || $scope.CompnayName.length > 0) && ($scope.JobSearchModel.companyName.length == 0 && $scope.JobSearchModel.City.length == 0)) {
+                params = {
+                    jobTitle: $scope.Keywords,
+                    location: $scope.Location,
+                    userID: $rootScope.userId,
+                    companyName: $scope.CompnayName,
+                    from: $scope.jobPagingModel.initialFrom,
+                    to: $scope.jobPagingModel.initialTo
                 }
-                data[i]["businessImage"] = newRow[0];
+                $scope.Keywords = '';
+                $scope.Location = '';
             }
-            $rootScope.lstABAJobs = data;
-        }).error(function (data) {
-            console.log(JSON.stringify(data));
-        })
+            else {
+                params = {
+                    jobTitle: '',
+                    companyName: $scope.JobSearchModel.companyName,
+                    location: $scope.JobSearchModel.City,
+                    userID: $rootScope.userId,
+                    from: $scope.jobPagingModel.initialFrom,
+                    to: $scope.jobPagingModel.initialTo
+                }
+            }
+
+
+            $("#jobsInABAListDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
+            $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
+                $("#jobsInABAListDiv").unblock();
+                for (var i = 0; i < data.length; i++) {
+                    var newobj = new Object();
+                    var newRow = [];
+                    if (data[i].Business != null && data[i].Business != "") {
+                        if (data[i].Business.BusinessImages != undefined && data[i].Business.BusinessImages.length > 0) {
+                            for (var j = 0; j < data[i].Business.BusinessImages.length; j++) {
+                                if (data[i].Business.BusinessImages[j].IsPrimary == true) {
+                                    newobj["ImageExtension"] = data[i].Business.BusinessImages[j].Image.ImageExtension;
+                                }
+                            }
+                        }
+                        if (data[i].Business.BusinessAddresses.length > 0) {
+                            for (var j = 0; j < data[i].Business.BusinessAddresses.length; j++) {
+                                if (data[i].Business.BusinessAddresses[j].IsPrimary == true) {
+                                    if (data[i].Business.BusinessAddresses[j].Addres != null && data[i].Business.BusinessAddresses[j].Addres != undefined) {
+                                        newobj["City"] = data[i].Business.BusinessAddresses[j].Addres.City;
+                                    }
+                                }
+                            }
+                        }
+
+                        newobj["BusinessName"] = data[i].Business.Name;
+
+                        newRow.push(newobj);
+                    }
+                    data[i]["businessDetail"] = newRow[0];
+                    data[i].StartDate = $rootScope.setDateformat(data[i].StartDate);
+                    data[i].EndDate = $rootScope.setDateformat(data[i].EndDate);
+                }
+                //lazy loading
+                $scope.jobPagingModel.totalReocrd = 11;
+                $scope.jobPagingModel.pagingJobList = $scope.jobPagingModel.pagingJobList.concat(data);
+                $scope.jobPagingModel.initialFrom += $scope.jobPagingModel.dataLoadPerReq;
+                $scope.jobPagingModel.initialTo += $scope.jobPagingModel.dataLoadPerReq;
+                $scope.jobPagingModel.isComplete = true;
+                if ($scope.jobPagingModel.pagingJobList.length >= $scope.jobPagingModel.totalReocrd) {
+                    $scope.jobPagingModel.isLastRecord = true;
+                }
+                $scope.lstABAJobs = $scope.jobPagingModel.pagingJobList;
+                //end
+            }).error(function (data) {
+                console.log(JSON.stringify(data));
+            });
+        }
     }
 
-
+    //search job
+    $scope.searchJobList = function () {
+        $scope.jobPagingModel = {
+            pagingJobList: [],
+            isComplete: true,
+            isLastRecord: false,
+            initialFrom: 0,
+            initialTo: 4,
+            dataLoadPerReq: 4,
+            totalReocrd: 0,
+        }
+        $scope.getJobList();
+    }
     $scope.init();
 
 });

@@ -13,6 +13,7 @@
         //    $scope.getBussinessDetail($scope.BusinessId);
         $scope.getBussinessDetail($scope.BusinessId);
         $scope.randomNumber = Math.random();
+        $scope.getJobList();
     }
 
     $scope.initModel = function () {
@@ -157,12 +158,7 @@
             formData.append("businessID", $scope.BusinessId);
             formData.append("imageTypeId", 3);
         }
-        //$http.post($rootScope.API_PATH + "/Company/Upload", formData).success(function (data) {
-        //    $scope.cuurTime = new Date().getTime();
-        //    $route.reload(true);
-        //}).error(function (data) {
-        //    console.log('error in image upload');
-        //})
+        
         $("#companyProfileInfoDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $.ajax({
             type: "POST",
@@ -173,8 +169,6 @@
             processData: false,
             cache: false,
             success: function (data) {
-                //$location.path('/personprofile');
-                //$route.reload(true);
                 $("#companyProfileInfoDiv").unblock();
                 $scope.getBussinessDetail($scope.BusinessId);
                 $scope.isEditProfile_Image = true;
@@ -295,26 +289,27 @@
 
     $scope.getJobList = function () {
         var params = {
-            bussinessID: $scope.BusinessId
+            id: $scope.BusinessId
         }
         $("#companyProfileJobDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Jobapplication/GetJobsinABAListByBussinessId", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Jobs/GetJobByBusinessID", { params: params }).success(function (data) {
             $("#companyProfileJobDiv").unblock();
-            for (var i = 0; i < data.JobsList.length; i++) {
-                if (data.JobsList[i].insdt != null) {
-                    data.JobsList[i].insdt = $filter('date')(data.JobsList[i].insdt.substr(6, 13), "MM-dd-yyyy");
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].insdt != null) {
+                    data[i].insdt = $rootScope.setDateformat(data[i].insdt);
                 }
-                if (data.JobsList[i].StartDate != null) {
-                    data.JobsList[i].StartDate = $filter('date')(data.JobsList[i].StartDate.substr(6, 13), "MM-dd-yyyy");
+                if (data[i].StartDate != null) {
+                    data[i].StartDate = $rootScope.setDateformat(data[i].StartDate);
                 }
-                if (data.JobsList[i].EndDate != null) {
-                    data.JobsList[i].EndDate = $filter('date')(data.JobsList[i].EndDate.substr(6, 13), "MM-dd-yyyy");
+                if (data[i].EndDate != null) {
+                    data[i].EndDate = $rootScope.setDateformat(data[i].EndDate);
                 }
             }
             if (!$scope.isUserBusinessOwner) {
-                data.JobsList = _.where(data.JobsList, { IsActive: true });
+                data = _.where(data, { IsActive: true });
             }
-            $scope.lstJob = data.JobsList;
+            $scope.lstJob = data;
             $rootScope.reloadDatePicker();
         }).error(function (data) {
             //alert("error");

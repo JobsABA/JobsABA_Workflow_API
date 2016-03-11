@@ -10,40 +10,62 @@
             companyName: '',
             City: ''
         }
+
+        $scope.CompanyPagingModel = {
+            pagingCompanyList: [],
+            isComplete: true,
+            isLastRecord: false,
+            initialFrom: 0,
+            initialTo: 4,
+            dataLoadPerReq: 4,
+            totalReocrd: 0,
+        }
     }
 
-    //search fuilter for companuy
-    $scope.lstBusinessList = [];
-    var initialFrom = 0;
-    var initialTo = 4;
-    var isComplete = true;
-    var dataLoadPerReq = 4;
-    var isLastRecord = false;
+    //get companuy
     $scope.getFullCompanyListABAService = function () {
-        console.log(initialFrom + " && " + initialTo);
-        if (isComplete && !isLastRecord) {
-            isComplete = false;
+        if ($scope.CompanyPagingModel.isComplete && !$scope.CompanyPagingModel.isLastRecord) {
+            $scope.CompanyPagingModel.isComplete = false;
             var params = {
-                //searchText: $scope.companySearchModel.companyName,
-                //City: $scope.companySearchModel.City
-                from: initialFrom,
-                to: initialTo
+                companyname: $scope.companySearchModel.companyName,
+                city: $scope.companySearchModel.City,
+                from: $scope.CompanyPagingModel.initialFrom,
+                to: $scope.CompanyPagingModel.initialTo
             }
             $("#abaServiceProviderMainDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-            $http.get($rootScope.API_PATH + "/Businesses/GetBusinessesByPaging", { params: params }).success(function (data) {
+            $http.get($rootScope.API_PATH + "/Businesses/GetBusinessesBySearch", { params: params }).success(function (data) {
                 $("#abaServiceProviderMainDiv").unblock();
-                $scope.lstBusinessList = $scope.lstBusinessList.concat(data);
-                initialFrom += dataLoadPerReq;
-                initialTo += dataLoadPerReq;
-                isComplete = true;
-                if ($scope.lstBusinessList.length >= 29) {
-                    isLastRecord = true;
+
+                //lazy loading
+                $scope.CompanyPagingModel.totalReocrd = 30;
+                $scope.CompanyPagingModel.pagingCompanyList = $scope.CompanyPagingModel.pagingCompanyList.concat(data);
+                $scope.CompanyPagingModel.initialFrom += $scope.CompanyPagingModel.dataLoadPerReq;
+                $scope.CompanyPagingModel.initialTo += $scope.CompanyPagingModel.dataLoadPerReq;
+                $scope.CompanyPagingModel.isComplete = true;
+                if ($scope.CompanyPagingModel.pagingCompanyList.length >= $scope.CompanyPagingModel.totalReocrd) {
+                    $scope.CompanyPagingModel.isLastRecord = true;
                 }
+
+                $scope.lstBusinessList = $scope.CompanyPagingModel.pagingCompanyList;
             }).error(function (data) {
                 console.log(data);
             });
         }
     }
 
+
+    //search job
+    $scope.searchCompanyList = function () {
+        $scope.CompanyPagingModel = {
+            pagingCompanyList: [],
+            isComplete: true,
+            isLastRecord: false,
+            initialFrom: 0,
+            initialTo: 4,
+            dataLoadPerReq: 4,
+            totalReocrd: 0,
+        }
+        $scope.getFullCompanyListABAService();
+    }
     $scope.init();
 });

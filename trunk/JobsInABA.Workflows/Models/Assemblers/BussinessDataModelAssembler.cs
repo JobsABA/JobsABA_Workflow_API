@@ -7,7 +7,7 @@ namespace JobsInABA.Workflows.Models.Assemblers
     {
         public static BusinessDataModel ToDataModel(BusinessDTO BusinessDTO, List<AddressDTO> primaryAddressDTO, PhoneDTO primaryPhoneDTO,
             EmailDTO primaryEmailDTO, ImageDTO ImageDTO, List<AchievementDTO> primaryAchievementDTO
-            , BusinessUserMapDTO businessUserMapDTO)
+            , BusinessUserMapDTO businessUserMapDTO, List<ServiceDTO> primaryServiceDTO)
         {
             BusinessDataModel model = new BusinessDataModel();
 
@@ -75,6 +75,24 @@ namespace JobsInABA.Workflows.Models.Assemblers
                         achievementDTO.Name = item.Name;
 
                         model.Achievement.Add(achievementDTO);
+                    }
+                }
+            }
+
+            model.Service = new List<ServiceDTO>();
+
+            if (primaryServiceDTO != null)
+            {
+                foreach (var item in primaryServiceDTO)
+                {
+                    if (item != null)
+                    {
+                        ServiceDTO serviceDTO = new ServiceDTO();
+                        serviceDTO.ServiceID = item.ServiceID;
+                        serviceDTO.BusinessID = item.BusinessID;
+                        serviceDTO.Name = item.Name;
+                        
+                        model.Service.Add(serviceDTO);
                     }
                 }
             }

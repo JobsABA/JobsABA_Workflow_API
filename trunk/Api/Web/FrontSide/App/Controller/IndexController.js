@@ -7,7 +7,7 @@
         //if ($rootScope.userId) {
         //    $rootScope.getCompanylist($rootScope.userId);
         //}
-
+        $rootScope.getFullCompanylist();
         $scope.randomNumber = Math.random();
     }
 
@@ -39,6 +39,17 @@
             $("#menubarBuisnessList").unblock();
             //console.log(data);
             $rootScope.menuLstBusiness = data.businessList;
+        }).error(function (data) {
+            console.log(JSON.stringify(data));
+        });
+    }
+
+    //get full company list with only name and Id
+    $rootScope.getFullCompanylist = function () {
+        $http.get($rootScope.API_PATH + "/Businesses/GetBusinesses").success(function (data) {
+            console.log(data);
+            $rootScope.fulllLstBusiness = data;
+            
         }).error(function (data) {
             console.log(JSON.stringify(data));
         });
@@ -86,7 +97,11 @@
     $rootScope.autocompleteBusinessName = function () {
         $('.bussinessList').autocomplete({
             source: function (request, response) {
-                $.getJSON($rootScope.API_PATH + "/Company/GetBusinessList?term=" + request.term, function (data) {
+                console.log(request, response);
+                $.ajax({
+
+                });
+                $.getJSON($rootScope.API_PATH + "/Businesses/GetBusinessesBySearch?term=" + request.term, function (data) {
                     //console.log(data);
                     response($.map(data.businessList, function (value, key) {
                         return {

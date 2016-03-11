@@ -42,6 +42,8 @@ namespace JobsInABA.Workflows
 
                 List<AchievementDTO> oPrimaryAchievementDTO = (modelDTO.Achievements != null) ? modelDTO.Achievements.Where(p => p.BusinessID == modelDTO.BusinessID).Select(p => p).ToList() : null;
 
+                List<ServiceDTO> oPrimaryServiceDTO = (modelDTO.Services != null) ? modelDTO.Services.Where(p => p.BusinessID == modelDTO.BusinessID).Select(p => p).ToList() : null;
+
                 BusinessPhoneDTO BusinessPhoneDTO = (modelDTO.BusinessPhones != null) ? modelDTO.BusinessPhones.Where(o => o.IsPrimary).FirstOrDefault() : null;
                 PhoneDTO oPrimaryPhoneDTO = (BusinessPhoneDTO != null) ? BusinessPhoneDTO.Phone : null;
 
@@ -53,7 +55,7 @@ namespace JobsInABA.Workflows
                 BusinessEmailDTO BusinessEmailDTO = (modelDTO.BusinessEmails != null) ? modelDTO.BusinessEmails.Where(o => o.IsPrimary).FirstOrDefault() : null;
                 EmailDTO oPrimaryEmailDTO = (BusinessEmailDTO != null) ? BusinessEmailDTO.Email : null;
 
-                BusinessDataModel = BusinessDataModelAssembler.ToDataModel(modelDTO, oPrimaryAddressDTO, oPrimaryPhoneDTO, oPrimaryEmailDTO, oPrimaryImageDTO, oPrimaryAchievementDTO,null);
+                BusinessDataModel = BusinessDataModelAssembler.ToDataModel(modelDTO, oPrimaryAddressDTO, oPrimaryPhoneDTO, oPrimaryEmailDTO, oPrimaryImageDTO, oPrimaryAchievementDTO, null, oPrimaryServiceDTO);
                 BusinessDataModel.PrimaryAddressID = (modelDTO.BusinessAddresses != null) ? modelDTO.BusinessAddresses.FirstOrDefault(p => p.IsPrimary == true).AddressID : 0;
                 //BusinessDataModel.BusinessAddressID = (BusinessAddressDTO != null) ? BusinessAddressDTO.BusinessAddressID : 0;
                 BusinessDataModel.BusinessPhoneID = (BusinessPhoneDTO != null) ? BusinessPhoneDTO.BusinessPhoneID : 0;
@@ -89,7 +91,7 @@ namespace JobsInABA.Workflows
                 {
                     businessDTO = businessBL.Create(businessDTO);
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO,null);
                 new BusinessUserMapBL().Create(new BusinessUserMapDTO()
                 {
                     BusinessID = dataModel.BusinessID,
@@ -109,7 +111,7 @@ namespace JobsInABA.Workflows
 
                     addressDTO = addressList;
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO,null);
                 new BusinessAddressBL().Create(new BusinessAddressDTO()
                 {
                     BusinessID = dataModel.BusinessID,
@@ -122,27 +124,27 @@ namespace JobsInABA.Workflows
                     phoneDTO.AddressbookID = addressDTO.FirstOrDefault().AddressID;
                     phoneDTO = phonesBL.Create(phoneDTO);
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 new BusinessPhoneBL().Create(new BusinessPhoneDTO()
                 {
                     BusinessID = dataModel.BusinessID,
                     PhoneID = dataModel.BusinessPhoneID,
                     IsPrimary = true
                 });
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 emailDTO = BusinessDataModelAssembler.ToEmailDTO(dataModel);
                 if (emailDTO != null)
                 {
                     emailDTO = emailsBL.Create(emailDTO);
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 new BusinessEmailBL().Create(new BusinessEmailDTO()
                 {
                     BusinessID = dataModel.BusinessID,
                     EmailID = dataModel.BusinessEmailID,
                     IsPrimary = true
                 });
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
             }
 
             return dataModel;
@@ -168,7 +170,7 @@ namespace JobsInABA.Workflows
                 {
                     businessDTO = businessBL.Update(businessDTO);
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 if (phoneDTO != null)
                 {
                     phoneDTO = phonesBL.Update(phoneDTO);
@@ -179,7 +181,7 @@ namespace JobsInABA.Workflows
                     BusinessPhoneID = dataModel.BusinessPhoneID,
                     IsPrimary = true
                 });
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 if (emailDTO != null)
                 {
                     emailDTO = emailsBL.Update(emailDTO);
@@ -190,12 +192,12 @@ namespace JobsInABA.Workflows
                     BusinessEmailID = dataModel.BusinessEmailID,
                     IsPrimary = true
                 });
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 if (addressDTO != null)
                 {
                     addressDTO = addressDTO.Select(p => addressBL.Update(p)).ToList();
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 new BusinessAddressBL().Update(new BusinessAddressDTO()
                 {
                     BusinessID = dataModel.BusinessID,
@@ -256,12 +258,14 @@ namespace JobsInABA.Workflows
             _PhonesBL.Dispose();
         }
 
-        public IList<BusinessDataModel> GetBusinessesBySearch(string searchText, int from, int to)
+        public IList<BusinessDataModel> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
         {
             List<BusinessDataModel> businessDataModels = new List<BusinessDataModel>();
-            List<BusinessDTO> businessDTOs = businessBL.GetBusinessesBySearch(searchText, from, to);
+            List<BusinessDTO> businessDTOs = businessBL.GetBusinessesBySearch(companyname,city, from, to);
             businessDataModels = businessDTOs.Select(userdto => Get(userdto)).ToList();
             return businessDataModels;
         }
+
+        
     }
 }

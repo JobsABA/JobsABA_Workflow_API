@@ -42,6 +42,11 @@ namespace JobsInABA.BL.DTOs.Assemblers
             {
                 dto.BusinessPhones = BusinessPhoneAssembler.ToDTOs(entity.BusinessPhones);
             }
+            //if (entity.Services != null && entity.Services.Count > 0)
+            //{
+            //    dto.Services = ServiceAssembler.ToDTOs(entity.Services);
+            //}
+            
         }
 
         /// <summary>

@@ -1321,6 +1321,7 @@
     <Content Include="Web\FrontSide\Assets\img\Delete-48.png" />
     <Content Include="Web\FrontSide\Assets\img\dollars-bag.png" />
     <Content Include="Web\FrontSide\Assets\img\Down-48.png" />
+    <Content Include="Web\FrontSide\Assets\img\dropdown.gif" />
     <Content Include="Web\FrontSide\Assets\img\Edit Filled-50.png" />
     <Content Include="Web\FrontSide\Assets\img\Edit Image-48.png" />
     <Content Include="Web\FrontSide\Assets\img\Edit User-48.png" />
@@ -1449,6 +1450,7 @@
     <Content Include="Web\FrontSide\Assets\img\zoom_error.png" />
     <Content Include="Web\FrontSide\Assets\jquery\jquery.min.js" />
     <Content Include="Web\FrontSide\Assets\jquery\lazy-scroll.min.js" />
+    <Content Include="Web\FrontSide\Assets\js\acute.select.js" />
     <Content Include="Web\FrontSide\Assets\js\angular-animate.js" />
     <Content Include="Web\FrontSide\Assets\js\angular-animate.min.js" />
     <Content Include="Web\FrontSide\Assets\js\angular-backtop.js" />
@@ -1692,6 +1694,7 @@
     <Content Include="Web\FrontSide\Assets\plugins\sidr\jquery.sidr.min.js" />
     <Content Include="Web\FrontSide\Assets\plugins\sidr\stylesheets\jquery.sidr.dark.css" />
     <Content Include="Web\FrontSide\Assets\plugins\sidr\stylesheets\jquery.sidr.light.css" />
+    <Content Include="Web\FrontSide\Assets\styles\acute.select.css" />
     <Content Include="Web\FrontSide\Assets\styles\angular-backtop.css" />
     <Content Include="Web\FrontSide\Assets\styles\base.css" />
     <Content Include="Web\FrontSide\Assets\styles\jquery-ui.css" />
@@ -1718,6 +1721,7 @@
     <Content Include="Web\FrontSide\Template\PublishedJob.html" />
     <Content Include="Web\FrontSide\Template\Register.html" />
     <Content Include="Web\FrontSide\Template\SignIn.html" />
+    <Content Include="Web\FrontSide\Template\Template-Search-Dropdown.htm" />
     <Content Include="Web\FrontSide\Template\TermsCondition.html" />
     <Content Include="Web\FrontSide\Template\ViewCompanyProfile.html" />
   </ItemGroup>

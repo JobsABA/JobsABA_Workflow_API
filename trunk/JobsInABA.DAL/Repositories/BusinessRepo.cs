@@ -102,6 +102,7 @@ namespace JobsInABA.DAL.Repositories
                             .Include(o => o.Achievements)
                             .Include(o => o.BusinessImages)
                             .Include(o => o.Jobs.Select(p => p.JobApplications))
+                            .Include(bser => bser.Services)
                             .ToList();
             }
             catch (Exception ex)
@@ -177,7 +178,7 @@ namespace JobsInABA.DAL.Repositories
             _DBContext.Dispose();
         }
 
-        public IEnumerable<Business> GetBusinessesBySearch(string searchText, int from, int to)
+        public IEnumerable<Business> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
         {
             List<Business> oBusinesss = new List<Business>();
 
@@ -211,10 +212,28 @@ namespace JobsInABA.DAL.Repositories
                             .Include(o => o.Achievements)
                             .Include(o => o.BusinessImages)
                             .Include(o => o.Jobs.Select(p => p.JobApplications))
-                            .Where(p => p.Name == searchText ||
-                    p.Abbreviation == searchText)
-                    .Skip(from).Take(to - from)
+                            .OrderByDescending(x => x.insdt)
                             .ToList();
+
+                if (!string.IsNullOrEmpty(companyname))
+                {
+                    oBusinesss = oBusinesss.Where(x => x.Name != null && x.Name.ToLower().Contains(companyname.ToLower())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(city))
+                {
+                    oBusinesss = (from a in oBusinesss
+                                  join b in DBContext.BusinessAddresses on a.BusinessID equals b.Business.BusinessID
+                                  where b.IsPrimary == true && b.Address != null && b.Address.City != null && b.Address.City.ToLower().Contains(city.ToLower())
+                                  select a).ToList();
+                }
+
+                int TotalBusinessCount = oBusinesss.Count();
+
+                if (from.HasValue && to.HasValue)
+                {
+                    oBusinesss = oBusinesss.Skip(from.Value).Take(to.Value - from.Value).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -223,5 +242,6 @@ namespace JobsInABA.DAL.Repositories
 
             return oBusinesss;
         }
+
     }
 }

@@ -12,12 +12,11 @@
             toastr.error("Enter username and password.");
             return;
         }
-
         var params = {
-            password: $scope.password,
             username: $scope.username,
+            password: $scope.password,
         }
-        $http.get($rootScope.API_PATH + "/Account/PutSignUp", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Users/Login", { params: params }).success(function (data) {
 
             if (data.success == 1) {
                 toastr.success("Login Successfully.");

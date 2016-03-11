@@ -51,5 +51,7 @@ namespace JobsInABA.Workflows.Models
         public string ImageExtension { get; set; }
         public string ImageName { get; set; }
         public string Description { get; set; }
+
+        public List<ServiceDTO> Service{ get; set; }
     }
 }

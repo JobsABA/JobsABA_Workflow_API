@@ -5,6 +5,7 @@ using System.Linq;
 using JobsInABA.DAL.Entities;
 using System;
 using System.Linq;
+using System.Collections;
 
 namespace JobsInABA.DAL.Repositories
 {
@@ -81,15 +82,37 @@ namespace JobsInABA.DAL.Repositories
             db.Dispose();
         }
 
-        public IEnumerable<Job> GetJobsBySearch(string searchText, int from, int to)
+        public IEnumerable<Job> GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to)
         {
-            return db.Jobs
-                .Include(p => p.JobApplications)
-                .Include(o => o.JobApplications)
-                .Include(p => p.Business.BusinessUserMaps)
-                .ToList().Where(p => p.Description == searchText ||
-                    p.Title == searchText).Skip(from).Take(to - from);
+            var record = db.Jobs
+                           .Include(p => p.JobApplications)
+                           .Include(o => o.JobApplications)
+                           .Include(bus => bus.Business)
+                           .Include(p => p.Business.BusinessUserMaps)
+                           .Include(busad => busad.Business.BusinessAddresses)
+                           .ToList();
 
+            if (!string.IsNullOrEmpty(companyName))
+            {
+                record = record.Where(x => x.Business.Name != null && x.Business.Name.ToLower().Contains(companyName.ToLower())).ToList();
+            }
+            if (!string.IsNullOrEmpty(jobTitle))
+            {
+                record = record.Where(x => x.Title != null && x.Title.ToLower().Contains(jobTitle.ToLower())).ToList();
+            }
+            if (!string.IsNullOrEmpty(location))
+            {
+                record = (from a in record
+                          join b in db.BusinessAddresses on a.Business.BusinessID equals b.Business.BusinessID
+                          where b.IsPrimary == true && b.Address != null && b.Address.City != null && b.Address.City.ToLower().Contains(location.ToLower())
+                          select a).ToList();
+            }
+            int totalJob = record.Count();
+            if (from.HasValue && to.HasValue)
+            {
+                record = record.OrderByDescending(x => x.insdt).Skip(from.Value).Take(to.Value - from.Value).ToList();
+            }
+            return record;
         }
     }
 }

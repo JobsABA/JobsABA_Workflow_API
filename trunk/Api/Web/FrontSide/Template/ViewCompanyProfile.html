@@ -233,10 +233,10 @@
                                 <div id="companyProfileSpecialistDiv" style="clear:both;">
                                     <div class="headerDiv">
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                            <h4><img src="/assets/img/CompanySpecialist.png" class="iconImage" /> Services Provided</h4>
+                                            <h4><img src="assets/img/CompanySpecialist.png" class="iconImage" /> Services Provided</h4>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 addIconForCompanyProfile">
-                                            <img id="specialities" src="/assets/img/addition-sign.png" ng-show="isUserBusinessOwner" ng-click="IsAddSpecialist=true" class="iconImage">
+                                            <img id="specialities" src="assets/img/addition-sign.png" ng-show="isUserBusinessOwner" ng-click="IsAddSpecialist=true" class="iconImage">
                                         </div>
                                     </div>
                                     <div>
@@ -251,7 +251,7 @@
                                         </form>
                                     </div>
 
-                                    <div class="col-lg-12" ng-repeat="o in objSpecialist">
+                                    <div class="col-lg-12" ng-repeat="o in bussinessDetail.Service">
                                         <div style="width:100%;display:inline-block;" ng-mouseenter="onmousehover('isEditSpecialist_',o.ServiceID)" ng-mouseleave="onmouseleave('isEditSpecialist_',o.ServiceID)">
                                             <p style="width: 75%;float: left;">{{$index+1}}. {{o.Name}}</p>
                                             <a class="btn-delete" href="javascript:void(0)" ng-if="isUserBusinessOwner==true" ng-show="isEditSpecialist_{{o.ServiceID}}" ng-click="deleteSpecialist(o.ServiceID)"><img src="assets/img/delete-48.png" class="iconImage"></a>

@@ -58,6 +58,8 @@
             LanguageID: '',
             LanguageName: ''
         }
+
+        $scope.selectedCompnay = '';
     }
 
 
@@ -82,40 +84,45 @@
             $scope.isEditProfile_Image = false;
 
             //user exprience detail
-            for (var i = 0; i < data.ExprienceModal.length; i++) {
-                var newObj = new Object();
-                if (data.ExprienceModal[i].Business != null) {
-                    newObj["BusinessName"] = data.ExprienceModal[i].Business.Name;
-                    newObj["City"] = "";
-                    if (data.ExprienceModal[i].Business.BusinessAddresses.length > 0) {
-                        for (var j = 0; j < data.ExprienceModal[i].Business.BusinessAddresses.length; j++) {
-                            if (data.ExprienceModal[i].Business.BusinessAddresses[j].IsPrimary == true) {
-                                newObj["City"] = data.ExprienceModal[i].Business.BusinessAddresses[j].Addres.City;
+            if (data.ExprienceModal != null) {
+                for (var i = 0; i < data.ExprienceModal.length; i++) {
+                    var newObj = new Object();
+                    if (data.ExprienceModal[i].Business != null) {
+                        newObj["BusinessName"] = data.ExprienceModal[i].Business.Name;
+                        newObj["City"] = "";
+                        if (data.ExprienceModal[i].Business.BusinessAddresses.length > 0) {
+                            for (var j = 0; j < data.ExprienceModal[i].Business.BusinessAddresses.length; j++) {
+                                if (data.ExprienceModal[i].Business.BusinessAddresses[j].IsPrimary == true) {
+                                    newObj["City"] = data.ExprienceModal[i].Business.BusinessAddresses[j].Addres.City;
+                                }
                             }
                         }
                     }
+                    var newRow = [];
+                    newRow.push(newObj);
+                    data.ExprienceModal[i]["businessDetail"] = newRow[0];
                 }
-                var newRow = [];
-                newRow.push(newObj);
-                data.ExprienceModal[i]["businessDetail"] = newRow[0];
-            }
-
-            for (var i = 0; i < data.ExprienceModal.length; i++) {
-                data.ExprienceModal[i].StartDate = $rootScope.setDateformat(data.ExprienceModal[i].StartDate);
-                data.ExprienceModal[i].EndDate = $rootScope.setDateformat(data.ExprienceModal[i].EndDate);
+                for (var i = 0; i < data.ExprienceModal.length; i++) {
+                    data.ExprienceModal[i].StartDate = $rootScope.setDateformat(data.ExprienceModal[i].StartDate);
+                    data.ExprienceModal[i].EndDate = $rootScope.setDateformat(data.ExprienceModal[i].EndDate);
+                }
             }
             $scope.lstUserExprience = data.ExprienceModal;
 
             //user achievement & Award
-            for (var i = 0; i < data.AchievementModel.length; i++) {
-                data.AchievementModel[i].Date = $rootScope.setDateformat(data.AchievementModel[i].Date);
+            if (data.AchievementModel != null) {
+                for (var i = 0; i < data.AchievementModel.length; i++) {
+                    data.AchievementModel[i].Date = $rootScope.setDateformat(data.AchievementModel[i].Date);
+                }
             }
             $scope.lstAchievelist = data.AchievementModel;
 
             //user education 
-            for (var i = 0; i < data.EducationModel.length; i++) {
-                data.EducationModel[i].StartDate = $rootScope.setDateformat(data.EducationModel[i].StartDate);
-                data.EducationModel[i].EndDate = $rootScope.setDateformat(data.EducationModel[i].EndDate);
+            if (data.EducationModel != null) {
+                for (var i = 0; i < data.EducationModel.length; i++) {
+                    data.EducationModel[i].StartDate = $rootScope.setDateformat(data.EducationModel[i].StartDate);
+                    data.EducationModel[i].EndDate = $rootScope.setDateformat(data.EducationModel[i].EndDate);
+                }
             }
             $scope.Educationlists = data.EducationModel;
 
@@ -125,6 +132,7 @@
             //user language
             $scope.lstLanguageList = data.LanguageModel;
         }).error(function () {
+            $("#personalProfileMainDiv").unblock();
             console.log("error");
         })
     }
@@ -460,7 +468,7 @@
         })
     }
     //=======================================   end user LANGUAGE  ========================================//
-    
+
     //add new are you
     $scope.changeAreYouA = function () {
         if ($scope.areYoua == 'other')
@@ -503,4 +511,7 @@
         $scope.refrence = '';
     }
     $scope.init();
+
+
+
 });

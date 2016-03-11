@@ -27,12 +27,9 @@ namespace Api.Controllers
             return db.Get();
         }
 
-        public IEnumerable<JobDTO> GetJobsBySearch(string searchText, int from, int to)
+        public IEnumerable<JobDTO> GetJobsBySearch(string companyName,string jobTitle,string location, int? from, int? to)
         {
-            if (string.IsNullOrEmpty(searchText))
-                return db.Get();
-            else
-                return db.GetJobsBySearch(searchText, from, to);
+            return db.GetJobsBySearch(companyName,jobTitle,location, from, to);
         }
 
         public IEnumerable<JobDTO> GetJobByPaging(int from, int to)

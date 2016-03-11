@@ -38,9 +38,9 @@ namespace JobsInABA.BL
             return oJob;
         }
 
-        public IEnumerable<JobDTO> GetJobsBySearch(string searchText, int from, int to)
+        public IEnumerable<JobDTO> GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to)
         {
-            IEnumerable<JobDTO> oJob = JobAssembler.ToDTOs(jobRepos.GetJobsBySearch(searchText, from, to));
+            IEnumerable<JobDTO> oJob = JobAssembler.ToDTOs(jobRepos.GetJobsBySearch(companyName,jobTitle,location, from, to));
 
             return oJob;
         }
