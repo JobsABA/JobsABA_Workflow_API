@@ -91,7 +91,7 @@ namespace Api.Controllers
             //achievement.Name = "My Business achievement 2";
             //achievement.BusinessID = 27;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

@@ -49,7 +49,7 @@
         $http.get($rootScope.API_PATH + "/Businesses/GetBusinesses").success(function (data) {
             console.log(data);
             $rootScope.fulllLstBusiness = data;
-            
+
         }).error(function (data) {
             console.log(JSON.stringify(data));
         });
@@ -97,27 +97,28 @@
     $rootScope.autocompleteBusinessName = function () {
         $('.bussinessList').autocomplete({
             source: function (request, response) {
-                console.log(request, response);
-                $.ajax({
-
-                });
-                $.getJSON($rootScope.API_PATH + "/Businesses/GetBusinessesBySearch?term=" + request.term, function (data) {
-                    //console.log(data);
-                    response($.map(data.businessList, function (value, key) {
-                        return {
-                            label: value.Name,
-                            value: value.Name,
-                            key: value.BusinessID,
-                        };
-                    }));
-                });
+                var newBusinessList = [];
+                if ($rootScope.fulllLstBusiness != null) {
+                    for (var i = 0; i < $rootScope.fulllLstBusiness.length; i++) {
+                        if ($rootScope.fulllLstBusiness[i].Name.toLowerCase().indexOf(request.term.toLowerCase()) !== -1) {
+                            newBusinessList.push($rootScope.fulllLstBusiness[i]);
+                        }
+                    }
+                }
+                response($.map(newBusinessList, function (value, key) {
+                    return {
+                        label: value.Name,
+                        value: value.Name,
+                        key: value.BusinessID,
+                    };
+                }));
             },
             select: function (event, ui) {
                 $(".bussinessList_ID").val(ui.item.key);
                 $(".bussinessList").val(ui.item.value);
             },
             minLength: 1,
-            delay: 100
+            
         });
     }
 

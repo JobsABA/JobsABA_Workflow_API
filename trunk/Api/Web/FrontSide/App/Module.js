@@ -1,5 +1,4 @@
-﻿/// <reference path="../Template/acute.select.htm" />
-var app = angular.module("myApp", ["ngRoute", "angular-loading-bar", "lazy-scroll", "acute.select"]);
+﻿var app = angular.module("myApp", ["ngRoute", "angular-loading-bar", "lazy-scroll"]);
 
 app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', function ($routeProvider, $locationProvider, cfpLoadingBarProvider, $rootScope) {
     cfpLoadingBarProvider.includeSpinner = true;
@@ -96,14 +95,14 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
 
 }])
 
-.run(function ($rootScope, $location, httpService, $q, $routeParams, acuteSelectService) {
-    //$rootScope.API_PATH = 'http://localhost:13177/';
+.run(function ($rootScope, $location, httpService, $q, $routeParams) {
+    
     $rootScope.API_PATH = 'http://localhost:64872/api/';
     $rootScope.API_PATH_Image = 'http://localhost:64872/';
-    //$rootScope.API_PATH = 'http://edmx.jobsinaba.com/';
-    acuteSelectService.updateSetting("templatePath", "Template");
 
-
+    //$rootScope.API_PATH = 'http://dev.jobsinaba.com/api/';
+    //$rootScope.API_PATH_Image = 'http://dev.jobsinaba.com/';
+    
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if (current && current.$$route) {
             $rootScope.previousPath = current.$$route.originalPath;

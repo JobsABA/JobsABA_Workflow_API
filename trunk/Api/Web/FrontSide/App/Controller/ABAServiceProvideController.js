@@ -37,7 +37,7 @@
                 $("#abaServiceProviderMainDiv").unblock();
 
                 //lazy loading
-                $scope.CompanyPagingModel.totalReocrd = 30;
+                $scope.CompanyPagingModel.totalReocrd = 20;
                 $scope.CompanyPagingModel.pagingCompanyList = $scope.CompanyPagingModel.pagingCompanyList.concat(data);
                 $scope.CompanyPagingModel.initialFrom += $scope.CompanyPagingModel.dataLoadPerReq;
                 $scope.CompanyPagingModel.initialTo += $scope.CompanyPagingModel.dataLoadPerReq;

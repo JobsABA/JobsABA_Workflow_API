@@ -313,7 +313,6 @@
     <Content Include="FileUpload\UserImage\44.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
-    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
@@ -1214,6 +1213,7 @@
     <Content Include="Web\Admin\Content\js\home-page-calender.js" />
     <Content Include="Web\Admin\Content\js\jquery-1.8.2.min.js" />
     <Content Include="Web\Admin\Content\js\jquery-1.8.3.min.js" />
+    <None Include="Properties\PublishProfiles\JobsABAWorkFlow.pubxml" />
     <None Include="Web\Admin\Content\js\jquery-2.2.0.intellisense.js" />
     <Content Include="Web\Admin\Content\js\jquery-2.2.0.js" />
     <Content Include="Web\Admin\Content\js\jquery-ui.js" />
@@ -1450,7 +1450,6 @@
     <Content Include="Web\FrontSide\Assets\img\zoom_error.png" />
     <Content Include="Web\FrontSide\Assets\jquery\jquery.min.js" />
     <Content Include="Web\FrontSide\Assets\jquery\lazy-scroll.min.js" />
-    <Content Include="Web\FrontSide\Assets\js\acute.select.js" />
     <Content Include="Web\FrontSide\Assets\js\angular-animate.js" />
     <Content Include="Web\FrontSide\Assets\js\angular-animate.min.js" />
     <Content Include="Web\FrontSide\Assets\js\angular-backtop.js" />
@@ -1694,7 +1693,6 @@
     <Content Include="Web\FrontSide\Assets\plugins\sidr\jquery.sidr.min.js" />
     <Content Include="Web\FrontSide\Assets\plugins\sidr\stylesheets\jquery.sidr.dark.css" />
     <Content Include="Web\FrontSide\Assets\plugins\sidr\stylesheets\jquery.sidr.light.css" />
-    <Content Include="Web\FrontSide\Assets\styles\acute.select.css" />
     <Content Include="Web\FrontSide\Assets\styles\angular-backtop.css" />
     <Content Include="Web\FrontSide\Assets\styles\base.css" />
     <Content Include="Web\FrontSide\Assets\styles\jquery-ui.css" />
@@ -1721,12 +1719,12 @@
     <Content Include="Web\FrontSide\Template\PublishedJob.html" />
     <Content Include="Web\FrontSide\Template\Register.html" />
     <Content Include="Web\FrontSide\Template\SignIn.html" />
-    <Content Include="Web\FrontSide\Template\Template-Search-Dropdown.htm" />
     <Content Include="Web\FrontSide\Template\TermsCondition.html" />
     <Content Include="Web\FrontSide\Template\ViewCompanyProfile.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\HelpPage\Views\Shared\" />
     <Folder Include="Views\ExprienceModel\" />
   </ItemGroup>
   <ItemGroup>

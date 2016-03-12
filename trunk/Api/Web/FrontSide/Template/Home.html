@@ -151,7 +151,7 @@
 
             <div class="hovereffect_job">
                 <div class="col-lg-3">
-                    <img src="assets/img/no-image-company.png" ng-if="o.businessImage.ImageExtension.length==0" class="img-responsive" height="150" width="200">
+                    <img src="assets/img/no-image-company.png" ng-if="o.businessImage.ImageExtension==null" class="img-responsive" height="150" width="200">
                     <img src="{{API_PATH_Image}}/FileUpload/CompanyImage/{{o.BusinessID}}{{o.businessImage.ImageExtension}}?d={{randomNumber}}" ng-if="o.businessImage.ImageExtension.length>0" class="img-responsive" height="150" width="200">
 
                 </div>

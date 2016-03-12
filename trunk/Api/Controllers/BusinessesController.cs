@@ -48,6 +48,7 @@ namespace Api.Controllers
             return Ok(BusinessDataModel);
         }
 
+
         // PUT: api/Businesses/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutBusiness(int id, BusinessDataModel business)

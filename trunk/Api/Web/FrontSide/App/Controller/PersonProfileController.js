@@ -59,7 +59,6 @@
             LanguageName: ''
         }
 
-        $scope.selectedCompnay = '';
     }
 
 
@@ -106,16 +105,20 @@
                     data.ExprienceModal[i].StartDate = $rootScope.setDateformat(data.ExprienceModal[i].StartDate);
                     data.ExprienceModal[i].EndDate = $rootScope.setDateformat(data.ExprienceModal[i].EndDate);
                 }
+                $scope.lstUserExprience = data.ExprienceModal;
             }
-            $scope.lstUserExprience = data.ExprienceModal;
+            else
+                $scope.lstUserExprience = [];
 
             //user achievement & Award
             if (data.AchievementModel != null) {
                 for (var i = 0; i < data.AchievementModel.length; i++) {
                     data.AchievementModel[i].Date = $rootScope.setDateformat(data.AchievementModel[i].Date);
                 }
+                $scope.lstAchievelist = data.AchievementModel;
             }
-            $scope.lstAchievelist = data.AchievementModel;
+            else
+                $scope.lstAchievelist = [];
 
             //user education 
             if (data.EducationModel != null) {
@@ -123,14 +126,23 @@
                     data.EducationModel[i].StartDate = $rootScope.setDateformat(data.EducationModel[i].StartDate);
                     data.EducationModel[i].EndDate = $rootScope.setDateformat(data.EducationModel[i].EndDate);
                 }
+                $scope.Educationlists = data.EducationModel;
             }
-            $scope.Educationlists = data.EducationModel;
+            else
+                $scope.Educationlists = [];
 
             //user skill
-            $scope.lstSkillList = data.SkillModel;
+            if (data.SkillModel != null)
+                $scope.lstSkillList = data.SkillModel;
+            else
+                $scope.lstSkillList = [];
 
             //user language
-            $scope.lstLanguageList = data.LanguageModel;
+            if (data.LanguageModel != null)
+                $scope.lstLanguageList = data.LanguageModel;
+            else
+                $scope.lstLanguageList = [];
+
         }).error(function () {
             $("#personalProfileMainDiv").unblock();
             console.log("error");

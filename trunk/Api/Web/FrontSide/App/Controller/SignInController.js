@@ -13,10 +13,10 @@
             return;
         }
         var params = {
-            username: $scope.username,
-            password: $scope.password,
+            username: 'asdads',
+            //password: 'asdadadads',
         }
-        $http.get($rootScope.API_PATH + "/Users/Login", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Businesses/Login", { params: params }).success(function (data) {
 
             if (data.success == 1) {
                 toastr.success("Login Successfully.");

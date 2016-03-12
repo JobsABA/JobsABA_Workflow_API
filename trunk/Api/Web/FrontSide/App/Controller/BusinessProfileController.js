@@ -100,7 +100,7 @@
             EndDate: '',
         }
     }
-    $scope.isUserBusinessOwner = false;
+    $scope.isUserBusinessOwner = true;
     $scope.checkBusinessUserOwner = function () {
         var params = {
             bussinessID: $scope.BusinessId,
@@ -116,17 +116,17 @@
         });
     }
 
+    //get company detail
     $scope.getBussinessDetail = function (bussinessID) {
         $("#companyProfilemainDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $http.get($rootScope.API_PATH + "/Businesses/GetBusiness/" + bussinessID).success(function (data) {
             $("#companyProfilemainDiv").unblock();
-            console.log(data);
             $scope.bussinessDetail = data;
-
-
+            var busienssAddress = _.where(data.Addresses, { AddressID: data.PrimaryAddressID });
+            $scope.businessAddress = busienssAddress[0];
             $scope.isEditProfile_Image = false;
         }).error(function (data) {
-            //alert(JSON.stringify(data));
+            toastr.error("error in get company detail, try again");
         })
     }
 
