@@ -72,9 +72,9 @@ namespace Api.Controllers
         [ResponseType(typeof(AddressDTO))]
         public IHttpActionResult PostAddress(AddressDTO address)
         {
-            db.Create(address);
+            var objAddress = db.Create(address);
 
-            return CreatedAtRoute("DefaultApi", new { id = address.AddressID }, address);
+            return CreatedAtRoute("DefaultApi", new { id = address.AddressID }, objAddress);
         }
 
         // DELETE: api/Addresses/5

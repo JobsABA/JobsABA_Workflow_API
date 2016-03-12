@@ -5,6 +5,7 @@
         if ($scope.jobId != undefined)
             $scope.getJobDetailById($scope.jobId);
         $scope.randomNumber = Math.random();
+        $rootScope.reloadDatePicker();
     }
 
     $scope.initModel = function () {
@@ -26,23 +27,34 @@
     //for job detail page
     $scope.getJobDetailById = function (id) {
         var params = {
-            jobID: id
+            id: id
         }
         $("#jobDetailMain").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Jobapplication/getJobDetailById/", { params: params }).then(function (data) {
-            if (data.data.message.StartDate != null) {
-                data.data.message.StartDate = $filter('date')(data.data.message.StartDate.substr(6, 13), "MM-dd-yyyy");
+        $http.get($rootScope.API_PATH + "/Jobs/GetJob/", { params: params }).then(function (data) {
+            console.log(data);
+            if (data.data.StartDate != null) {
+                data.data.StartDate = $rootScope.setDateformat(data.data.StartDate);
             }
-            if (data.data.message.EndDate != null) {
-                data.data.message.EndDate = $filter('date')(data.data.message.EndDate.substr(6, 13), "MM-dd-yyyy");
+            if (data.data.EndDate != null) {
+                data.data.EndDate = $rootScope.setDateformat(data.data.EndDate);
             }
-            $scope.objJobDetail = data.data.message;
-            console.log($scope.objJobDetail)
+            $scope.ImageExtension = '';
+            if (data.data.Business != null && data.data.Business != "" && data.data.Business.BusinessImages != undefined && data.data.Business.BusinessImages.length > 0) {
+                for (var j = 0; j < data.data.Business.BusinessImages.length; j++) {
+                    if (data.data.Business.BusinessImages[j].IsPrimary == true) {
+                        $scope.ImageExtension = data.data.Business.BusinessImages[j].Image.ImageExtension;
+                    }
+                }
+            }
+            $scope.objJobDetail = data.data;
             $("#jobDetailMain").unblock();
         }, function (data) {
             $("#jobDetailMain").unblock();
         });
     }
+
+    //Job Create
+
 
     $scope.init();
 

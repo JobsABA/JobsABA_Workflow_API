@@ -47,9 +47,7 @@
     //get full company list with only name and Id
     $rootScope.getFullCompanylist = function () {
         $http.get($rootScope.API_PATH + "/Businesses/GetBusinesses").success(function (data) {
-            console.log(data);
             $rootScope.fulllLstBusiness = data;
-
         }).error(function (data) {
             console.log(JSON.stringify(data));
         });

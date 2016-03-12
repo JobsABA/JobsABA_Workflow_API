@@ -37,14 +37,14 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
     //    templateUrl: 'Template/PublishedJob.html',
     //    controller: 'JobsController'
     //})
-    //.when('/createjob', {
-    //    templateUrl: 'Template/CreateJob.html',
-    //    controller: 'JobsController'
-    //})
-    //.when('/updateJob/:jobId', {
-    //    templateUrl: 'Template/CreateJob.html',
-    //    controller: 'JobsController'
-    //})
+    .when('/createjob', {
+        templateUrl: 'Template/CreateJob.html',
+        controller: 'JobsController'
+    })
+    .when('/updateJob/:jobId', {
+        templateUrl: 'Template/CreateJob.html',
+        controller: 'JobsController'
+    })
     .when('/jobDetail/:JobID', {
         templateUrl: 'Template/JobDetail.html',
         controller: 'JobsController'
@@ -128,8 +128,6 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
         }
         else
             $rootScope.UserLogin = false;
-        console.log($rootScope.UserLogin);
-
         //console.log('url has changed: ' + a);
         // show loading div, etc...
     });

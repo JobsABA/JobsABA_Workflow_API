@@ -46,7 +46,7 @@
             MiddleName: '',
             State: '',
             EmailAddress: '',
-            PhoneNumber :''
+            PhoneNumber: ''
         }
 
         //company achievement
@@ -125,26 +125,61 @@
             var busienssAddress = _.where(data.Addresses, { AddressID: data.PrimaryAddressID });
             $scope.businessAddress = busienssAddress[0];
             $scope.isEditProfile_Image = false;
+
+            if (data.Achievement != null) {
+                $scope.lstAchievelist = data.Achievement;
+            }
+            else
+                $scope.lstAchievelist = [];
+
+            if (data.Achievement != null) {
+                $scope.lstLocationlist = data.Addresses;
+            }
+            else
+                $scope.lstLocationlist = [];
+
+
         }).error(function (data) {
             toastr.error("error in get company detail, try again");
         })
     }
 
-    //chnage job isActive 
-    $scope.changeJobActive = function (jobID) {
+    //edit/update company detail
+    $scope.updateCompanyDetail = function (obj, updateType, objAddress) {
         var params = {
-            jobID: jobID
+            id: obj.BusinessID
         }
-        $http.get($rootScope.API_PATH + "/Jobapplication/ChangeJobDisplay", { params: params }).success(function (data) {
-            if (data.success == 1) {
 
+        if (updateType == "Address") {
+            if (obj.Addresses != null) {
+                for (var i = 0; i < obj.Addresses.length; i++) {
+                    if (obj.Addresses[i].AddressID == obj.PrimaryAddressID) {
+                        obj.Addresses[i] = objAddress;
+                    }
+                }
             }
-            else {
-                toastr.error("error in job activation toggle");
+        }
+
+        $http.put($rootScope.API_PATH + "/Businesses/PutBusiness", obj, { params: params }).success(function (data) {
+            toastr.success("company profile info update successfully");
+            if (updateType == "Address") {
+                $scope.isEditAddress = false;
+                $scope.isEditCity = false;
+                $scope.isEditState = false;
+                $scope.isEditZipCode = false;
             }
+            else if (updateType == "BussinessEmail")
+                $scope.isEditEmail = false;
+            else if (updateType == "Number")
+                $scope.isEditNumber = false;
+            else if (updateType == "Name")
+                $scope.isEditCompanyName = false;
+            else if (updateType == "Description")
+                $scope.isEditCompanyDesription = false;
+
         }).error(function (data) {
 
-        })
+        });
     }
 
     //company logo upload
@@ -158,7 +193,7 @@
             formData.append("businessID", $scope.BusinessId);
             formData.append("imageTypeId", 3);
         }
-        
+
         $("#companyProfileInfoDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $.ajax({
             type: "POST",
@@ -181,112 +216,8 @@
         });
     }
 
-    //edit/update company detail
-    $scope.updateCompanyDetail = function (obj, updateType) {
-        var params = {
-            updateType: updateType
-        }
-        var Company = {
-            Name: obj.Name,
-            BusinessEmailAddress: obj.Address,
-            BusinessPhoneNumber: obj.Number,
-            BusinessAddressLine1: obj.Line1,
-            BusinessAddressCity: obj.City,
-            BusinessAddressState: obj.State,
-            BusinessAddressZipCode: obj.ZipCode,
-            Description: obj.Description,
-            BusinessID: $scope.BusinessId
-        }
-        $http.post($rootScope.API_PATH + "/Company/UpdateCompany", Company, { params: params }).success(function (data) {
-            toastr.success("company profile info update successfully");
-            if (updateType == "Address") {
-                $scope.isEditAddress = false;
-                $scope.isEditCity = false;
-                $scope.isEditState = false;
-                $scope.isEditZipCode = false;
-            }
-            else if (updateType == "BussinessEmail")
-                $scope.isEditEmail = false;
-            else if (updateType == "Number")
-                $scope.isEditNumber = false;
-            else if (updateType == "Name")
-                $scope.isEditCompanyName = false;
-            else if (updateType == "Description")
-                $scope.isEditCompanyDesription = false;
 
-        }).error(function (data) {
-
-        });
-    }
-
-    $scope.createJob = function (obj) {
-        if ($scope.jobsModel.Title == undefined || $scope.jobsModel.Title.length == 0) {
-            toastr.error('Enter job title');
-            return;
-        }
-        obj.BusinessID = $scope.BusinessId;
-        obj.JobTypeID = 4;
-        $http.post($rootScope.API_PATH + "/Jobapplication/CreateJob", obj).success(function (data) {
-            if (data.success == 1) {
-
-                $scope.isEditSummery = false;
-                $scope.initJobModel();
-                $scope.getJobList();
-                toastr.success("job created successfully");
-            }
-            else {
-                toastr.error('Error in create job');
-                console.log(data.message);
-            }
-
-        }).error(function (data) {
-            console.log(data);
-        })
-
-    }
-
-    $scope.updateJob = function (obj) {
-        if (obj.Title == undefined || obj.Title.length == 0) {
-            toastr.error('Enter job title');
-            return;
-        }
-
-        $http.post($rootScope.API_PATH + "/Jobapplication/UpdateJob", obj).success(function (data) {
-            if (data.success == 1) {
-                toastr.success("job updated successfully");
-                $scope["isEditJobList_" + obj.JobID] = false;
-            }
-            else {
-                toastr.error('Error in create job');
-                console.log(data.message);
-            }
-
-        }).error(function (data) {
-            console.log(data);
-        })
-
-    }
-
-    $scope.deleteJob = function (id) {
-        var params = {
-            id: id
-        }
-        $http.get($rootScope.API_PATH + "/Jobapplication/DeleteJob", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                $scope.getJobList();
-                toastr.success("Job deleted sucessfully");
-
-            }
-            else {
-                toastr.error('Error in create job');
-                console.log(data.message);
-            }
-
-        }).error(function (data) {
-            console.log(data);
-        })
-    }
-
+    //get job list
     $scope.getJobList = function () {
         var params = {
             id: $scope.BusinessId
@@ -315,15 +246,72 @@
             //alert("error");
         });
     }
+    ////create job
+    //$scope.createJob = function (obj) {
+    //    if ($scope.jobsModel.Title == undefined || $scope.jobsModel.Title.length == 0) {
+    //        toastr.error('Enter job title');
+    //        return;
+    //    }
+    //    obj.BusinessID = $scope.BusinessId;
+    //    obj.JobTypeID = 4;
+    //    $http.post($rootScope.API_PATH + "/Jobs/PostJob", obj).success(function (data) {
+    //        $scope.isEditSummery = false;
+    //        $scope.initJobModel();
+    //        $scope.getJobList();
+    //        toastr.success("job created successfully");
+    //    }).error(function (data) {
+    //        toastr.error("error in job create");
+    //    })
 
-    $scope.editJobDetail = function (id) {
-        $scope["isEditJobList_" + id] = true;
-        $rootScope.reloadDatePicker();
-    }
-    $scope.cancelJobDetailEdit = function (id) {
-        $scope["isEditJobList_" + id] = false;
+    //}
+
+    ////update job
+    //$scope.updateJob = function (obj) {
+    //    if (obj.Title == undefined || obj.Title.length == 0) {
+    //        toastr.error('Enter job title');
+    //        return;
+    //    }
+    //    obj.JobID = 0;
+    //    var params = {
+    //        id: obj.JobID
+    //    }
+
+    //    $http.put($rootScope.API_PATH + "/Jobs/PutJob", obj, { params: params }).success(function (data) {
+    //        toastr.success("job updated successfully");
+    //        $scope["isEditJobList_" + obj.JobID] = false;
+    //    }).error(function (data) {
+    //        toastr.error("error in job update");
+    //    })
+
+    //}
+
+    //delete job
+    $scope.deleteJob = function (id) {
+        var params = {
+            id: id
+        }
+        $http.delete($rootScope.API_PATH + "/Jobs/DeleteJob", { params: params }).success(function (data) {
+            $scope.getJobList();
+            toastr.success("Job deleted sucessfully");
+        }).error(function (data) {
+            toastr.error("error in job delete");
+        })
     }
 
+
+
+    ////edit job detail
+    //$scope.editJobDetail = function (id) {
+    //    $scope["isEditJobList_" + id] = true;
+    //    $rootScope.reloadDatePicker();
+    //}
+
+    ////cancel edit job detail
+    //$scope.cancelJobDetailEdit = function (id) {
+    //    $scope["isEditJobList_" + id] = false;
+    //}
+
+    //view job application
     $scope.viewApplivation = function (id) {
         if ($scope["isJobApplication_" + id] == true) {
             $scope["isJobApplication_" + id] = false;
@@ -348,30 +336,36 @@
             $scope["isJobApplication_" + id] = true;
         }
     }
-    $scope.viewJobDetail = function (id) {
 
-        if ($scope["isJobDetail_" + id] == true)
-            $scope["isJobDetail_" + id] = false;
-        else
-            $scope["isJobDetail_" + id] = true;
+    //view job detail
+    //$scope.viewJobDetail = function (id) {
 
-    }
+    //    if ($scope["isJobDetail_" + id] == true)
+    //        $scope["isJobDetail_" + id] = false;
+    //    else
+    //        $scope["isJobDetail_" + id] = true;
 
-    //*********** start edit specialist **************//
-    $scope.isEditSpecialist = false;
-    $scope.getCompanySpecialist = function () {
+    //}
+
+    //chnage job isActive 
+    $scope.changeJobActive = function (jobID) {
         var params = {
-            BusinessID: $scope.BusinessId
+            jobID: jobID
         }
-        $("#companyProfileSpecialistDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Company/GetServicesListByBussinessId", { params: params }).success(function (data) {
-            $("#companyProfileSpecialistDiv").unblock();
-            $scope.objSpecialist = data.ServicesList;
-        }).error(function (data) {
-            console.log(data);
-        });
+        $http.get($rootScope.API_PATH + "/Jobapplication/ChangeJobDisplay", { params: params }).success(function (data) {
+            if (data.success == 1) {
 
+            }
+            else {
+                toastr.error("error in job activation toggle");
+            }
+        }).error(function (data) {
+
+        })
     }
+
+    //********************************* start edit specialist ************************************//
+    $scope.isEditSpecialist = false;
 
     $scope.addCompanySpecialist = function (obj) {
         if (obj.Name == null || obj.Name == "") {
@@ -382,14 +376,15 @@
             Name: obj.Name,
             BusinessID: $scope.BusinessId
         }
-        $http.get($rootScope.API_PATH + "/Company/CreateServices", { params: params }).success(function (data) {
-            console.log(data);
-            $scope.getCompanySpecialist();
+        $("#companyProfileSpecialistDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
+        $http.post($rootScope.API_PATH + "/Services/PostService", params).success(function (data) {
+            $("#companyProfileSpecialistDiv").unblock();
             toastr.success("Company Specialist added successfully");
             $scope.IsAddSpecialist = false;
             $scope.initModel();
+            //$scope.getCompanySpecialist();
         }).error(function (data) {
-            //alert("error");
+            toastr.error("error in add service. try again.")
         });
     }
 
@@ -412,10 +407,10 @@
         })
     }
 
-    //*************end specialist  ****************//
+    //*********************************** end specialist  **************************************//
 
 
-    //*********** start edit employee **************//
+    //********************************* start edit employee ************************************//
     $scope.isEditEmplist = false;
 
     $scope.getCompanyEmployeelist = function () {
@@ -457,7 +452,7 @@
             else {
                 toastr.error("error in addd employee list");
             }
-            
+
         }).error(function (data) {
             //alert("error");
         });
@@ -471,7 +466,7 @@
     }
 
     $scope.updateEMPProfile = function (obj) {
-        
+
         var user = {
             FirstName: obj.FirstName,
             MiddleName: obj.MiddleName,
@@ -481,7 +476,7 @@
             UserAddressState: obj.State,
             UserEmailAddress: obj.EmailAddress,
             UserPhoneNumber: obj.PhoneNumber,
-            UserID:obj.UserID
+            UserID: obj.UserID
         }
         $http.post($rootScope.API_PATH + "/Company/UpdateEmployeeProfile", user).success(function (data) {
             console.log(data);
@@ -497,7 +492,7 @@
         }).error(function (data) {
             //alert("error");
         });
-        
+
     }
 
     $scope.cancelEditEMPlist = function (obj) {
@@ -519,30 +514,26 @@
         }).error(function (data) {
             //alert("error");
         });
-        
+
     }
 
-    //*************end employee  ****************//
+    //***********************************end employee  **************************************//
 
 
-    //*********** start company achievement **************//
-    $scope.getCompanyAchievelist = function () {
-
-        var params = {
-            BusinessID: $scope.BusinessId
-        }
+    //********************************* start company achievement ************************************//
+    //get 
+    $scope.getCompanyAchievelist = function (obj) {
         $("#companyProfileAchieveDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Company/GetAwardlistByBussinessId", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Achievements/GetAchievements").success(function (data) {
             $("#companyProfileAchieveDiv").unblock();
-            $scope.objAchievelist = data.Achievelist;
+            $scope.lstAchievelist = data;
         }).error(function (data) {
-            //alert("error");
+            toastr.error("error in get achievement. try again");
         });
-
     }
+
 
     $scope.addCompanyAchievelist = function (obj) {
-        console.log(obj);
         if (obj.Name == null || obj.Name == "") {
             toastr.error("enter achievement name");
             return;
@@ -551,22 +542,18 @@
             Name: obj.Name,
             BusinessID: $scope.BusinessId
         }
-        $http.get($rootScope.API_PATH + "/Company/AddBusinessawards", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                toastr.success("Award added successfully");
-                $scope.getCompanyAchievelist();
-                $scope.initModel();
-                $scope.isAddAwards = false;
-            }
-            else {
-                toastr.error("error in add award");
-            }
-            
+        $("#companyProfileAchieveDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
+        $http.post($rootScope.API_PATH + "/Achievements/PostAchievement", params).success(function (data) {
+            $("#companyProfileAchieveDiv").unblock();
+            toastr.success("Award added successfully");
+            $scope.lstAchievelist.push(data);
+            $scope.initModel();
+            $scope.isAddAwards = false;
         }).error(function (data) {
-            //alert("error");
+            toastr.error("error in add achievement. try again");
         });
     }
-    
+
 
     $scope.editAchievelist = function (obj) {
         $scope["isEditAchievelist_" + obj.AchievementID] = true;
@@ -576,24 +563,25 @@
         //$rootScope.reloadDatePicker();
     }
 
+    //update achievement
     $scope.saveEditAchievelist = function (obj) {
         $scope["isEditAchievelist_" + obj.AchievementID] = false;
         $("#achivementform").hide();
         var params = {
-            achievementID: obj.AchievementID,
-            Name:obj.Name
+            id: obj.AchievementID,
         }
-        $http.get($rootScope.API_PATH + "/Company/UpdateBusinessawards", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                toastr.success("achievemrnt record update successfully");
-                $scope.getCompanyAchievelist();
-                $scope.initModel();
-            }
-            else {
-                toastr.error("error in update achiecement record");
-            }
+        var obj = {
+            AchievementID: obj.AchievementID,
+            BusinessID: $scope.BusinessId,
+            Name: obj.Name
+        }
+
+        $http.put($rootScope.API_PATH + "/Achievements/PutAchievement", obj, { params: params }).success(function (data) {
+            toastr.success("award record update successfully");
+            //$scope.getCompanyAchievelist();
+            $scope.initModel();
         }).error(function (data) {
-            console.log(data);
+            toastr.error("error in update award. try again ");
         })
     }
 
@@ -603,25 +591,20 @@
 
     $scope.deleteAchievelist = function (id) {
         var params = {
-            achievementID: id
+            id: id
         }
-        $http.get($rootScope.API_PATH + "/Company/DeleteBusinessawards", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                toastr.success("achievemrnt record delete successfully");
-                $scope.getCompanyAchievelist();
-            }
-            else {
-                toastr.error("error in delete achiecement record");
-            }
+        $http.delete($rootScope.API_PATH + "/Achievements/DeleteAchievement", { params: params }).success(function (data) {
+            toastr.success("achievemrnt record delete successfully");
+            //$scope.getCompanyAchievelist();
         }).error(function (data) {
-            console.log(data);
+            toastr.error("error in delete award. try again");
         });
     }
 
-    //*************end achievement  ****************//
+    //***********************************end achievement  **************************************//
 
 
-    //*********** start company location **************//
+    //********************************* start company location ************************************//
     $scope.getCompanyLocationlist = function () {
         var params = {
             businessID: $scope.BusinessId
@@ -629,7 +612,7 @@
         $("#companyProfileLocationDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $http.get($rootScope.API_PATH + "/Company/GetBusinessLocation", { params: params }).success(function (data) {
             $("#companyProfileLocationDiv").unblock();
-            $scope.objLocationlist = data.record;
+            $scope.lstLocationlist.push(data);
         }).error(function (data) {
             //alert("error");
         });
@@ -639,26 +622,19 @@
         console.log(obj);
         var params = {
             BusinessID: $scope.BusinessId,
-            BusinessAddressLine1: obj.Line1,
-            BusinessAddressLine2: obj.Line2,
-            BusinessAddressCity: obj.City,
-            BusinessAddressState: obj.State,
-            BusinessAddressZipCode: obj.ZipCode
+            Line1: obj.Line1,
+            Line2: obj.Line2,
+            City: obj.City,
+            State: obj.State,
+            ZipCode: obj.ZipCode
         }
-        
-        $http.get($rootScope.API_PATH + "/Company/AddBusinessLocation", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                $scope.getCompanyLocationlist();
-                toastr.success("location add successfully");
-                $scope.initModel();
-                $scope.isAddLoaction = false;
-            }
-            else {
-                toastr.error("error in add location");
-            }
-            
+
+        $http.post($rootScope.API_PATH + "/Addresses/PostAddress", params).success(function (data) {
+            toastr.success("location add successfully");
+            $scope.initModel();
+            $scope.isAddLoaction = false;
         }).error(function (data) {
-            //alert("error");
+            toastr.error("error in add company location. try again.")
         });
     }
 
@@ -678,7 +654,7 @@
             BusinessAddressState: obj.State,
             BusinessAddressZipCode: obj.ZipCode
         }
-        
+
         $http.post($rootScope.API_PATH + "/Company/UpdateBusinessLocation", objBusiness).success(function (data) {
             if (data.success == 1) {
                 $scope.getCompanyLocationlist();
@@ -688,7 +664,7 @@
             else {
                 toastr.error("error in add location");
             }
-            
+
         }).error(function (data) {
             console.log(data);
         });
