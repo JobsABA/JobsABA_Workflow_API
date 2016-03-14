@@ -84,9 +84,9 @@ namespace JobsInABA.Web.Api
         [ResponseType(typeof(SkillDTO))]
         public IHttpActionResult PostSkill(SkillDTO skill)
         {
-            skill = new SkillDTO();
-            skill.Skill1 = "Skill 2";
-            skill.UserID = 50;
+            //skill = new SkillDTO();
+            //skill.Skill1 = "Skill 2";
+            //skill.UserID = 50;
 
             if (!ModelState.IsValid)
             {

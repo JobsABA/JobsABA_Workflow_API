@@ -4,11 +4,12 @@
         $scope.initModel();
         $rootScope.loginUserName = httpService.readCookie("uname");
         $rootScope.userId = parseInt(httpService.readCookie("uid"));
-        //if ($rootScope.userId) {
-        //    $rootScope.getCompanylist($rootScope.userId);
-        //}
+        if ($rootScope.userId) {
+            $rootScope.getCompanylist($rootScope.userId);
+        }
         $rootScope.getFullCompanylist();
         $scope.randomNumber = Math.random();
+        
     }
 
     $scope.initModel = function () {
@@ -32,13 +33,12 @@
     //get company list by user for menubar
     $rootScope.getCompanylist = function (uid) {
         var params = {
-            userID: uid
+            id: uid
         }
         $("#menubarBuisnessList").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Company/GetUserWiseBusinessList", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Users/GetUsersWiseCompany", { params: params }).success(function (data) {
             $("#menubarBuisnessList").unblock();
-            //console.log(data);
-            $rootScope.menuLstBusiness = data.businessList;
+            $rootScope.menuLstBusiness = data;
         }).error(function (data) {
             console.log(JSON.stringify(data));
         });
@@ -65,22 +65,18 @@
     $rootScope.applyJob = function (jobID) {
         var params = {
             JobID: jobID,
-            UserID: $rootScope.userId
+            ApplicantUserID: $rootScope.userId
         }
-        $http.get($rootScope.API_PATH + "/Jobapplication/ApplyJob", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                toastr.success("successfully apply for this job");
-            }
-            else if (data.duplicate == 1) {
+        $http.post($rootScope.API_PATH + "/JobApplications/PostJobApplication", params).success(function (data) {
+            toastr.success("successfully apply for this job");
+        }).error(function (data, status, headers, config) {
+            if (status == 409) {
                 toastr.info("you are already applied for this job");
             }
-            else
-                toastr.error("error in job apply");
-
-        }).error(function (data) {
-            console.log(JSON.stringify(data));
-        })
-
+            else {
+                toastr.error("error in job apply. try again");
+            }
+        });
     }
 
     //for mouse hover div display/hide
@@ -116,7 +112,7 @@
                 $(".bussinessList").val(ui.item.value);
             },
             minLength: 1,
-            
+
         });
     }
 

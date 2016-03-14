@@ -17,6 +17,27 @@
 
     $scope.initModel = function () {
 
+        $scope.userProfile = {
+            UserID: '',
+            UserEmailAddress: '',
+            UserName: '',
+            FirstName: '',
+            MiddleName: '',
+            LastName: '',
+            DOB: '',
+            IsActive: true,
+            IsDeleted: false,
+            UserAddressLine1: '',
+            UserAddressCity: '',
+            UserAddressState: '',
+            UserAddressZipCode: '',
+            UserAddressAddressTypeID: 1,
+            UserPhoneNumber: '',
+            Description:''
+
+
+        }
+
         $scope.userExprienceModel = {
             UserID: $scope.userId,
             BussinessName: '',
@@ -69,16 +90,7 @@
             $("#personalProfileMainDiv").unblock();
             console.log(data);
             //user basic detail
-            $scope.firstName = data.FirstName;
-            $scope.middleName = data.MiddleName;
-            $scope.lastName = data.LastName;
-            $scope.Summary = data.Description;
-            $scope.address = data.UserAddressLine1;
-            $scope.city = data.UserAddressCity;
-            $scope.state = data.UserAddressState;
-            $scope.zip = data.UserAddressZipCode;
-            $scope.email = data.UserEmailAddress;
-            $scope.phoneNo = data.UserPhoneNumber;
+            $scope.userProfile = data;
             $scope.ImgExt = data.UserImageExt;
             $scope.isEditProfile_Image = false;
 
@@ -184,56 +196,31 @@
     }
 
     //update user inforamtion
-    $scope.updateUserInfo = function (pname) {
-        var userInfo = {
-            UserID: $scope.userId,
-            FirstName: $scope.firstName,
-            MiddleName: $scope.middleName,
-            LastName: $scope.lastName,
-            UserAddressLine1: $scope.address,
-            UserAddressCity: $scope.city,
-            UserAddressState: $scope.state,
-            UserAddressZipCode: $scope.zip,
-            UserEmailAddress: $scope.email,
-            UserPhoneNumber: $scope.phoneNo,
-        }
+    $scope.updateUserInfo = function (objUser,pname) {
         var params = {
             id: $scope.userId
         }
 
-        $http.put($rootScope.API_PATH + "/Users/PutUser/" + $scope.userId, userInfo).success(function (data) {
+        $http.put($rootScope.API_PATH + "/Users/PutUser/" + $scope.userId, objUser).success(function (data) {
             toastr.success("profile information updated successfully");
             $scope["isEditProfile_" + pname] = false;
         }).error(function (data) {
-            console.log(data);
+            toastr.error("error in update profile");
         })
 
     }
 
     //hide/show edit block for user informaiton update
-    $scope.editUserInfo = function (pname) {
+    $scope.editUserInfo = function (userProfile,pname) {
+        $scope.copyUserInfoObject = angular.copy(userProfile);
         $scope["isEditProfile_" + pname] = true;
     }
 
     $scope.cancleUpdateUserInfo = function (pname) {
+        $scope.userProfile = $scope.copyUserInfoObject;
         $scope["isEditProfile_" + pname] = false;
     }
 
-    //update user profile Summery
-    $scope.updateProfileSummery = function () {
-        var params = {
-            UserId: $scope.userId,
-            Description: $scope.Summary,
-            updateType: 'Description'
-        }
-        $http.get($rootScope.API_PATH + "/User/UpdateProfile", { params: params }).success(function (data) {
-            $scope.isEditSummery = false;
-            $scope.initModel();
-            toastr.success("Profile Summery Update Successfully");
-        }).error(function (data) {
-            toastr.error("error in update profile summery");
-        })
-    }
 
 
     //=======================================   user exprience  ========================================//
@@ -266,14 +253,17 @@
     //cancel updation
     $scope.cancelUpdateExperience = function (id) {
         $scope["isEditExprience_" + id] = false;
+        //$scope.lstUserExprience
     }
 
     //edit exprience
     $scope.editExprience = function (obj) {
+
         $scope.userExprienceModel = obj;
         $scope["isEditExprience_" + obj.ExperienceID] = true;
         $rootScope.autocompleteBusinessName();
         $rootScope.reloadDatePicker();
+        $scope.copyObjectUserExprience = angular.copy(obj);
     }
 
     //update user exprience set

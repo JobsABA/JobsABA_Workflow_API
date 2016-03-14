@@ -66,5 +66,9 @@ namespace JobsInABA.Workflows.Models
         public string UserImageName { get; set; }
         public string UserImageExt { get; set; }
 
+
+        public int PhoneID { get; set; }
+
+        public int EmailID { get; set; }
     }
 }

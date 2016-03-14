@@ -619,7 +619,7 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="JobApplications">
-              <PropertyRef Name="JobID" />
+              <PropertyRef Name="ApplicantUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1345,6 +1345,7 @@
           <NavigationProperty Name="Job" Relationship="Self.FK_JobApplications_Jobs" FromRole="JobApplications" ToRole="Jobs" />
           <NavigationProperty Name="User" Relationship="Self.FK_JobApplications_Users" FromRole="JobApplications" ToRole="Users" />
           <NavigationProperty Name="JobApplicationStates" Relationship="Self.FK_JobApplicationStates_JobApplications" FromRole="JobApplications" ToRole="JobApplicationStates" />
+          <NavigationProperty Name="User1" Relationship="JobsInABAModel.FK_JobApplications_Users1" FromRole="JobApplication" ToRole="User" />
         </EntityType>
         <EntityType Name="JobApplicationState">
           <Key>
@@ -1558,6 +1559,7 @@
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users" FromRole="Users1" ToRole="Users" />
           <NavigationProperty Name="Users11" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User2" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+          <NavigationProperty Name="JobApplications1" Relationship="JobsInABAModel.FK_JobApplications_Users1" FromRole="User" ToRole="JobApplication" />
         </EntityType>
         <Association Name="FK_Achievements_Businesses">
           <End Role="Businesses" Type="Self.Business" Multiplicity="0..1" />
@@ -2374,7 +2376,23 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_JobApplications_Users1" Association="JobsInABAModel.FK_JobApplications_Users1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="JobApplication" EntitySet="JobApplications" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_JobApplications_Users1">
+          <End Type="JobsInABAModel.User" Role="User" Multiplicity="1" />
+          <End Type="JobsInABAModel.JobApplication" Role="JobApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="JobApplication">
+              <PropertyRef Name="ApplicantUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

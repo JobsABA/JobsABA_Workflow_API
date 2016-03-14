@@ -29,7 +29,7 @@
                         <div class="col-lg-12 companyProfileBox" id="companyProfileInfoDiv">
                             <div style="background: gainsboro; padding: 10px; margin: 0 -15px;">
                                 <div>
-                                    <img ng-hide="isEditProfile_Image" id="profileimage" class="" src="assets/img/no-image-company.png" style="" ng-if="bussinessDetail.ImageExtension==null||bussinessDetail.ImageExtension==''">
+                                    <img ng-hide="isEditProfile_Image" id="profileimage" class="" src="assets/img/no-image-company.png" style="width:100%;height:300px;" ng-if="bussinessDetail.ImageExtension==null||bussinessDetail.ImageExtension==''">
                                     <img ng-hide="isEditProfile_Image" id="profileimage" src="{{API_PATH_Image}}/FileUpload/CompanyImage/{{bussinessDetail.BusinessID}}{{bussinessDetail.ImageExtension}}?d={{randomNumber}}" style="width:100%;height:300px;" ng-if="bussinessDetail.ImageExtension!=null&&bussinessDetail.ImageExtension!=''">
                                 </div>
                                 <div ng-show="isUserBusinessOwner" class="text-center">
@@ -58,7 +58,7 @@
                                     <div>
                                         <div ng-hide="isEditAddress" class="odd" ng-mouseenter="onmousehover('isEditLine1Hover','')" ng-mouseleave="onmouseleave('isEditLine1Hover','')">
                                             <span class="companydata ">{{businessAddress.Line1}}</span>
-                                            <span ng-if="businessAddress.Line1==undefined && isUserBusinessOwner">Enter Address</span>
+                                            <span ng-if="(businessAddress.Line1==undefined||businessAddress.Line1==null||businessAddress.Line1.length==0) && isUserBusinessOwner">Add Address</span>
                                             <div ng-show="isEditLine1Hover" style="display:inline-block;">
                                                 <img class="iconImage" ng-show="isUserBusinessOwner" ng src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditAddress=true">
                                             </div>
@@ -77,7 +77,7 @@
                                     <div>
                                         <div ng-hide="isEditCity" class="even" ng-mouseenter="onmousehover('isEditCityHover','')" ng-mouseleave="onmouseleave('isEditCityHover','')">
                                             <span class="companydata ">{{businessAddress.City}}</span>
-                                            <span ng-if="businessAddress.City==undefined && isUserBusinessOwner">Enter City</span>
+                                            <span ng-if="(businessAddress.City==undefined || businessAddress.City==null || businessAddress.City.length==0) && isUserBusinessOwner">Add City</span>
                                             <div ng-show="isEditCityHover" style="display:inline-block;">
                                                 <img ng-show="isUserBusinessOwner" ng src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditCity=true" class="iconImage">
                                             </div>
@@ -96,7 +96,7 @@
                                     <div>
                                         <div ng-hide="isEditState" class="odd" ng-mouseenter="onmousehover('isEditStateHover','')" ng-mouseleave="onmouseleave('isEditStateHover','')">
                                             <span class="companydata ">{{businessAddress.State}}</span>
-                                            <span ng-if="businessAddress.State==undefined && isUserBusinessOwner">Enter State</span>
+                                            <span ng-if="(businessAddress.State==undefined||businessAddress.State==null||businessAddress.State.length==0) && isUserBusinessOwner">Add State</span>
                                             <div ng-show="isEditStateHover" style="display:inline-block;">
                                                 <img ng-show="isUserBusinessOwner" ng src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditState=true" class="iconImage">
                                             </div>
@@ -115,7 +115,7 @@
                                     <div>
                                         <div ng-hide="isEditZipCode" class="even" ng-mouseenter="onmousehover('isEditZipHover','')" ng-mouseleave="onmouseleave('isEditZipHover','')">
                                             <span class="companydata ">{{businessAddress.ZipCode}}</span>
-                                            <span ng-if="businessAddress.ZipCode==undefined && isUserBusinessOwner">Enter ZipCode</span>
+                                            <span ng-if="(businessAddress.ZipCode==undefined||businessAddress.ZipCode==null||businessAddress.ZipCode.length==0) && isUserBusinessOwner">Add ZipCode</span>
                                             <div ng-show="isEditZipHover" style="display:inline-block;">
                                                 <img ng-show="isUserBusinessOwner" ng src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditZipCode=true" class="iconImage">
                                             </div>
@@ -143,6 +143,7 @@
                                     <div ng-hide="isEditEmail" class="odd" ng-mouseenter="onmousehover('isEditEmailHover','')" ng-mouseleave="onmouseleave('isEditEmailHover','')">
                                         <img src="assets/img/mail-128.png" class="iconImage" />
                                         <span class="companydata ">{{bussinessDetail.BusinessEmailAddress}}</span>
+                                        <span ng-if="(bussinessDetail.BusinessEmailAddress==undefined||bussinessDetail.BusinessEmailAddress==null||bussinessDetail.BusinessEmailAddress.length==0) && isUserBusinessOwner">Add Email </span>
                                         <span ng-show="isEditEmailHover" style="display:inline-block;">
                                             <img ng-show="isUserBusinessOwner" ng src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditEmail=true" class="iconImage">
                                         </span>
@@ -161,6 +162,7 @@
                                     <div ng-hide="isEditNumber" class="even" ng-mouseenter="onmousehover('isEditNumberHover','')" ng-mouseleave="onmouseleave('isEditNumberHover','')">
                                         <img src="assets/img/phone_footer.png" class="iconImage" />
                                         <span class="companydata ">{{bussinessDetail.BusinessPhoneNumber}}</span>
+                                        <span ng-if="(bussinessDetail.BusinessPhoneNumber==undefined||bussinessDetail.BusinessPhoneNumber==null||bussinessDetail.BusinessPhoneNumber.length==0) && isUserBusinessOwner">Add Phone </span>
                                         <span ng-show="isEditNumberHover" style="display:inline-block;">
                                             <img ng-show="isUserBusinessOwner" ng src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditNumber=true" class="iconImage">
                                         </span>
@@ -474,7 +476,7 @@
                                     <div class="col-lg-12" ng-repeat="o in lstJob" ng-mouseenter="onmousehover('isMainEditJobList_',o.JobID)" ng-mouseleave="onmouseleave('isMainEditJobList_',o.JobID)">
                                         <div ng-hide="isEditJobList_{{o.JobID}}">
                                             <div class="col-lg-1">
-                                                <input ng-if="isUserBusinessOwner==true" type="checkbox" ng-checked="{{o.IsActive}}" ng-click="changeJobActive(o.JobID)" />
+                                                <input ng-if="isUserBusinessOwner==true" type="checkbox" ng-checked="{{o.IsActive}}" ng-click="changeJobActive(o)" />
                                                 {{$index+1}}.
                                             </div>
                                             <div class="col-lg-10">
@@ -484,7 +486,7 @@
                                                     </a>
                                                     <span style="font-size:13px;">({{o.StartDate}} - {{o.EndDate}})</span>
                                                 </h4>
-                                                
+
                                                 <p ng-hide="fullJobDetail_{{o.JobID}}">
                                                     {{o.Description | limitTo :200}}
                                                     <a ng-hide="fullJobDetail_{{o.JobID}}" ng-if="o.Description.length>200" href="javascript:0" ng-click="displayJobFullDetail(o.JobID)">
@@ -498,34 +500,41 @@
                                                     <h4 class="text-center">Job Application</h4>
                                                     <hr style="clear:both" />
                                                     <div class="col-lg-12">
-                                                        <div class="col-lg-6" ng-repeat="o in lstJobApplication">
-                                                            <div class="col-lg-1 col-md-1 col-xs-1">
+                                                        <div class="col-lg-6" ng-repeat="oJobApp in o.JobApplications">
+                                                            <div class="col-lg-2 col-md-2 col-xs-2">
                                                                 {{$index+1}}.
                                                             </div>
-                                                            <div class="col-lg-11 col-md-10 col-xs-10">
-                                                                <p>{{o.UserName}}</p>
-                                                                <p>Applied on <span class="">{{o.ApplicationDate}}</span> </p>
+                                                            <div class="col-lg-10 col-md-10 col-xs-10">
+                                                                <p>{{oJobApp.ApplicantUserID}}</p>
+                                                                <p>Applied on <span class="">{{oJobApp.ApplicationDate}}</span> </p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-if="lstJobApplication.length==0">
+                                                    <div class="col-lg-12" ng-if="o.JobApplications.length==0">
                                                         <p>No application for this job.</p>
                                                     </div>
                                                 </div>
 
                                                 <!-- job apply -->
-                                                <div class="row">
+                                                <!--<div class="row">
                                                     <div class="col-lg-12 text-right">
                                                         <a ng-if="UserLogin==false" href="#login" class="btn-edit">Apply</a>
                                                         <a ng-if="UserLogin==true && isUserBusinessOwner==false" href="javascript:void(0)" ng-click="applyJob(o.JobID)" class="btn-edit">Apply</a>
                                                     </div>
-                                                </div>
+                                                </div>-->
 
                                             </div>
                                             <div class="col-lg-1 text-right">
+                                                <div class="col-lg-12 text-right">
+                                                    <a ng-if="UserLogin==false" href="#login" class="btn-edit">Apply</a>
+                                                    <a ng-if="UserLogin==true && isUserBusinessOwner==false" href="javascript:void(0)" ng-click="applyJob(o.JobID)" class="btn-edit">Apply</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1 text-right">
+                                                <img ng-if="UserLogin==true && isUserBusinessOwner==true" src="assets/img/ApplicationView.png" title="View Application List" ng-click="viewApplivation(o.JobID)" class="iconImage" />
                                                 <a href="#updateJob/{{o.JobID}}"><img ng-if="isUserBusinessOwner==true" ng-show="isMainEditJobList_{{o.JobID}}" class='iconImage' src='assets/img/EDIT_USE.png'></a>
                                                 <img ng-if="isUserBusinessOwner==true" ng-show="isMainEditJobList_{{o.JobID}}" class='iconImage' ng-click="deleteJob(o.JobID)" src='assets/img/delete-48.png'>
-                                                <img ng-if="UserLogin==true && isUserBusinessOwner==true" src="assets/img/ApplicationView.png" title="View Application List" ng-click="viewApplivation(o.JobID)" class="iconImage" />
+
                                             </div>
                                             <hr style="clear: both; border-color: #E85835" />
                                         </div>

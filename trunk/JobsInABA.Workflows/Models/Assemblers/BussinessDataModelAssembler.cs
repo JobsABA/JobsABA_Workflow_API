@@ -141,6 +141,7 @@ namespace JobsInABA.Workflows.Models.Assemblers
                 dto.StartDate = datamodel.StartDate;
                 dto.upddt = datamodel.upddt;
                 dto.upduser = datamodel.upduser;
+                dto.Description = datamodel.Description;
             }
 
             return dto;

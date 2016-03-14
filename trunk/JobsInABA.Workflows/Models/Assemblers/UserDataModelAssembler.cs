@@ -161,6 +161,7 @@ namespace JobsInABA.Workflows.Models.Assemblers
                 dto.insdt = datamodel.insdt;
                 dto.upduser = datamodel.upduser;
                 dto.upddt = datamodel.upddt;
+                dto.Description = datamodel.Description;
             }
 
             return dto;
@@ -177,7 +178,8 @@ namespace JobsInABA.Workflows.Models.Assemblers
                 model.insuser = datamodel.UserAccountinsuser;
                 model.IsActive = datamodel.UserAccountIsActive;
                 model.IsDeleted = datamodel.UserAccountIsDeleted;
-                model.Password = Encoding.ASCII.GetBytes(datamodel.UserAccountPassword);
+                if (datamodel.UserAccountPassword != null)
+                    model.Password = Encoding.ASCII.GetBytes(datamodel.UserAccountPassword);
                 model.upddt = datamodel.UserAccountupddt;
                 model.upduser = datamodel.UserAccountupduser;
                 model.UserName = datamodel.UserAccountUserName;
@@ -214,8 +216,9 @@ namespace JobsInABA.Workflows.Models.Assemblers
                 dto.AddressbookID = datamodel.UserPhoneAddressBookID;
                 dto.Ext = datamodel.UserPhoneExt;
                 dto.Number = datamodel.UserPhoneNumber;
-                dto.PhoneID = datamodel.UserPhoneID;
+                dto.PhoneID = datamodel.PhoneID;
                 dto.PhoneTypeID = datamodel.UserPhoneTypeID;
+                
             }
 
             return dto;
@@ -227,7 +230,7 @@ namespace JobsInABA.Workflows.Models.Assemblers
             if (datamodel != null)
             {
                 dto.Address = datamodel.UserEmailAddress;
-                dto.EmailID = datamodel.UserEmailID;
+                dto.EmailID = datamodel.EmailID;
                 dto.EmailTypeID = datamodel.UserEmailTypeID;
             }
 

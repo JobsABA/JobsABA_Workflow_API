@@ -3,6 +3,7 @@
         $scope.initModel();
         $scope.getFullCompanyListABAService();
         $scope.randomNumber = Math.random();
+        $rootScope.autocompleteBusinessName();
     }
 
     $scope.initModel = function () {

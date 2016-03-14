@@ -207,7 +207,7 @@ namespace JobsInABA.DAL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                        throw ex;
                 }
             }
 
@@ -222,6 +222,7 @@ namespace JobsInABA.DAL.Repositories
             {
                 try
                 {
+                    model.IsActive = false;
                     returnModel = DBContext.Users.Add(model);
                     DBContext.SaveChanges();
                 }

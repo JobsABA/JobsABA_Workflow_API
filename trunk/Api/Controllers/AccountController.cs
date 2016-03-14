@@ -45,6 +45,8 @@ namespace Api.Controllers
         [ResponseType(typeof(UserDataModel))]
         public IHttpActionResult SignIn(SignIn signIn)
         {
+            signIn.Username = "hardikMandanka";
+            signIn.Password = "123123";
             if (signIn.Username == null || signIn.Password == null)
                 return StatusCode(HttpStatusCode.BadRequest);
 

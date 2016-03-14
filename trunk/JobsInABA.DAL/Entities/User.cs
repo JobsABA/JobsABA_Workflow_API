@@ -55,6 +55,8 @@ public partial class User
 
         this.Users11 = new HashSet<User>();
 
+        this.JobApplications1 = new HashSet<JobApplication>();
+
     }
 
 
@@ -123,6 +125,8 @@ public partial class User
     public virtual ICollection<User> Users11 { get; set; }
 
     public virtual User User2 { get; set; }
+
+    public virtual ICollection<JobApplication> JobApplications1 { get; set; }
 
 }
 

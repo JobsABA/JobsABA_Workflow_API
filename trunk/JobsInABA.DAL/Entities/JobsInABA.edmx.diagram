@@ -84,6 +84,7 @@
         <AssociationConnector Association="JobsInABAModel.FK_UserRoles_Users" ManuallyRouted="false" />
         <AssociationConnector Association="JobsInABAModel.FK_Users_Users" ManuallyRouted="false" />
         <AssociationConnector Association="JobsInABAModel.FK_Users_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="JobsInABAModel.FK_JobApplications_Users1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

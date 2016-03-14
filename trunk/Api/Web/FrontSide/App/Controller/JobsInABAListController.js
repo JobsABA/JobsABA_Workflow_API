@@ -3,35 +3,37 @@
         $scope.initModel();
 
         if ($routeParams.JobKeyword)
-            $scope.Keywords = $routeParams.JobKeyword;
+            $scope.JobSearchModel.Keywords = $routeParams.JobKeyword;
         else
             $scope.Keywords = '';
 
         if ($routeParams.Location)
-            $scope.Location = $routeParams.Location;
+            $scope.JobSearchModel.Location = $routeParams.Location;
         else
             $scope.Location = '';
 
         if ($routeParams.CompnayName)
-            $scope.CompnayName = $routeParams.CompnayName;
+            $scope.JobSearchModel.CompnayName = $routeParams.CompnayName;
         else
             $scope.CompnayName = '';
 
         $scope.getJobList();
         $scope.randomNumber = Math.random();
+        $rootScope.autocompleteBusinessName();
     }
 
     $scope.initModel = function () {
         $scope.JobSearchModel = {
-            companyName: '',
-            City: ''
+            CompnayName: '',
+            Location: '',
+            Keywords: ''
         }
         $scope.jobPagingModel = {
             pagingJobList: [],
             isComplete: true,
             isLastRecord: false,
             initialFrom: 0,
-            initialTo:4,
+            initialTo: 4,
             dataLoadPerReq: 4,
             totalReocrd: 0,
         }
@@ -46,30 +48,14 @@
     $scope.getJobList = function () {
         if ($scope.jobPagingModel.isComplete && !$scope.jobPagingModel.isLastRecord) {
             $scope.jobPagingModel.isComplete = false;
-            var params = {};
-            if (($scope.Keywords.length > 0 || $scope.Location.length > 0 || $scope.CompnayName.length > 0) && ($scope.JobSearchModel.companyName.length == 0 && $scope.JobSearchModel.City.length == 0)) {
-                params = {
-                    jobTitle: $scope.Keywords,
-                    location: $scope.Location,
-                    userID: $rootScope.userId,
-                    companyName: $scope.CompnayName,
-                    from: $scope.jobPagingModel.initialFrom,
-                    to: $scope.jobPagingModel.initialTo
-                }
-                $scope.Keywords = '';
-                $scope.Location = '';
+            var params = {
+                jobTitle: $scope.JobSearchModel.Keywords,
+                companyName: $scope.JobSearchModel.CompnayName,
+                location: $scope.JobSearchModel.Location,
+                userID: $rootScope.userId,
+                from: $scope.jobPagingModel.initialFrom,
+                to: $scope.jobPagingModel.initialTo
             }
-            else {
-                params = {
-                    jobTitle: '',
-                    companyName: $scope.JobSearchModel.companyName,
-                    location: $scope.JobSearchModel.City,
-                    userID: $rootScope.userId,
-                    from: $scope.jobPagingModel.initialFrom,
-                    to: $scope.jobPagingModel.initialTo
-                }
-            }
-
 
             $("#jobsInABAListDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
             $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
