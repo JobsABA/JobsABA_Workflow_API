@@ -45,8 +45,6 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
             templateUrl: 'Template/PackageSubscriptionList.html',
             controller: 'PackageMgmtController'
         })
-
-
     .otherwise({
         redirectTo: '/dashboard'
     });

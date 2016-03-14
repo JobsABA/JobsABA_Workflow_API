@@ -5,6 +5,7 @@ using JobsInABA.Workflows.Models;
 using JobsInABA.Workflows.Models.Assemblers;
 using JobsInABA.BL.DTOs;
 using System;
+using JobsInABA.DAL.Entities;
 
 namespace JobsInABA.Workflows
 {
@@ -67,8 +68,13 @@ namespace JobsInABA.Workflows
         public IEnumerable<BusinessDataModel> Get()
         {
             List<BusinessDTO> businessDTOs = businessBL.Get();
-
-            return businessDTOs.Select(businessdto => Get(businessdto));
+            var businessDataModels = businessDTOs.Select(businessdto => Get(businessdto)).ToList();
+            if (businessDataModels != null)
+                foreach (var item in businessDataModels)
+                {
+                    item.Count = businessDataModels.Count;
+                }
+            return businessDataModels;
         }
 
         public BusinessDataModel Create(BusinessDataModel dataModel)
@@ -91,12 +97,12 @@ namespace JobsInABA.Workflows
                 {
                     businessDTO = businessBL.Create(businessDTO);
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO,null);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 new BusinessUserMapBL().Create(new BusinessUserMapDTO()
                 {
                     BusinessID = dataModel.BusinessID,
                     UserID = dataModel.BusinessUserId,
-                    BusinessUserTypeID=dataModel.BusinessUserMapTypeCodeId,
+                    BusinessUserTypeID = dataModel.BusinessUserMapTypeCodeId,
                     IsOwner = true
                 });
                 addressDTO = BusinessDataModelAssembler.ToAddressDTO(dataModel);
@@ -111,7 +117,7 @@ namespace JobsInABA.Workflows
 
                     addressDTO = addressList;
                 }
-                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO,null);
+                dataModel = BusinessDataModelAssembler.ToDataModel(businessDTO, addressDTO, phoneDTO, emailDTO, null, null, businessUserMapDTO, null);
                 new BusinessAddressBL().Create(new BusinessAddressDTO()
                 {
                     BusinessID = dataModel.BusinessID,
@@ -261,11 +267,19 @@ namespace JobsInABA.Workflows
         public IList<BusinessDataModel> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
         {
             List<BusinessDataModel> businessDataModels = new List<BusinessDataModel>();
-            List<BusinessDTO> businessDTOs = businessBL.GetBusinessesBySearch(companyname,city, from, to);
+            List<BusinessDTO> businessDTOs = businessBL.GetBusinessesBySearch(companyname, city, from, to);
             businessDataModels = businessDTOs.Select(userdto => Get(userdto)).ToList();
+            if (businessDataModels != null)
+                foreach (var item in businessDataModels)
+                {
+                    item.Count = businessDataModels.Count;
+                }
             return businessDataModels;
         }
 
-        
+        public List<Business> GetBusinessesNameID()
+        {
+            return businessBL.GetBusinessesNameID();
+        }
     }
 }

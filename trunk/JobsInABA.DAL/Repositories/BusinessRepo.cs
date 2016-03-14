@@ -126,7 +126,7 @@ namespace JobsInABA.DAL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    //Log Exception.
+                    throw ex;
                 }
             }
 
@@ -243,5 +243,22 @@ namespace JobsInABA.DAL.Repositories
             return oBusinesss;
         }
 
+        public List<Business> GetBusinessesNameID()
+        {
+            List<Business> oBusiness = new List<Business>();
+            using (DBContext)
+            {
+                try
+                {
+                    oBusiness = DBContext.Businesses.ToList();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return oBusiness;
+        }
     }
 }

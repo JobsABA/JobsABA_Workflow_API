@@ -24,7 +24,8 @@ namespace Api.Controllers
         // GET: api/Jobs
         public IEnumerable<JobDTO> GetJobs()
         {
-            return db.Get();
+            var JobList = db.Get();
+            return JobList;
         }
 
         public IEnumerable<JobDTO> GetJobsBySearch(string companyName,string jobTitle,string location, int? from, int? to)

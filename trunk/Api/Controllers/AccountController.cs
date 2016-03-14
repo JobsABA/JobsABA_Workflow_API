@@ -40,14 +40,16 @@ namespace Api.Controllers
             return response;
         }
 
+        [Route("api/account/SignIn")]
+        [HttpPut]
         [ResponseType(typeof(UserDataModel))]
-        public IHttpActionResult Put(string username, string password)
+        public IHttpActionResult SignIn(SignIn signIn)
         {
-            if (username == null || password == null)
+            if (signIn.Username == null || signIn.Password == null)
                 return StatusCode(HttpStatusCode.BadRequest);
 
             //var user = db.Get().FirstOrDefault(p => p.UserName == username && p.UserAccountPassword == password);
-            var user = db.CanLogIn(username, password);
+            var user = db.CanLogIn(signIn.Username, signIn.Password);
 
             if (user == null)
             {
@@ -63,5 +65,11 @@ namespace Api.Controllers
             }
         }
 
+    }
+
+    public class SignIn
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

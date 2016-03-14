@@ -73,6 +73,9 @@ namespace JobsInABA.BL.DTOs
         [DataMember()]
         public Int32 TypeCode_TypeCodeID { get; set; }
 
+        [DataMember()]
+        public int Count { get; set; }
+
         public JobDTO()
         {
         }

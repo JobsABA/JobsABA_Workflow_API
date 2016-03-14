@@ -3,6 +3,8 @@ using JobsInABA.BL.DTOs.Assemblers;
 using JobsInABA.DAL.Entities;
 using JobsInABA.DAL.Repositories;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace JobsInABA.BL
 {
@@ -17,6 +19,13 @@ namespace JobsInABA.BL
                 if (_BusinessUserMapRepos == null) _BusinessUserMapRepos = new BusinessUserMapsRepo();
                 return _BusinessUserMapRepos;
             }
+        }
+
+        public List<BusinessUserMapDTO> Get()
+        {
+            List<BusinessUserMapDTO> oBusinessUserMapDTO = null;
+            oBusinessUserMapDTO = businessUserMapRepos.GetBusinessUserMaps().Select(p => p.ToDTO()).ToList();
+            return oBusinessUserMapDTO;
         }
 
         public BusinessUserMapDTO Get(int id)

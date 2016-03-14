@@ -241,11 +241,11 @@ namespace JobsInABA.DAL.Repositories
             {
                 using (DBContext)
                 {
-                    User u = this.GetUserByID(model.UserID);
+                    User u = DBContext.Users.FirstOrDefault(p => p.UserID == model.UserID);
 
                     if (u != null)
                     {
-                        Mapper.Map<User, User>(model, u);
+                        DBContext.Entry(u).CurrentValues.SetValues(model);
                         DBContext.SaveChanges();
                         returnModel = u;
                     }

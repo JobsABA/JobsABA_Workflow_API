@@ -85,11 +85,11 @@ namespace JobsInABA.DAL.Repositories
             {
                 using (DBContext)
                 {
-                    UserAccount u = this.GetUserAccountByID(oUserAccount.UserAccountID);
+                    UserAccount u = DBContext.UserAccounts.FirstOrDefault(p => p.UserAccountID == oUserAccount.UserAccountID);
 
                     if (u != null)
                     {
-                        Mapper.Map<UserAccount, UserAccount>(oUserAccount, u);
+                        DBContext.Entry(u).CurrentValues.SetValues(oUserAccount);
                         DBContext.SaveChanges();
                         oUserAccountReturn = u;
                     }

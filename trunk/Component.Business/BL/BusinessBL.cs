@@ -83,6 +83,11 @@ namespace JobsInABA.BL
             return BusinessAssembler.ToDTOs(businessRepo.GetBusinessesBySearch(companyname,city, from, to));
         }
 
-        
+
+
+        public List<Business> GetBusinessesNameID()
+        {
+            return businessRepo.GetBusinessesNameID();
+        }
     }
 }

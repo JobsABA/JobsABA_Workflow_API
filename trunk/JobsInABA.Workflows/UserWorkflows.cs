@@ -94,6 +94,25 @@ namespace JobsInABA.Workflows
             return userDataModels;
         }
 
+        public List<BusinessDTO> GetUsersWiseCompany(int id)
+        {
+            List<BusinessDTO> businessDTO = new List<BusinessDTO>();
+            if (id > 0)
+            {
+                UserDTO userDTO = usersBL.Get(id);
+
+                if (userDTO != null)
+                {
+                    var user = Get(userDTO);
+                    foreach (var item in new BusinessUserMapBL().Get().Where(q => q.UserID == user.UserID).Select(l => l.BusinessID))
+                    {
+                        businessDTO.Add(new BusinessBL().Get(item));
+                    }
+                }
+            }
+            return businessDTO;
+        }
+
         public UserDataModel Create(UserDataModel dataModel)
         {
             if (dataModel != null)
@@ -175,13 +194,11 @@ namespace JobsInABA.Workflows
                 UserAccountDTO userAccountDTO = new UserAccountDTO();
                 PhoneDTO phoneDTO = new PhoneDTO();
                 EmailDTO emailDTO = new EmailDTO();
-                AddressDTO addressDTO = new AddressDTO();
 
                 userDTO = UserDataModelAssembler.ToUserDTO(dataModel);
                 userAccountDTO = UserDataModelAssembler.ToUserAccountDTO(dataModel);
                 phoneDTO = UserDataModelAssembler.ToPhoneDTO(dataModel);
                 emailDTO = UserDataModelAssembler.ToEmailDTO(dataModel);
-                addressDTO = UserDataModelAssembler.ToAddressDTO(dataModel);
 
                 if (userDTO != null)
                 {
@@ -198,10 +215,6 @@ namespace JobsInABA.Workflows
                 if (emailDTO != null)
                 {
                     EmailsBL.Update(emailDTO);
-                }
-                if (addressDTO != null)
-                {
-                    AddressBL.Update(addressDTO);
                 }
             }
 

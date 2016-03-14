@@ -46,11 +46,11 @@ namespace Api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutExperience(int id, ExperienceDTO experience)
         {
-            //experience = new ExperienceDTO();
-            //experience.BusinessID = 18;
-            //experience.JobPossition = "SSD";
-            //experience.UserID = 50;
-            //experience.ExperienceID = 1;
+            experience = new ExperienceDTO();
+            experience.BusinessID = 18;
+            experience.JobPossition = "S SD";
+            experience.UserID = 50;
+            experience.ExperienceID = id;
 
             if (!ModelState.IsValid)
             {
@@ -85,10 +85,10 @@ namespace Api.Controllers
         [ResponseType(typeof(ExperienceDTO))]
         public IHttpActionResult PostExperience(ExperienceDTO experience)
         {
-            //experience = new ExperienceDTO();
-            //experience.BusinessID = 18;
-            //experience.JobPossition = "SD";
-            //experience.UserID = 50;
+            experience = new ExperienceDTO();
+            experience.BusinessID = 18;
+            experience.JobPossition = "Software Developer";
+            experience.UserID = 50;
             
             if (!ModelState.IsValid)
             {

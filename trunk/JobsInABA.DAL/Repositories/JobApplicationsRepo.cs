@@ -40,7 +40,9 @@ namespace JobsInABA.DAL.Repositories
 
         public JobApplication CreateJobApplication(JobApplication jobApplication)
         {
-            db.JobApplications.Add(jobApplication);
+            if (db.JobApplications.Count(p => p.JobID == jobApplication.JobID && p.ApplicantUserID == jobApplication.ApplicantUserID) > 0)
+                return null;
+                db.JobApplications.Add(jobApplication);
             db.SaveChanges();
 
             return jobApplication;

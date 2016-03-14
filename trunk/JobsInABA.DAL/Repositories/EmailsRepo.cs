@@ -88,17 +88,14 @@ namespace JobsInABA.DAL.Repositories
             {
                 using (DBContext)
                 {
-                    //DBContext.Emails.Add(oEmail);
-                    DBContext.Entry(oEmail).State = EntityState.Modified;
-                    DBContext.SaveChanges();
-                    //Email u = this.GetEmailByID(oEmail.EmailID);
+                    Email u = DBContext.Emails.FirstOrDefault(p => p.EmailID == oEmail.EmailID);
 
-                    //if (u != null)
-                    //{
-                    //    Mapper.Map<Email, Email>(oEmail, u);
-                    //    DBContext.SaveChanges();
-                    //    oEmailReturn = u;
-                    //}
+                    if (u != null)
+                    {
+                        DBContext.Entry(u).CurrentValues.SetValues(oEmail);
+                        DBContext.SaveChanges();
+                        oEmailReturn = u;
+                    }
                 }
             }
 

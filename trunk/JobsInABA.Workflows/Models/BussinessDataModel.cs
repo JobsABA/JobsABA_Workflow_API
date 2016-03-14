@@ -53,5 +53,6 @@ namespace JobsInABA.Workflows.Models
         public string Description { get; set; }
 
         public List<ServiceDTO> Service{ get; set; }
+        public int Count { get; set; }
     }
 }

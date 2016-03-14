@@ -4,6 +4,7 @@ using JobsInABA.DAL.Entities;
 using JobsInABA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JobsInABA.BL
 {
@@ -34,14 +35,26 @@ namespace JobsInABA.BL
         public IEnumerable<JobDTO> Get()
         {
             IEnumerable<JobDTO> oJob = JobAssembler.ToDTOs(jobRepos.GetJobs());
-
+            if (oJob != null)
+            {
+                foreach (var item in oJob)
+                {
+                    item.Count = oJob.Count();
+                }
+            }
             return oJob;
         }
 
         public IEnumerable<JobDTO> GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to)
         {
             IEnumerable<JobDTO> oJob = JobAssembler.ToDTOs(jobRepos.GetJobsBySearch(companyName,jobTitle,location, from, to));
-
+            if (oJob != null)
+            {
+                foreach (var item in oJob)
+                {
+                    item.Count = oJob.Count();
+                }
+            }
             return oJob;
         }
 

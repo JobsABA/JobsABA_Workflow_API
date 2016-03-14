@@ -88,16 +88,14 @@ namespace JobsInABA.DAL.Repositories
             {
                 using (DBContext)
                 {
-                    DBContext.Entry(oPhone).State = EntityState.Modified;
-                    DBContext.SaveChanges();
-                    //Phone u = this.GetPhoneByID(oPhone.PhoneID);
+                    Phone u = DBContext.Phones.FirstOrDefault(p => p.PhoneID == oPhone.PhoneID);
 
-                    //if (u != null)
-                    //{
-                    //    Mapper.Map<Phone, Phone>(oPhone, u);
-                    //    DBContext.SaveChanges();
-                    //    oPhoneReturn = u;
-                    //}
+                    if (u != null)
+                    {
+                        DBContext.Entry(u).CurrentValues.SetValues(oPhone);
+                        DBContext.SaveChanges();
+                        oPhoneReturn = u;
+                    }
                 }
             }
 

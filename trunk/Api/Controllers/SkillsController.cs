@@ -46,10 +46,11 @@ namespace JobsInABA.Web.Api
         [ResponseType(typeof(void))]
         public IHttpActionResult PutSkill(int id, SkillDTO skill)
         {
-            //skill = new SkillDTO();
-            //skill.Skill1 = "Skll Mod";
-            //skill.UserID = 50;
-            //skill.SkillID = id;
+            skill = new SkillDTO();
+            skill.Skill1 = "Skill2 Mod";
+            skill.UserID = 50;
+            skill.SkillID = id;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -83,9 +84,9 @@ namespace JobsInABA.Web.Api
         [ResponseType(typeof(SkillDTO))]
         public IHttpActionResult PostSkill(SkillDTO skill)
         {
-            //skill = new SkillDTO();
-            //skill.Skill1 = "Skinn";
-            //skill.UserID = 50;
+            skill = new SkillDTO();
+            skill.Skill1 = "Skill 2";
+            skill.UserID = 50;
 
             if (!ModelState.IsValid)
             {
