@@ -26,4 +26,10 @@ namespace JobsInABA.Workflows.Models
         public int AddressTypeCodeClassTypeID { get; set; }
         public Nullable<int> AddressTypeCodeParentTypeCodeID { get; set; }
     }
+
+    public class SignIn
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
 }

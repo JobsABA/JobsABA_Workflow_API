@@ -12,11 +12,11 @@
             toastr.error("Enter username and password.");
             return;
         }
-        var params = {
+        var signIn = {
             Username: 'asdads',
             Password: 'asdadadads',
         }
-        $http.put($rootScope.API_PATH + "Account/SignIn", { params: params }).success(function (data) {
+        $http.post($rootScope.API_PATH + "Account/SignIn", signIn).success(function (data) {
 
             if (data.success == 1) {
                 toastr.success("Login Successfully.");

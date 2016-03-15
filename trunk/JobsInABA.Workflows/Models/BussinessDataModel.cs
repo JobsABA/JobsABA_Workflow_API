@@ -52,7 +52,13 @@ namespace JobsInABA.Workflows.Models
         public string ImageName { get; set; }
         public string Description { get; set; }
 
+        public List<UserDTO> Employee = new List<UserDTO>();
+
         public List<ServiceDTO> Service{ get; set; }
         public int Count { get; set; }
+
+        public List<ServiceDTO> BusinessServices { get; set; }
+
+        public UserDTO Owner { get; set; }
     }
 }

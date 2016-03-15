@@ -1,4 +1,5 @@
 ﻿using JobsInABA.DAL.Repositories;
+using JobsInABA.Web.Services;
 using JobsInABA.Workflows;
 using JobsInABA.Workflows.Models;
 using System;
@@ -10,6 +11,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Security;
 
 namespace Api.Controllers
 {
@@ -41,7 +43,7 @@ namespace Api.Controllers
         }
 
         [Route("api/account/SignIn")]
-        [HttpPut]
+        [HttpPost]
         [ResponseType(typeof(UserDataModel))]
         public IHttpActionResult SignIn(SignIn signIn)
         {
@@ -65,11 +67,27 @@ namespace Api.Controllers
             }
         }
 
-    }
+        public IHttpActionResult ForgotPassword(string username)
+        {
+            if (new UserWorkflows().Get().Count(p => p.UserName == username) > 0)
+            {
+                //string link = username+"_"+DateTime.Now.ToShortTimeString();
+                string link = Membership.GeneratePassword(8, 2);
+                EmailService.SendPasswordResetEmail(username, link);
+                return Ok();
+            }
+            else
+                return NotFound();
+        }
 
-    public class SignIn
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public IHttpActionResult EmailExist(string username)
+        {
+            if (new UserWorkflows().Get().Count(p => p.UserName == username) > 0)
+            {
+                return Ok();
+            }
+            else
+                return NotFound();
+        }
     }
 }

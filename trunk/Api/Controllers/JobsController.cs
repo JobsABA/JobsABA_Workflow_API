@@ -24,8 +24,7 @@ namespace Api.Controllers
         // GET: api/Jobs
         public IEnumerable<JobDTO> GetJobs()
         {
-            var JobList = db.Get();
-            return JobList;
+            return db.GetJobs();
         }
 
         public IEnumerable<JobDTO> GetJobsBySearch(string companyName,string jobTitle,string location, int? from, int? to)
@@ -35,12 +34,12 @@ namespace Api.Controllers
 
         public IEnumerable<JobDTO> GetJobByPaging(int from, int to)
         {
-            return db.Get().OrderBy(p => p.EndDate).Skip(from).Take(to - from);
+            return db.GetJobs().OrderBy(p => p.EndDate).Skip(from).Take(to - from);
         }
 
         public IEnumerable<JobDTO> GetJobByBusinessID(int id)
         {
-            return db.Get().Where(p => p.BusinessID == id);
+            return db.GetJobs().Where(p => p.BusinessID == id);
         }
 
         // GET: api/Jobs/5

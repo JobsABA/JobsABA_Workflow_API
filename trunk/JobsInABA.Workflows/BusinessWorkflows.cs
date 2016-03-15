@@ -18,17 +18,19 @@ namespace JobsInABA.Workflows
 
         public BusinessDataModel Get(int id)
         {
-            BusinessDataModel BusinessDataModel = null;
+            BusinessDataModel businessDataModel = null;
             if (id > 0)
             {
                 BusinessDTO businessDTO = businessBL.Get(id);
 
                 if (businessDTO != null)
                 {
-                    BusinessDataModel = Get(businessDTO);
+                    businessDataModel = Get(businessDTO);
+                    if (businessDataModel != null)
+                        businessDataModel.BusinessServices = new ServiceBL().Get().Where(p => p.BusinessID == businessDataModel.BusinessID).ToList();
                 }
             }
-            return BusinessDataModel;
+            return businessDataModel;
         }
 
         public BusinessDataModel Get(BusinessDTO modelDTO)
@@ -40,10 +42,8 @@ namespace JobsInABA.Workflows
                 //AddressDTO oPrimaryAddressDTO = (BusinessAddressDTO != null) ? BusinessAddressDTO.Addres : null;
 
                 List<AddressDTO> oPrimaryAddressDTO = (modelDTO.BusinessAddresses != null) ? modelDTO.BusinessAddresses.Where(p => p.BusinessID == modelDTO.BusinessID).Select(p => p.Addres).ToList() : null;
-
+                List<ServiceDTO> servicesList = (modelDTO.Services != null) ? modelDTO.Services.Where(p => p.BusinessID == modelDTO.BusinessID).ToList() : null;
                 List<AchievementDTO> oPrimaryAchievementDTO = (modelDTO.Achievements != null) ? modelDTO.Achievements.Where(p => p.BusinessID == modelDTO.BusinessID).Select(p => p).ToList() : null;
-
-                List<ServiceDTO> oPrimaryServiceDTO = (modelDTO.Services != null) ? modelDTO.Services.Where(p => p.BusinessID == modelDTO.BusinessID).Select(p => p).ToList() : null;
 
                 BusinessPhoneDTO BusinessPhoneDTO = (modelDTO.BusinessPhones != null) ? modelDTO.BusinessPhones.Where(o => o.IsPrimary).FirstOrDefault() : null;
                 PhoneDTO oPrimaryPhoneDTO = (BusinessPhoneDTO != null) ? BusinessPhoneDTO.Phone : null;
@@ -56,7 +56,7 @@ namespace JobsInABA.Workflows
                 BusinessEmailDTO BusinessEmailDTO = (modelDTO.BusinessEmails != null) ? modelDTO.BusinessEmails.Where(o => o.IsPrimary).FirstOrDefault() : null;
                 EmailDTO oPrimaryEmailDTO = (BusinessEmailDTO != null) ? BusinessEmailDTO.Email : null;
 
-                BusinessDataModel = BusinessDataModelAssembler.ToDataModel(modelDTO, oPrimaryAddressDTO, oPrimaryPhoneDTO, oPrimaryEmailDTO, oPrimaryImageDTO, oPrimaryAchievementDTO, null, oPrimaryServiceDTO);
+                BusinessDataModel = BusinessDataModelAssembler.ToDataModel(modelDTO, oPrimaryAddressDTO, oPrimaryPhoneDTO, oPrimaryEmailDTO, oPrimaryImageDTO, oPrimaryAchievementDTO, null, servicesList);
                 BusinessDataModel.PrimaryAddressID = (modelDTO.BusinessAddresses != null) ? modelDTO.BusinessAddresses.FirstOrDefault(p => p.IsPrimary == true).AddressID : 0;
                 //BusinessDataModel.BusinessAddressID = (BusinessAddressDTO != null) ? BusinessAddressDTO.BusinessAddressID : 0;
                 BusinessDataModel.BusinessPhoneID = (BusinessPhoneDTO != null) ? BusinessPhoneDTO.BusinessPhoneID : 0;
@@ -68,13 +68,41 @@ namespace JobsInABA.Workflows
         public IEnumerable<BusinessDataModel> Get()
         {
             List<BusinessDTO> businessDTOs = businessBL.Get();
-            var businessDataModels = businessDTOs.Select(businessdto => Get(businessdto)).ToList();
+            List<BusinessDataModel> businessDataModels = businessDTOs.Select(businessdto => Get(businessdto)).ToList();
+            var Users = new UsersBL().Get();
             if (businessDataModels != null)
-                foreach (var item in businessDataModels)
+            {
+                foreach (var item in businessDataModels.ToList())
                 {
-                    item.Count = businessDataModels.Count;
+                    item.BusinessServices = new ServiceBL().Get().Where(p => p.BusinessID == item.BusinessID).ToList();
+                    if (Users != null)
+                        foreach (var User in Users)
+                        {
+                            if (User.Experiences != null)
+                                foreach (var Experience in User.Experiences)
+                                {
+                                    if (Experience.BusinessID == item.BusinessID)
+                                    {
+                                        item.Employee.Add(User);
+                                    }
+                                }
+                        }
+                    var businessUsers = new BusinessUserMapBL().Get().Where(p => p.BusinessID == item.BusinessID).ToList();
+                    if (businessUsers != null || businessUsers.Count > 0)
+                    {
+                        if (businessUsers.Count(p => p.IsOwner == true) > 0)
+                        
+                        {
+                            var userId = businessUsers.FirstOrDefault(p => p.IsOwner == true).UserID;
+                            if (userId != 0 || userId != null)
+                                item.Owner = new UsersBL().Get(userId);
+                        }
+                    }
+                    item.Count = businessDataModels.ToList().Count;
                 }
-            return businessDataModels;
+            }
+            var businessDataModelsList = businessDataModels.ToList();
+            return businessDataModelsList;
         }
 
         public BusinessDataModel Create(BusinessDataModel dataModel)
@@ -273,6 +301,12 @@ namespace JobsInABA.Workflows
                 foreach (var item in businessDataModels)
                 {
                     item.Count = businessDataModels.Count;
+                    var businessUsers = new BusinessUserMapBL().Get().Where(p => p.BusinessID == item.BusinessID);
+                    if (businessUsers != null)
+                    {
+                        if (businessUsers.Count(p => p.IsOwner == true) >= 0)
+                            item.Owner = new UsersBL().Get(businessUsers.FirstOrDefault(p => p.IsOwner == true).UserID);
+                    }
                 }
             return businessDataModels;
         }

@@ -26,7 +26,7 @@ namespace JobsInABA.BL.DTOs
         public Int32 UserID { get; set; }
 
         [DataMember()]
-        public UserNoDetailDTO User { get; set; }
+        public UserDTO User { get; set; }
 
         [DataMember()]
         public Int32 User_UserID { get; set; }

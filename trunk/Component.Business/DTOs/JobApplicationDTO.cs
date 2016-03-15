@@ -32,6 +32,9 @@ namespace JobsInABA.BL.DTOs
         public Int32 Job_JobID { get; set; }
 
         [DataMember()]
+        public UserDTO User { get; set; }
+
+        [DataMember()]
         public Int32 User_UserID { get; set; }
 
         [DataMember()]

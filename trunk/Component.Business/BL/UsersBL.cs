@@ -21,6 +21,7 @@ namespace JobsInABA.BL
             }
         }
 
+
         public UserDTO CanLogIn(string username, string password)
         {
             int? userId = usersRepo.CanLogIn(username, password);
@@ -83,6 +84,7 @@ namespace JobsInABA.BL
             }
             return returnUser;
         }
+
 
         public bool Delete(int id)
         {

@@ -27,9 +27,24 @@ namespace JobsInABA.Workflows
                 if (userDTO != null)
                 {
                     userDataModel = Get(userDTO);
+                    if (userDataModel != null)
+                        if (userDataModel.ExprienceModal != null)
+                            foreach (var exprience in userDataModel.ExprienceModal)
+                            {
+                                exprience.Business.Services = new ServiceBL().Get().Where(p => p.BusinessID == exprience.BusinessID).ToList();
+                            }
+
                 }
             }
             return userDataModel;
+        }
+        
+        public List<UserDataModel> GetUsersBySearch(string searchText, int from, int to)
+        {
+            List<UserDataModel> userDataModels = new List<UserDataModel>();
+            List<UserDTO> userDTOs = usersBL.GetUsersBySearch(searchText, from, to);
+            userDataModels = userDTOs.Select(userdto => Get(userdto)).ToList();
+            return userDataModels;
         }
 
         public UserDataModel CanLogIn(string username, string password)
@@ -83,14 +98,16 @@ namespace JobsInABA.Workflows
 
             userDataModels = userDTOs.Select(userdto => Get(userdto)).ToList();
 
-            return userDataModels;
-        }
+            if (userDataModels != null)
+                foreach (var userDataModel in userDataModels)
+                {
+                    if (userDataModel.ExprienceModal != null)
+                        foreach (var exprience in userDataModel.ExprienceModal)
+                        {
+                            exprience.Business.Services = new ServiceBL().Get().Where(p => p.BusinessID == exprience.BusinessID).ToList();
+                        }
+                }
 
-        public List<UserDataModel> GetUsersBySearch(string searchText, int from, int to)
-        {
-            List<UserDataModel> userDataModels = new List<UserDataModel>();
-            List<UserDTO> userDTOs = usersBL.GetUsersBySearch(searchText, from, to);
-            userDataModels = userDTOs.Select(userdto => Get(userdto)).ToList();
             return userDataModels;
         }
 

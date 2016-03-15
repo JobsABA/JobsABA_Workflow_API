@@ -20,10 +20,7 @@ namespace JobsInABA.BL.DTOs.Assemblers
         /// <param name="dto"><see cref="PhoneDTO"/> converted from <see cref="Phone"/>.</param>
         static partial void OnDTO(this Language entity, LanguageDTO dto)
         {
-            if (entity.User != null)
-            {
-                dto.User = UserNoDetailAssembler.ToNoDetailDTO(entity.User);
-            }
+           
         }
 
         /// <summary>

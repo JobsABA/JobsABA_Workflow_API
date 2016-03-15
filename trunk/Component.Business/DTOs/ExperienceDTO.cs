@@ -44,6 +44,9 @@ namespace JobsInABA.BL.DTOs
         public Int32 Business_BusinessID { get; set; }
 
         [DataMember()]
+        public UserDTO User { get; set; }
+
+        [DataMember()]
         public Int32 User_UserID { get; set; }
 
         public ExperienceDTO()
