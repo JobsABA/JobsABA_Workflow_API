@@ -16,6 +16,7 @@ using JobsInABA.Workflows.Models;
 using System.Text;
 using JobsInABA.Web.Services;
 using JobsInABA.BL.DTOs;
+using Api.Services;
 
 namespace Api.Controllers
 {
@@ -65,49 +66,49 @@ namespace Api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUser(int id, UserDataModel user)
         {
-            user = new UserDataModel();
-            user.UserID = 55;
-            user.UserEmailAddress = user.UserAccountUserName = user.UserName = "Test32@gmail.com";
-            user.FirstName = "Test32 changed";
-            user.MiddleName = "User Middle";
-            user.LastName = "User Last";
-            user.DOB = DateTime.Now;
-            user.IsActive = true;
-            user.IsDeleted = false;
-            user.insuser = 50;
-            user.insdt = DateTime.Now;
-            user.upduser = 50;
-            user.upddt = DateTime.Now;
+            //user = new UserDataModel();
+            //user.UserID = 55;
+            //user.UserEmailAddress = user.UserAccountUserName = user.UserName = "Test32@gmail.com";
+            //user.FirstName = "Test32 changed";
+            //user.MiddleName = "User Middle";
+            //user.LastName = "User Last";
+            //user.DOB = DateTime.Now;
+            //user.IsActive = true;
+            //user.IsDeleted = false;
+            //user.insuser = 50;
+            //user.insdt = DateTime.Now;
+            //user.upduser = 50;
+            //user.upddt = DateTime.Now;
 
-            user.UserAccountID = 26;
-            user.UserAccountPassword = "Password";
-            user.UserAccountIsActive = true;
-            user.UserAccountIsDeleted = false;
-            user.UserAccountinsuser = 50;
-            user.UserAccountinsdt = DateTime.Now;
-            user.UserAccountupduser = 50;
-            user.UserAccountupddt = DateTime.Now;
+            //user.UserAccountID = 26;
+            //user.UserAccountPassword = "Password";
+            //user.UserAccountIsActive = true;
+            //user.UserAccountIsDeleted = false;
+            //user.UserAccountinsuser = 50;
+            //user.UserAccountinsdt = DateTime.Now;
+            //user.UserAccountupduser = 50;
+            //user.UserAccountupddt = DateTime.Now;
 
-            user.UserAddressID = 44;
-            user.UserAddressTitle = "Primary Address new ";
-            user.UserAddressLine1 = "New Address Line 11";
-            user.UserAddressLine2 = "New Address Line 22";
-            user.UserAddressLine3 = "New Address Line 3";
-            user.UserAddressCity = "Surat";
-            user.UserAddressState = "Gujarat";
-            user.UserAddressZipCode = "360001";
-            user.UserAddressCountryID = 2;
-            user.UserAddressAddressTypeID = 7;
+            //user.UserAddressID = 44;
+            //user.UserAddressTitle = "Primary Address new ";
+            //user.UserAddressLine1 = "New Address Line 11";
+            //user.UserAddressLine2 = "New Address Line 22";
+            //user.UserAddressLine3 = "New Address Line 3";
+            //user.UserAddressCity = "Surat";
+            //user.UserAddressState = "Gujarat";
+            //user.UserAddressZipCode = "360001";
+            //user.UserAddressCountryID = 2;
+            //user.UserAddressAddressTypeID = 7;
 
-            user.UserEmailID = 35;
-            user.UserEmailTypeID = 7;
+            //user.UserEmailID = 35;
+            //user.UserEmailTypeID = 7;
 
-            user.UserPhoneID = 47;
-            user.UserPhoneCountryID = 2;
-            user.UserPhoneAddressBookID = 34;
-            user.UserPhoneNumber = "8866148850";
-            user.UserPhoneExt = "+91";
-            user.UserPhoneTypeID = 7;
+            //user.UserPhoneID = 47;
+            //user.UserPhoneCountryID = 2;
+            //user.UserPhoneAddressBookID = 34;
+            //user.UserPhoneNumber = "8866148850";
+            //user.UserPhoneExt = "+91";
+            //user.UserPhoneTypeID = 7;
 
             if (!ModelState.IsValid)
             {
@@ -146,44 +147,44 @@ namespace Api.Controllers
             ////GetUsersByPaging(0, 2);
             //return Ok();
 
-            user = new UserDataModel();
-            user.UserEmailAddress = user.UserAccountUserName = user.UserName = "Test32@gmail.com";
-            user.FirstName = "Test32";
-            user.MiddleName = "User Middle";
-            user.LastName = "User Last";
-            user.DOB = DateTime.Now;
-            user.IsActive = true;
-            user.IsDeleted = false;
-            user.insuser = 50;
-            user.insdt = DateTime.Now;
-            user.upduser = 50;
-            user.upddt = DateTime.Now;
+            //user = new UserDataModel();
+            //user.UserEmailAddress = user.UserAccountUserName = user.UserName = "Test32@gmail.com";
+            //user.FirstName = "Test32";
+            //user.MiddleName = "User Middle";
+            //user.LastName = "User Last";
+            //user.DOB = DateTime.Now;
+            //user.IsActive = true;
+            //user.IsDeleted = false;
+            //user.insuser = 50;
+            //user.insdt = DateTime.Now;
+            //user.upduser = 50;
+            //user.upddt = DateTime.Now;
 
-            user.UserAccountPassword = "Password";
-            user.UserAccountIsActive = true;
-            user.UserAccountIsDeleted = false;
-            user.UserAccountinsuser = 50;
-            user.UserAccountinsdt = DateTime.Now;
-            user.UserAccountupduser = 50;
-            user.UserAccountupddt = DateTime.Now;
+            //user.UserAccountPassword = "Password";
+            //user.UserAccountIsActive = true;
+            //user.UserAccountIsDeleted = false;
+            //user.UserAccountinsuser = 50;
+            //user.UserAccountinsdt = DateTime.Now;
+            //user.UserAccountupduser = 50;
+            //user.UserAccountupddt = DateTime.Now;
 
-            user.UserAddressTitle = "Primary Address new ";
-            user.UserAddressLine1 = "New Address Line 11";
-            user.UserAddressLine2 = "New Address Line 22";
-            user.UserAddressLine3 = "New Address Line 3";
-            user.UserAddressCity = "Surat";
-            user.UserAddressState = "Gujarat";
-            user.UserAddressZipCode = "360001";
-            user.UserAddressCountryID = 2;
-            user.UserAddressAddressTypeID = 7;
+            //user.UserAddressTitle = "Primary Address new ";
+            //user.UserAddressLine1 = "New Address Line 11";
+            //user.UserAddressLine2 = "New Address Line 22";
+            //user.UserAddressLine3 = "New Address Line 3";
+            //user.UserAddressCity = "Surat";
+            //user.UserAddressState = "Gujarat";
+            //user.UserAddressZipCode = "360001";
+            //user.UserAddressCountryID = 2;
+            //user.UserAddressAddressTypeID = 7;
 
-            user.UserEmailTypeID = 7;
+            //user.UserEmailTypeID = 7;
 
-            user.UserPhoneCountryID = 2;
-            user.UserPhoneAddressBookID = 34;
-            user.UserPhoneNumber = "8866148850";
-            user.UserPhoneExt = "+91";
-            user.UserPhoneTypeID = 7;
+            //user.UserPhoneCountryID = 2;
+            //user.UserPhoneAddressBookID = 34;
+            //user.UserPhoneNumber = "8866148850";
+            //user.UserPhoneExt = "+91";
+            //user.UserPhoneTypeID = 7;
 
             if (!ModelState.IsValid)
             {
@@ -191,7 +192,7 @@ namespace Api.Controllers
             }
 
             var objUser = db.Create(user);
-            //EmailService.SendPasswordResetEmail(user.UserName, user.UserName);
+            EmailService.SendPasswordResetEmail(user.UserEmailAddress);
             return CreatedAtRoute("DefaultApi", new { id = user.UserID }, objUser);
         }
 

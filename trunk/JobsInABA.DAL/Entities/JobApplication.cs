@@ -42,6 +42,8 @@ public partial class JobApplication
 
     public virtual ICollection<JobApplicationState> JobApplicationStates { get; set; }
 
+    public virtual User User1 { get; set; }
+
 }
 
 }

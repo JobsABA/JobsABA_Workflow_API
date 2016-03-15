@@ -42,7 +42,8 @@ namespace JobsInABA.DAL.Repositories
         {
             if (db.JobApplications.Count(p => p.JobID == jobApplication.JobID && p.ApplicantUserID == jobApplication.ApplicantUserID) > 0)
                 return null;
-                db.JobApplications.Add(jobApplication);
+            jobApplication.ApplicationDate = DateTime.Now;
+            db.JobApplications.Add(jobApplication);
             db.SaveChanges();
 
             return jobApplication;

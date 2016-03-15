@@ -50,10 +50,15 @@ namespace JobsInABA.Workflows
         public UserDataModel CanLogIn(string username, string password)
         {
             var userDTO = usersBL.CanLogIn(username, password);
+            
             if (userDTO == null)
                 return null;
+
+            UserEmailDTO userEmailDTO = (userDTO.UserEmails != null) ? userDTO.UserEmails.Where(o => o.IsPrimary).FirstOrDefault() : null;
+            EmailDTO oPrimaryEmailDTO = (userEmailDTO != null) ? userEmailDTO.Email : null;
+
             return UserDataModelAssembler.ToDataModel(userDTO, null, null,
-                null, null, null, null, null, null, null, null);
+                null, oPrimaryEmailDTO, null, null, null, null, null, null);
         }
 
         public UserDataModel Get(UserDTO modelDTO)
@@ -84,8 +89,9 @@ namespace JobsInABA.Workflows
                 userDataModel = UserDataModelAssembler.ToDataModel(modelDTO, userAccountDTO, oPrimaryAddressDTO, oPrimaryPhoneDTO, oPrimaryEmailDTO, userExpriencelDTO, userAchievementlDTO, userEducationlDTO, userSkillDTO, userLanguageDTO, userImageDTO);
                 userDataModel.UserAddressID = (userAddressDTO != null) ? userAddressDTO.UserAddressID : 0;
                 userDataModel.UserPhoneID = (userPhoneDTO != null) ? userPhoneDTO.UserPhoneID : 0;
+                userDataModel.PhoneID = (userPhoneDTO != null) ? userPhoneDTO.PhoneID : 0;
                 userDataModel.UserEmailID = (userEmailDTO != null) ? userEmailDTO.UserEmailID : 0;
-
+                userDataModel.EmailID = (userEmailDTO != null) ? userEmailDTO.EmailID : 0;
             }
             return userDataModel;
         }
@@ -211,11 +217,13 @@ namespace JobsInABA.Workflows
                 UserAccountDTO userAccountDTO = new UserAccountDTO();
                 PhoneDTO phoneDTO = new PhoneDTO();
                 EmailDTO emailDTO = new EmailDTO();
+                AddressDTO addressDTO = new AddressDTO();
 
                 userDTO = UserDataModelAssembler.ToUserDTO(dataModel);
                 userAccountDTO = UserDataModelAssembler.ToUserAccountDTO(dataModel);
                 phoneDTO = UserDataModelAssembler.ToPhoneDTO(dataModel);
                 emailDTO = UserDataModelAssembler.ToEmailDTO(dataModel);
+                addressDTO = UserDataModelAssembler.ToAddressDTO(dataModel);
 
                 if (userDTO != null)
                 {
@@ -232,6 +240,10 @@ namespace JobsInABA.Workflows
                 if (emailDTO != null)
                 {
                     EmailsBL.Update(emailDTO);
+                }
+                if (addressDTO != null)
+                {
+                    AddressBL.Update(addressDTO);
                 }
             }
 

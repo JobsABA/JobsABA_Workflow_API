@@ -100,7 +100,9 @@
             EndDate: '',
         }
     }
+
     $scope.isUserBusinessOwner = true;
+    
     $scope.checkBusinessUserOwner = function () {
         var params = {
             bussinessID: $scope.BusinessId,
@@ -236,6 +238,11 @@
                 if (data[i].EndDate != null) {
                     data[i].EndDate = $rootScope.setDateformat(data[i].EndDate);
                 }
+                if (data[i].JobApplications != null && data[i].JobApplications.length > 0) {
+                    for (var j = 0; j < data[i].JobApplications.length; j++) {
+                        data[i].JobApplications[j].ApplicationDate = $rootScope.setDateformat(data[i].JobApplications[j].ApplicationDate)
+                    }
+                }
             }
             if (!$scope.isUserBusinessOwner) {
                 data = _.where(data, { IsActive: true });
@@ -317,22 +324,6 @@
             $scope["isJobApplication_" + id] = false;
         }
         else {
-
-            var params = {
-                JobID: id
-            }
-            $http.get($rootScope.API_PATH + "/Jobapplication/GetJobApplicationList", { params: params }).success(function (data) {
-                for (var i = 0; i < data.applicationList.length; i++) {
-                    if (data.applicationList[i].ApplicationDate != null) {
-                        data.applicationList[i].ApplicationDate = $filter('date')(data.applicationList[i].ApplicationDate.substr(6, 13), "MM-dd-yyyy");
-                    }
-                }
-
-                $scope.lstJobApplication = data.applicationList;
-
-            }).error(function (data) {
-                console.log(data);
-            });
             $scope["isJobApplication_" + id] = true;
         }
     }
@@ -348,20 +339,16 @@
     //}
 
     //chnage job isActive 
-    $scope.changeJobActive = function (jobID) {
-        var params = {
-            jobID: jobID
-        }
-        $http.get($rootScope.API_PATH + "/Jobapplication/ChangeJobDisplay", { params: params }).success(function (data) {
-            if (data.success == 1) {
-
-            }
-            else {
-                toastr.error("error in job activation toggle");
-            }
+    $scope.changeJobActive = function (obj) {
+        if (obj.IsActive)
+            obj.IsActive = false;
+        else
+            obj.IsActive = true;
+        $http.put($rootScope.API_PATH + "/Jobs/PutJob/" + obj.JobID, obj).success(function (data) {
+            //success
         }).error(function (data) {
-
-        })
+            toastr.error("error in job activation toggle");
+        });
     }
 
     //********************************* start edit specialist ************************************//

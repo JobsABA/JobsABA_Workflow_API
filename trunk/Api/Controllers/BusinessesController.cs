@@ -87,43 +87,43 @@ namespace Api.Controllers
         [ResponseType(typeof(BusinessDataModel))]
         public IHttpActionResult PostBusiness(BusinessDataModel business)
         {
-            business = new BusinessDataModel();
+            //business = new BusinessDataModel();
 
-            business.Name = "AB solutions pVT LTD";
-            business.Abbreviation = "Think Big";
-            business.BusinessTypeID = 7;
-            business.IsActive = true;
-            business.IsDeleted = false;
+            //business.Name = "AB solutions pVT LTD";
+            //business.Abbreviation = "Think Big";
+            //business.BusinessTypeID = 7;
+            //business.IsActive = true;
+            //business.IsDeleted = false;
 
-            business.BusinessUserMapTypeCodeId = 7;
-            business.BusinessUserId = 50;
+            //business.BusinessUserMapTypeCodeId = 7;
+            //business.BusinessUserId = 50;
 
-            business.Addresses.Add(new JobsInABA.BL.DTOs.AddressDTO()
-            {
-                Title = "New Line",
-                Line1 = "New Line 1",
-                Line2 = "New Line 2 ",
-                Line3 = "New Line 3",
-                City = "Ahmedabad",
-                State = "Gujarat",
-                ZipCode = "360001",
-                AddressTypeID = 7
-            });
+            //business.Addresses.Add(new JobsInABA.BL.DTOs.AddressDTO()
+            //{
+            //    Title = "New Line",
+            //    Line1 = "New Line 1",
+            //    Line2 = "New Line 2 ",
+            //    Line3 = "New Line 3",
+            //    City = "Ahmedabad",
+            //    State = "Gujarat",
+            //    ZipCode = "360001",
+            //    AddressTypeID = 7
+            //});
 
-            business.BusinessEmailAddress = "test32@gmail.com";
-            business.BusinessEmailTypeID = 7;
+            //business.BusinessEmailAddress = "test32@gmail.com";
+            //business.BusinessEmailTypeID = 7;
 
-            business.BusinessPhoneNumber = "8866000000";
-            business.BusinessPhoneExt = "+91";
+            //business.BusinessPhoneNumber = "8866000000";
+            //business.BusinessPhoneExt = "+91";
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Create(business);
+            var objBusiness = db.Create(business);
 
-            return CreatedAtRoute("DefaultApi", new { id = business.BusinessID }, business);
+            return CreatedAtRoute("DefaultApi", new { id = business.BusinessID }, objBusiness);
         }
 
         // DELETE: api/Businesses/5

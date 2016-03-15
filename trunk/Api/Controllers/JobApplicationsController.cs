@@ -89,7 +89,7 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
             if(db.CreateJobApplication(jobApplication)==null)
-                return StatusCode(HttpStatusCode.BadRequest);
+                return StatusCode(HttpStatusCode.Conflict);
 
             return CreatedAtRoute("DefaultApi", new { id = jobApplication.JobApplicationID }, jobApplication);
         }

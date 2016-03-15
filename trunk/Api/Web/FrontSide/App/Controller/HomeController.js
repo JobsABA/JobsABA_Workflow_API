@@ -50,11 +50,14 @@
     //for get job list
     $scope.getJobsinABAList = function () {
         var params = {
+            companyName: '',
+            jobTitle: '',
+            location:'',
             from: 0,
             to: 8
         }
         $("#homePageJobDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Jobs/GetJobByPaging", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
             $("#homePageJobDiv").unblock();
             if (data != null) {
                 for (var i = 0; i < data.length; i++) {
@@ -68,9 +71,21 @@
                         }
                         newRow.push(newobj);
                     }
-                    data[i]["businessImage"] = newRow[0];
+                    if (data[i].Business != null && data[i].Business != "" && data[i].Business.BusinessAddresses != undefined && data[i].Business.BusinessAddresses.length > 0) {
+                        for (var j = 0; j < data[i].Business.BusinessAddresses.length; j++) {
+                            if (data[i].Business.BusinessAddresses[j].IsPrimary == true) {
+                                newobj["City"] = data[i].Business.BusinessAddresses[j].Addres.City;
+                            }
+                        }
+                        newRow.push(newobj);
+                    }
+                    data[i]["businessDetail"] = newRow[0];
+
+                    data[i].StartDate = $rootScope.setDateformat(data[i].StartDate);
+                    data[i].EndDate = $rootScope.setDateformat(data[i].EndDate);
                 }
             }
+
             $scope.lstJobs = data;
         }).error(function (data) {
             console.log(JSON.stringify(data));

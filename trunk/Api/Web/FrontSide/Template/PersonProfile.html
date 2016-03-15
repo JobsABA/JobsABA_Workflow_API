@@ -29,28 +29,26 @@
                             <h5 class="text-center"><img src="assets/img/UserProfile.png" class="iconImage" /> <b>Personal Detail</b></h5>
                             <div class="">
                                 <div ng-mouseenter="onmousehover('isEditUserName','')" ng-mouseleave="onmouseleave('isEditUserName','')">
-                                    <div class="col-lg-10" ng-hide="isEditProfile_Name">
-                                        <span class="text">{{firstName}}</span>
-                                        <span class="text"> {{middleName}}</span>
-                                        <span class="text"> {{lastName}}</span>
-                                    </div>
-                                    <div ng-show="isEditUserName" class="col-lg-2">
-                                        <img class='iconImage' ng-click="editUserInfo('Name')" ng-hide="isEditProfile_Name" src='assets/img/EDIT_USE.png'>
+                                    <div class="" ng-hide="isEditProfile_Name">
+                                        <span class="text">{{userProfile.FirstName}}</span>
+                                        <span class="text"> {{userProfile.MiddleName}}</span>
+                                        <span class="text"> {{userProfile.LastName}}</span>
+                                        <img class='iconImage' ng-click="editUserInfo(userProfile,'Name')" ng-show="isEditUserName" src='assets/img/EDIT_USE.png'>
                                     </div>
                                 </div>
                                 <form name="userAddress">
                                     <div ng-show="isEditProfile_Name">
-                                        <input class='form-control' type='text' ng-model="firstName">
-                                        <input class='form-control' type='text' ng-model="middleName">
-                                        <input class='form-control' type='text' ng-model="lastName">
+                                        <input class='form-control' type='text' ng-model="userProfile.FirstName">
+                                        <input class='form-control' type='text' ng-model="userProfile.MiddleName">
+                                        <input class='form-control' type='text' ng-model="userProfile.LastName">
                                     </div>
                                     <div class="text-right">
-                                        <img class='iconImage' ng-click="updateUserInfo('Name')" ng-show="isEditProfile_Name" src='assets/img/Save.png'>
+                                        <img class='iconImage' ng-click="updateUserInfo(userProfile,'Name')" ng-show="isEditProfile_Name" src='assets/img/Save.png'>
                                         <img class='iconImage' ng-click="cancleUpdateUserInfo('Name')" ng-show="isEditProfile_Name" src='assets/img/Close Window-48.png'>
                                     </div>
                                 </form>
                             </div>
-                            <br /><br />
+                            <br />
                             <div>
                                 <h5 class="text-center">
                                     <img src="assets/img/Contact-details.png" class="iconImage" /> <b>Contact Detail</b>
@@ -58,55 +56,55 @@
                                 <div>
                                     <div ng-mouseenter="onmousehover('isEditAddress','')" ng-mouseleave="onmouseleave('isEditAddress','')">
                                         <div ng-hide="isEditProfile_Address">
-                                            <span class="text">{{address}}</span>
-                                            <span class="text">{{city}}</span>
-                                            <span class="text">{{state}}</span>
-                                            <span class="text">{{zip}}</span>
+                                            <span class="text">{{userProfile.UserAddressLine1}}</span>
+                                            <span class="text">{{userProfile.UserAddressCity}}</span>
+                                            <span class="text">{{userProfile.UserAddressState}}</span>
+                                            <span class="text">{{userProfile.UserAddressZipCode}}</span>
                                         </div>
                                         <div ng-show="isEditAddress" style="display:inline-block">
-                                            <img class='iconImage' ng-click="editUserInfo('Address')" ng-hide="isEditProfile_Address" src='assets/img/EDIT_USE.png'>
+                                            <img class='iconImage' ng-click="editUserInfo(userProfile,'Address')" ng-hide="isEditProfile_Address" src='assets/img/EDIT_USE.png'>
                                         </div>
                                     </div>
                                 </div>
                                 <div ng-show="isEditProfile_Address">
-                                    <input class='form-control' type='text' ng-model="address">
-                                    <input class='form-control' type='text' ng-model="city">
-                                    <input class='form-control' type='text' ng-model="state">
-                                    <input class='form-control' type='text' ng-model="zip">
+                                    <input class='form-control' type='text' ng-model="userProfile.UserAddressLine1">
+                                    <input class='form-control' type='text' ng-model="userProfile.UserAddressCity">
+                                    <input class='form-control' type='text' ng-model="userProfile.UserAddressState">
+                                    <input class='form-control' type='text' ng-model="userProfile.UserAddressZipCode">
                                 </div>
                                 <div ng-show="isEditProfile_Address" class="text-right">
-                                    <img class='iconImage' ng-click="updateUserInfo('Address')" src='assets/img/Save.png'>
+                                    <img class='iconImage' ng-click="updateUserInfo(userProfile,'Address')" src='assets/img/Save.png'>
                                     <img class='iconImage' ng-click="cancleUpdateUserInfo('Address')" src='assets/img/Close Window-48.png'>
                                 </div>
                             </div>
 
                             <div>
                                 <div ng-mouseenter="onmousehover('isEditEmail','')" ng-mouseleave="onmouseleave('isEditEmail','')">
-                                    <span class="text" ng-hide="isEditProfile_Email">{{email}}</span>
+                                    <span class="text" ng-hide="isEditProfile_Email">{{userProfile.UserEmailAddress}}</span>
                                     <div ng-show="isEditEmail" style="display:inline-block">
-                                        <img class='iconImage' ng-click="editUserInfo('Email')" ng-hide="isEditProfile_Email" src='assets/img/EDIT_USE.png'>
+                                        <img class='iconImage' ng-click="editUserInfo(userProfile,'Email')" ng-hide="isEditProfile_Email" src='assets/img/EDIT_USE.png'>
                                     </div>
                                 </div>
                                 <div>
-                                    <input class='form-control' type='text' ng-model="email" ng-show="isEditProfile_Email">
+                                    <input class='form-control' type='text' ng-model="userProfile.UserEmailAddress" ng-show="isEditProfile_Email">
                                 </div>
                                 <div class="text-right">
-                                    <img class='iconImage' ng-click="updateUserInfo('Email')" ng-show="isEditProfile_Email" src='assets/img/Save.png'>
+                                    <img class='iconImage' ng-click="updateUserInfo(userProfile,'Email')" ng-show="isEditProfile_Email" src='assets/img/Save.png'>
                                     <img class='iconImage' ng-click="cancleUpdateUserInfo('Email')" ng-show="isEditProfile_Email" src='assets/img/Close Window-48.png'>
                                 </div>
                             </div>
                             <div>
                                 <div ng-mouseenter="onmousehover('isEditNumber','')" ng-mouseleave="onmouseleave('isEditNumber','')">
-                                    <span class="text" ng-hide="isEditProfile_Phone">{{phoneNo}}</span>
+                                    <span class="text" ng-hide="isEditProfile_Phone">{{userProfile.UserPhoneNumber}}</span>
                                     <div ng-show="isEditNumber" style="display:inline-block;">
-                                        <img class='iconImage' ng-click="editUserInfo('Phone')" ng-hide="isEditProfile_Phone" style='width: 18px;  cursor:pointer;' src='assets/img/EDIT_USE.png'>
+                                        <img class='iconImage' ng-click="editUserInfo(userProfile,'Phone')" ng-hide="isEditProfile_Phone" style='width: 18px;  cursor:pointer;' src='assets/img/EDIT_USE.png'>
                                     </div>
                                 </div>
                                 <div>
-                                    <input class='form-control' type='text' ng-model="phoneNo" ng-show="isEditProfile_Phone">
+                                    <input class='form-control' type='text' ng-model="userProfile.UserPhoneNumber" ng-show="isEditProfile_Phone">
                                 </div>
                                 <div class="text-right">
-                                    <img class='iconImage' ng-click="updateUserInfo('Phone')" ng-show="isEditProfile_Phone" src='assets/img/Save.png'>
+                                    <img class='iconImage' ng-click="updateUserInfo(userProfile,'Phone')" ng-show="isEditProfile_Phone" src='assets/img/Save.png'>
                                     <img class='iconImage' ng-click="cancleUpdateUserInfo('Phone')" ng-show="isEditProfile_Phone" src='assets/img/Close Window-48.png'>
                                 </div>
                             </div>
@@ -243,20 +241,20 @@
                         <h4><img class="iconImage" src="assets/img/User-Summery.png" /> Summery</h4>
                     </div>
                     <div class="col-lg-2 text-right">
-                        <img class="iconImage" src="assets/img/EDIT_USE.png" ng-show="isEditUserSummery" ng-click="isEditSummery=true">
+                        <img class="iconImage" src="assets/img/EDIT_USE.png" ng-show="isEditUserSummery" ng-click="editUserInfo(userProfile,'Description')">
                     </div>
                     <hr style="clear:both;" />
                     <div class="col-lg-12">
-                        <div ng-show="isEditSummery">
+                        <div ng-show="isEditProfile_Description">
                             <div>
-                                <textarea class="form-control" ng-model="Summary" style="resize:none; height:200px;"></textarea>
+                                <textarea class="form-control" ng-model="userProfile.Description" style="resize:none; height:200px;"></textarea>
                             </div>
                             <div class="text-right">
-                                <img class="iconImage" src="assets/img/Save.png" ng-click="updateProfileSummery()">
-                                <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isEditSummery=false">
+                                <img class="iconImage" src="assets/img/Save.png" ng-click="updateUserInfo(userProfile,'Description')">
+                                <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="cancleUpdateUserInfo('Description')">
                             </div>
                         </div>
-                        <p><span>{{Summary}}</span></p>
+                        <p><span>{{userProfile.Description}}</span></p>
                     </div>
                 </div>
                 <br /><br />

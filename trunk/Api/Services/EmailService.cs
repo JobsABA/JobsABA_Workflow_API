@@ -11,43 +11,39 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Data;
 using System.Text;
+using System.IO;
 
-namespace JobsInABA.Web.Services
+namespace Api.Services
 {
     public static class EmailService
     {
-        public static void SendPasswordResetEmail(string toEmail, string link)
+        public static void SendPasswordResetEmail(string toEmail)
         {
-            DataTable table = new DataTable();
+            var domain = HttpContext.Current.Request.Url.Authority;
+            StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("/EmailTemplate/ConfirmRegistration.html"));
+            string readFile = reader.ReadToEnd();
+            string myString = "";
+            myString = readFile;
+            myString = myString.Replace("{USERNAME}", toEmail);
+            myString = myString.Replace("{VERIFICATION_LINK}", "http://" + domain + "/api/User/ConfirmRegistration?q=" + toEmail);
 
             // MailMessage class is present is System.Net.Mail namespace 
             MailMessage mailMessage = new MailMessage();
-            MailAddress fromMail = new MailAddress("info@jobsinaba.com");
+            MailAddress fromMail = new MailAddress("hardikmansaraa@gmail.com");
             mailMessage.From = fromMail;
             mailMessage.To.Add(toEmail);
-            // StringBuilder class is present in System.Text namespace 
-            StringBuilder sbEmailBody = new StringBuilder();
-            sbEmailBody.Append("Hi,<br/><br/>");
-            sbEmailBody.Append("Thanks for registering in JobsInABA.com!<br/><br/>");
-            sbEmailBody.Append("Kindly verify your email by clicking on below link:<br/>");
-            sbEmailBody.Append("'<a href='/Main/ActivateAccount/UserName='");
-            sbEmailBody.Append(link);
-            sbEmailBody.Append("'>click Me</a>");
-            sbEmailBody.Append("<br/>");
-            sbEmailBody.Append("<br/><br/>");
-            sbEmailBody.Append("<i>Thanks,</i><br/>");
-            sbEmailBody.Append("<b>JobsInABA</b>");
-
             mailMessage.IsBodyHtml = true;
-
-            mailMessage.Body = sbEmailBody.ToString();
+            mailMessage.Body = myString.ToString();
             mailMessage.Subject = "Email Verification";
-            SmtpClient smtpClient = new SmtpClient("smtp.emailsrvr.com", 587);
+
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.EnableSsl = true;
             smtpClient.Credentials = new System.Net.NetworkCredential()
             {
-                UserName = "gauravkumar.rajendrabhai@nuware.com",//input your username 
-                Password = "ladani#171191"
+                UserName = "hardikmansaraa@gmail.com",//input your username 
+                Password = "9898502525"
             };
+
             smtpClient.Send(mailMessage);
         }
     }

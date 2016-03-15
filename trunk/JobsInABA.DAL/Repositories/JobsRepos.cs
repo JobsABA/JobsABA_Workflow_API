@@ -19,6 +19,7 @@ namespace JobsInABA.DAL.Repositories
                 .Include(p => p.JobApplications)
                 .Include(o => o.JobApplications)
                 .Include(p => p.Business.BusinessUserMaps)
+                .Where(x => x.IsDeleted == false)
                 .ToList();
             return job;
         }
@@ -66,7 +67,9 @@ namespace JobsInABA.DAL.Repositories
                 return null;
             }
 
-            db.Jobs.Remove(job);
+            job.IsDeleted = true;
+            job.upddt = DateTime.Now;
+            //db.Jobs.Remove(job);
             db.SaveChanges();
 
             return job;
@@ -90,6 +93,7 @@ namespace JobsInABA.DAL.Repositories
                            .Include(bus => bus.Business)
                            .Include(p => p.Business.BusinessUserMaps)
                            .Include(busad => busad.Business.BusinessAddresses)
+                           .Where(x => x.IsDeleted == false && x.IsActive == true)
                            .ToList();
 
             if (!string.IsNullOrEmpty(companyName))

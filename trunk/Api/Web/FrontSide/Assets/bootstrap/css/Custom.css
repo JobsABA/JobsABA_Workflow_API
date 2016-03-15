@@ -350,7 +350,7 @@ a {
         top: auto;
         bottom: 0;
         padding: 10px 1em;
-        /*height: 2.4em;*/
+        height: 2.4em;
         background: #EE5A37;
         color: #3c4a50;
         -webkit-transition: -webkit-transform 0.35s;
