@@ -10,7 +10,7 @@
                                     <img id="profileimage" src="assets/img/no-image-user.png" style="max-width: 100%; width: 100%;" ng-if="ImgExt==null">
                                     <img id="profileimage" src="{{API_PATH_Image}}/FileUpload/UserImage/{{userId}}{{ImgExt}}?d={{randomNumber}}" style="max-width: 100%; width: 100%;" ng-if="ImgExt!=null">
                                 </div>
-                                <div class="text-center">
+                                <div class="text-center" ng-show="isOwnLogin">
                                     <img src="assets/img/EDIT_USE.png" id="profile" ng-click="isEditProfile_Image=true" class="iconImage">
                                 </div>
                             </div>
@@ -18,7 +18,7 @@
                                 <div class="col-lg-8">
                                     <input id="uploadimage" placeholder="Upload Image" type="file" class="form-control">
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-4" ng-show="isOwnLogin">
                                     <img class="iconImage" ng-click="isEditProfile_Image=false" ng-show="isEditProfile_Image" src='assets/img/Close Window-48.png'>
                                     <img class="iconImage" src="assets/img/Save.png" id="profile" ng-click="userImageUpload()">
                                 </div>
@@ -33,7 +33,9 @@
                                         <span class="text">{{userProfile.FirstName}}</span>
                                         <span class="text"> {{userProfile.MiddleName}}</span>
                                         <span class="text"> {{userProfile.LastName}}</span>
-                                        <img class='iconImage' ng-click="editUserInfo(userProfile,'Name')" ng-show="isEditUserName" src='assets/img/EDIT_USE.png'>
+                                        <span ng-show="isOwnLogin">
+                                            <img class='iconImage' ng-click="editUserInfo(userProfile,'Name')" ng-show="isEditUserName" src='assets/img/EDIT_USE.png'>
+                                        </span>
                                     </div>
                                 </div>
                                 <form name="userAddress">
@@ -42,7 +44,7 @@
                                         <input class='form-control' type='text' ng-model="userProfile.MiddleName">
                                         <input class='form-control' type='text' ng-model="userProfile.LastName">
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-right" ng-show="isOwnLogin">
                                         <img class='iconImage' ng-click="updateUserInfo(userProfile,'Name')" ng-show="isEditProfile_Name" src='assets/img/Save.png'>
                                         <img class='iconImage' ng-click="cancleUpdateUserInfo('Name')" ng-show="isEditProfile_Name" src='assets/img/Close Window-48.png'>
                                     </div>
@@ -61,7 +63,7 @@
                                             <span class="text">{{userProfile.UserAddressState}}</span>
                                             <span class="text">{{userProfile.UserAddressZipCode}}</span>
                                         </div>
-                                        <div ng-show="isEditAddress" style="display:inline-block">
+                                        <div ng-if=isOwnLogin ng-show="isEditAddress" style="display:inline-block">
                                             <img class='iconImage' ng-click="editUserInfo(userProfile,'Address')" ng-hide="isEditProfile_Address" src='assets/img/EDIT_USE.png'>
                                         </div>
                                     </div>
@@ -74,14 +76,15 @@
                                 </div>
                                 <div ng-show="isEditProfile_Address" class="text-right">
                                     <img class='iconImage' ng-click="updateUserInfo(userProfile,'Address')" src='assets/img/Save.png'>
-                                    <img class='iconImage' ng-click="cancleUpdateUserInfo('Address')" src='assets/img/Close Window-48.png'>
+                                    <img class='iconImage' ng-click="cancleUpdateUserInfo('Address')" ng-if="isOwnLogin" src='assets/img/Close Window-48.png'>
                                 </div>
                             </div>
 
                             <div>
                                 <div ng-mouseenter="onmousehover('isEditEmail','')" ng-mouseleave="onmouseleave('isEditEmail','')">
                                     <span class="text" ng-hide="isEditProfile_Email">{{userProfile.UserEmailAddress}}</span>
-                                    <div ng-show="isEditEmail" style="display:inline-block">
+                                    <span ng-if="userProfile.UserEmailAddress==undefined||userProfile.UserEmailAddress==null||userProfile.UserEmailAddress.length==0">Add Email </span>
+                                    <div ng-if="isOwnLogin" ng-show="isEditEmail" style="display:inline-block">
                                         <img class='iconImage' ng-click="editUserInfo(userProfile,'Email')" ng-hide="isEditProfile_Email" src='assets/img/EDIT_USE.png'>
                                     </div>
                                 </div>
@@ -96,7 +99,8 @@
                             <div>
                                 <div ng-mouseenter="onmousehover('isEditNumber','')" ng-mouseleave="onmouseleave('isEditNumber','')">
                                     <span class="text" ng-hide="isEditProfile_Phone">{{userProfile.UserPhoneNumber}}</span>
-                                    <div ng-show="isEditNumber" style="display:inline-block;">
+                                    <span ng-if="userProfile.UserPhoneNumber==undefined||userProfile.UserPhoneNumber==null||userProfile.UserPhoneNumber.length==0">Add Phone </span>
+                                    <div ng-if="isOwnLogin" ng-show="isEditNumber" style="display:inline-block;">
                                         <img class='iconImage' ng-click="editUserInfo(userProfile,'Phone')" ng-hide="isEditProfile_Phone" style='width: 18px;  cursor:pointer;' src='assets/img/EDIT_USE.png'>
                                     </div>
                                 </div>
@@ -240,7 +244,7 @@
                     <div class="col-lg-10">
                         <h4><img class="iconImage" src="assets/img/User-Summery.png" /> Summery</h4>
                     </div>
-                    <div class="col-lg-2 text-right">
+                    <div class="col-lg-2 text-right" ng-if="isOwnLogin">
                         <img class="iconImage" src="assets/img/EDIT_USE.png" ng-show="isEditUserSummery" ng-click="editUserInfo(userProfile,'Description')">
                     </div>
                     <hr style="clear:both;" />
@@ -255,6 +259,7 @@
                             </div>
                         </div>
                         <p><span>{{userProfile.Description}}</span></p>
+                        <p ng-if="userProfile.Description==null||userProfile.Description==''">No summery found.</p>
                     </div>
                 </div>
                 <br /><br />
@@ -263,7 +268,7 @@
                     <div class="col-lg-10">
                         <h4><img src="assets/img/Experince.png" class="iconImage" /> Experience Set</h4>
                     </div>
-                    <div class="col-lg-2 text-right addIconForuserProfile">
+                    <div class="col-lg-2 text-right addIconForuserProfile" ng-show="isOwnLogin">
                         <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isADDExprience=true">
                     </div>
 
@@ -296,7 +301,7 @@
                             <div>
                                 <input type="hidden" ng-model="userExprienceModel.BusinessID" id="hiddenBusinessID_{{o.BusinessID}}" class="bussinessList_ID" />
                                 <div class="form-group col-lg-12">
-                                    <input type="text" id="bussinessList_{{o.BusinessID}}" ng-model="userExprienceModel.BusinessName" class="form-control bussinessList" placeholder="CompanyName">
+                                    <input type="text" id="bussinessList_{{o.BusinessID}}" ng-model="userExprienceModel.Business.Name" class="form-control bussinessList" placeholder="CompanyName">
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <input type="text" class="form-control" placeholder="Job Position" ng-model="userExprienceModel.JobPossition">
@@ -322,7 +327,7 @@
                                 <p style="margin-left: 15px;"><span class="text">Location: </span>{{o.businessDetail.City}}</p>
                                 <p style="margin-left: 15px;"><span class="text">Start Date To End Date: </span>{{o.StartDate}} - {{o.EndDate}}</p>
                             </div>
-                            <div class="col-lg-4 text-right" ng-show="isEditUserExprience_{{o.ExperienceID}}">
+                            <div class="col-lg-4 text-right" ng-if="isOwnLogin" ng-show="isEditUserExprience_{{o.ExperienceID}}">
                                 <img class="iconImage" src="assets/img/EDIT_USE.png" ng-click="editExprience(o)">
                                 <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteExprience(o.ExperienceID)">
                             </div>
@@ -341,7 +346,7 @@
                         <h4><img src="assets/img/Acheivement.png" class="iconImage" /> Achievement &amp; Award</h4>
                     </div>
                     <div class="col-lg-2 text-right addIconForuserProfile">
-                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddAchievement=true">
+                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddAchievement=true" ng-show="isOwnLogin">
                     </div>
 
                     <div class="col-lg-12" ng-show="isAddAchievement">
@@ -354,7 +359,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <img class="iconImage" src="assets/img/Save.png" ng-click="addAchievement(userAchievementModel)">
+                            <img class="iconImage" src="assets/img/Save.png" ng-click="addAchievement(userAchievementModel)" ng-if="isOwnLogin">
                             <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isAddAchievement=false">
                         </div>
                     </div>
@@ -382,7 +387,7 @@
                                 <p class="companydata "><span class="text">{{$index+1}}. {{o.Name}}</span></p>
                                 <p class="companydata " style="margin-left:15px;"><span class="text">Date: {{o.Date}}</span></p>
                             </div>
-                            <div class="col-lg-4 text-right" ng-show="isEditUserAchievement_{{o.AchievementID}}">
+                            <div class="col-lg-4 text-right" ng-if="isOwnLogin" ng-show="isEditUserAchievement_{{o.AchievementID}}">
                                 <img class="iconImage" src="assets/img/EDIT_USE.png" ng-click="editAchievement(o)">
                                 <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteAchievement(o.AchievementID)">
                             </div>
@@ -401,7 +406,7 @@
                         <h4><img src="assets/img/Education.png" class="iconImage" /> Education Set</h4>
                     </div>
                     <div class="col-lg-2 text-right addIconForuserProfile">
-                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddEducationList=true">
+                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddEducationList=true" ng-show="isOwnLogin">
                     </div>
 
                     <div class="col-lg-12" ng-show="isAddEducationList">
@@ -419,8 +424,8 @@
                                 <input type="text" class="form-control datepicer" placeholder="END DATE" ng-model="userEducationModel.EndDate">
                             </div>
                         </div>
-                        <div class="text-right">
-                            <img class="iconImage" src="assets/img/Save.png" ng-click="addEducation(userEducationModel)">
+                        <div class="text-right" >
+                            <img class="iconImage" src="assets/img/Save.png" ng-click="addEducation(userEducationModel)" ng-if="isOwnLogin">
                             <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isAddEducationList=false">
                         </div>
                     </div>
@@ -456,7 +461,7 @@
                                 <p style="margin-left:15px;"><span class="text">Degree:{{o.Degree}}</span></p>
                                 <p style="margin-left:15px;"><span class="text">Start Date To End Date: {{o.StartDate}} - {{o.EndDate}}</span></p>
                             </div>
-                            <div class="col-lg-4 text-right" ng-show="isEditUserEducation_{{o.EducationID}}">
+                            <div class="col-lg-4 text-right" ng-show="isEditUserEducation_{{o.EducationID}}" ng-if="isOwnLogin">
                                 <img class="iconImage" src="assets/img/EDIT_USE.png" ng-click="editEducation(o)">
                                 <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteEducation(o.EducationID)">
                             </div>
@@ -475,7 +480,7 @@
                         <h4><img src="assets/img/Skill.png" class="iconImage" /> Skill Set</h4>
                     </div>
                     <div class="col-lg-2 text-right addIconForuserProfile">
-                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddSkill=true">
+                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddSkill=true" ng-show="isOwnLogin">
                     </div>
 
                     <div class="col-lg-12" ng-show="isAddSkill">
@@ -485,7 +490,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <img class="iconImage" src="assets/img/Save.png" ng-click="addSkill(userSkillModel)">
+                            <img class="iconImage" src="assets/img/Save.png" ng-click="addSkill(userSkillModel)" ng-if="isOwnLogin">
                             <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isAddSkill=false">
                         </div>
                     </div>
@@ -496,7 +501,7 @@
                             <div class="col-lg-8" style="margin-bottom:20px;">
                                 <p class="companydata "><span class="text"> {{$index+1}}. {{o.Skill1}}</span></p>
                             </div>
-                            <div class="col-lg-4 text-right" ng-show="isEditUserSkill_{{o.SkillID}}">
+                            <div class="col-lg-4 text-right" ng-show="isEditUserSkill_{{o.SkillID}}" ng-if="isOwnLogin">
                                 <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteSkill(o.SkillID)">
                             </div>
                         </div>
@@ -515,7 +520,7 @@
                         <h4><img src="assets/img/Language.png" class="iconImage" /> Language</h4>
                     </div>
                     <div class="col-lg-2 text-right addIconForuserProfile">
-                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddLanguage=true">
+                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isAddLanguage=true" ng-show="isOwnLogin">
                     </div>
 
                     <div class="col-lg-12" ng-show="isAddLanguage">
@@ -525,7 +530,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <img class="iconImage" src="assets/img/Save.png" ng-click="addLanguage(userLanguageModel)">
+                            <img class="iconImage" src="assets/img/Save.png" ng-click="addLanguage(userLanguageModel)" ng-if="isOwnLogin">
                             <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isAddLanguage=false">
                         </div>
                     </div>
@@ -536,7 +541,7 @@
                             <div class="col-lg-8" style="margin-bottom:20px;">
                                 <p class="companydata "><span class="text"> {{$index+1}}. {{o.LanguageName}}</span></p>
                             </div>
-                            <div class="col-lg-4 text-right" ng-show="isEditUserLanguage_{{o.LanguageID}}">
+                            <div class="col-lg-4 text-right" ng-show="isEditUserLanguage_{{o.LanguageID}}" ng-if="isOwnLogin">
                                 <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteLanguage(o.LanguageID)">
                             </div>
                         </div>

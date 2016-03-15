@@ -94,8 +94,8 @@ namespace JobsInABA.DAL.Repositories
             Address oAddressReturn = null;
             if (oAddress != null && oAddress.AddressID > 0)
             {
-                using (DBContext)
-                {
+                //using (DBContext)
+                //{
                     //Address u = DBContext.Addresses.FirstOrDefault(o=>o.AddressID==oAddress.AddressID);
                     DBContext.Addresses.Add(oAddress);
                     DBContext.Entry(oAddress).State = EntityState.Modified;
@@ -106,7 +106,7 @@ namespace JobsInABA.DAL.Repositories
                     //    DBContext.SaveChanges();
                     //    //oAddressReturn = u;
                     //}
-                }
+                //}
             }
 
             return oAddressReturn;

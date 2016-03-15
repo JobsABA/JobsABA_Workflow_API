@@ -16,7 +16,7 @@
 
     //for search job
     $scope.searchJob = function () {
-        $location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' + $scope.searchjobModel.Location + '&CompnayName=' + $scope.searchjobModel.CompnayName);
+        $location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' +  $("#txtCompanyName").val(), + '&CompnayName=' + $scope.searchjobModel.CompnayName);
     }
 
     //for display full description for job
@@ -35,11 +35,13 @@
     //get full company list
     $scope.getCompanyList = function () {
         var params = {
+            companyname: '',
+            city:'',
             from: 0,
             to: 8
         }
         $("#homePageBusinessListDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-        $http.get($rootScope.API_PATH + "/Businesses/GetBusinessesByPaging", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/Businesses/GetBusinessesBySearch", { params: params }).success(function (data) {
             $("#homePageBusinessListDiv").unblock();
             $scope.lstBusiness = data;
         }).error(function (data) {
@@ -78,6 +80,9 @@
                             }
                         }
                         newRow.push(newobj);
+                    }
+                    if (data[i].Business != null && data[i].Business.User != null && data[i].Business.User.UserID == $scope.userId) {
+                        newobj["IsBusinessOwner"] = 1;
                     }
                     data[i]["businessDetail"] = newRow[0];
 

@@ -13,8 +13,8 @@
             return;
         }
         var signIn = {
-            Username: 'asdads',
-            Password: 'asdadadads',
+            Username: $scope.username,
+            Password: $scope.password,
         }
         $http.post($rootScope.API_PATH + "Account/SignIn", signIn).success(function (data) {
 
@@ -39,5 +39,18 @@
         })
 
     }
+
+    //forgot password
+    $scope.ForgotPassword = function () {
+        var forgotEmail = {
+            ForgotEmailAddress: $scope.forgotPasswordLink
+        }
+        $http.post($rootScope.API_PATH + "Account/ForgotPassword", forgotEmail).success(function (data) {
+            toastr.success("password reset link send to you mail address.");
+        }).error(function (data) {
+            toastr.error("error in send forgot password link. try again");
+        });
+    }
+
     $scope.init();
 });

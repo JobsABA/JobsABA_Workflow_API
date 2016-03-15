@@ -101,8 +101,8 @@
         }
     }
 
-    $scope.isUserBusinessOwner = true;
-    
+    $scope.isUserBusinessOwner = false;
+
     $scope.checkBusinessUserOwner = function () {
         var params = {
             bussinessID: $scope.BusinessId,
@@ -134,13 +134,22 @@
             else
                 $scope.lstAchievelist = [];
 
-            if (data.Achievement != null) {
+            if (data.Addresses != null) {
                 $scope.lstLocationlist = data.Addresses;
             }
             else
                 $scope.lstLocationlist = [];
 
+            if (data.BusinessServices != null) {
+                $scope.lstServicelist = data.BusinessServices;
+            }
+            else
+                $scope.lstServicelist = [];
 
+            //check is owner 
+            if (data.Owner != null && data.Owner.UserID == $scope.userId) {
+                $scope.isUserBusinessOwner = true;
+            }
         }).error(function (data) {
             toastr.error("error in get company detail, try again");
         })
@@ -253,24 +262,7 @@
             //alert("error");
         });
     }
-    ////create job
-    //$scope.createJob = function (obj) {
-    //    if ($scope.jobsModel.Title == undefined || $scope.jobsModel.Title.length == 0) {
-    //        toastr.error('Enter job title');
-    //        return;
-    //    }
-    //    obj.BusinessID = $scope.BusinessId;
-    //    obj.JobTypeID = 4;
-    //    $http.post($rootScope.API_PATH + "/Jobs/PostJob", obj).success(function (data) {
-    //        $scope.isEditSummery = false;
-    //        $scope.initJobModel();
-    //        $scope.getJobList();
-    //        toastr.success("job created successfully");
-    //    }).error(function (data) {
-    //        toastr.error("error in job create");
-    //    })
-
-    //}
+    
 
     ////update job
     //$scope.updateJob = function (obj) {
@@ -366,10 +358,11 @@
         $("#companyProfileSpecialistDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $http.post($rootScope.API_PATH + "/Services/PostService", params).success(function (data) {
             $("#companyProfileSpecialistDiv").unblock();
-            toastr.success("Company Specialist added successfully");
+            $scope.lstServicelist.push(data);
+            toastr.success("Company service added successfully");
             $scope.IsAddSpecialist = false;
             $scope.initModel();
-            //$scope.getCompanySpecialist();
+
         }).error(function (data) {
             toastr.error("error in add service. try again.")
         });
@@ -379,18 +372,13 @@
         var params = {
             id: id
         }
-        $http.get($rootScope.API_PATH + "/Company/DeleteServices", { params: params }).success(function (data) {
-            if (data.success == 1) {
-                $scope.getCompanySpecialist();
-                toastr.success("Company specialist deleted successfully");
-            }
-            else {
-                toastr.error('Error in Delete job');
-                console.log(data.message);
-            }
-
+        $http.delete($rootScope.API_PATH + "/Services/DeleteService", { params: params }).success(function (data) {
+            $scope.lstServicelist = $.grep($scope.lstServicelist, function (list, index) {
+                return list.ServiceID != data.ServiceID
+            });
+            toastr.success("Company service deleted successfully");
         }).error(function (data) {
-            console.log(data);
+            toastr.error("error in delete service");
         })
     }
 

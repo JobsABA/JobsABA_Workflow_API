@@ -44,7 +44,7 @@
         });
     }
 
-    //get full company list with only name and Id
+    //get full company list 
     $rootScope.getFullCompanylist = function () {
         $http.get($rootScope.API_PATH + "/Businesses/GetBusinesses").success(function (data) {
             $rootScope.fulllLstBusiness = data;

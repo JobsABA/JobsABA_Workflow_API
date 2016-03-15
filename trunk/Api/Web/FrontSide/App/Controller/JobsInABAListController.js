@@ -17,6 +17,7 @@
         else
             $scope.CompnayName = '';
 
+        $scope.userId = parseInt(httpService.readCookie("uid"));
         $scope.getJobList();
         $scope.randomNumber = Math.random();
         $rootScope.autocompleteBusinessName();
@@ -50,9 +51,9 @@
             $scope.jobPagingModel.isComplete = false;
             var params = {
                 jobTitle: $scope.JobSearchModel.Keywords,
-                companyName: $scope.JobSearchModel.CompnayName,
+                companyName: $("#txtCompanyName").val(),//$scope.JobSearchModel.CompnayName,
                 location: $scope.JobSearchModel.Location,
-                userID: $rootScope.userId,
+                userID: $scope.userId,
                 from: $scope.jobPagingModel.initialFrom,
                 to: $scope.jobPagingModel.initialTo
             }
@@ -80,7 +81,9 @@
                                 }
                             }
                         }
-
+                        if (data[i].Business != null && data[i].Business.User != null && data[i].Business.User.UserID==$scope.userId) {
+                            newobj["IsBusinessOwner"] = 1;
+                        }
                         newobj["BusinessName"] = data[i].Business.Name;
 
                         newRow.push(newobj);
