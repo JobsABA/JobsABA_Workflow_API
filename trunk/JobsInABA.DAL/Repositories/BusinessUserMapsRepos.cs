@@ -15,6 +15,11 @@ namespace JobsInABA.DAL.Repositories
         {
             return db.BusinessUserMaps;
         }
+        //business wise usermap && owner
+        public IEnumerable<BusinessUserMap> GetBusinessWiseUserOwner(int businessID)
+        {
+            return db.BusinessUserMaps.Where(x => x.BusinessID == businessID && x.IsOwner == true);
+        }
 
         public BusinessUserMap GetBusinessUserMap(int id)
         {

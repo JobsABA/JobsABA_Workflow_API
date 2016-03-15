@@ -24,8 +24,8 @@ namespace JobsInABA.DAL.Repositories
         {
             Business oBusiness = null;
 
-            using (DBContext)
-            {
+            //using (DBContext)
+            //{
                 try
                 {
                     oBusiness = DBContext.Businesses.Where(p => p.BusinessID == Id)
@@ -63,7 +63,7 @@ namespace JobsInABA.DAL.Repositories
                 {
                     throw ex;
                 }
-            }
+            //}
 
             return oBusiness;
         }
@@ -138,17 +138,17 @@ namespace JobsInABA.DAL.Repositories
             Business oBusinessReturn = null;
             if (oBusiness != null && oBusiness.BusinessID > 0)
             {
-                using (DBContext)
-                {
+                //using (DBContext)
+                //{
                     Business u = this.GetBusinessByID(oBusiness.BusinessID);
 
                     if (u != null)
                     {
-                        Mapper.Map<Business, Business>(oBusiness, u);
+                        //Mapper.Map<Business, Business>(oBusiness, u);
                         DBContext.SaveChanges();
                         oBusinessReturn = u;
                     }
-                }
+                //}
             }
 
             return oBusinessReturn;

@@ -46,11 +46,11 @@ namespace Api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutExperience(int id, ExperienceDTO experience)
         {
-            experience = new ExperienceDTO();
-            experience.BusinessID = 18;
-            experience.JobPossition = "S SD";
-            experience.UserID = 50;
-            experience.ExperienceID = id;
+            //experience = new ExperienceDTO();
+            //experience.BusinessID = 18;
+            //experience.JobPossition = "S SD";
+            //experience.UserID = 50;
+            //experience.ExperienceID = id;
 
             if (!ModelState.IsValid)
             {
@@ -85,19 +85,19 @@ namespace Api.Controllers
         [ResponseType(typeof(ExperienceDTO))]
         public IHttpActionResult PostExperience(ExperienceDTO experience)
         {
-            experience = new ExperienceDTO();
-            experience.BusinessID = 18;
-            experience.JobPossition = "Software Developer";
-            experience.UserID = 50;
-            
+            //experience = new ExperienceDTO();
+            //experience.BusinessID = 18;
+            //experience.JobPossition = "Software Developer";
+            //experience.UserID = 50;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Create(experience);
+            var objExprience = db.Create(experience);
 
-            return CreatedAtRoute("DefaultApi", new { id = experience.ExperienceID }, experience);
+            return CreatedAtRoute("DefaultApi", new { id = experience.ExperienceID }, objExprience);
         }
 
         // DELETE: api/Experiences/5
@@ -117,7 +117,7 @@ namespace Api.Controllers
 
         private bool ExperienceExists(int id)
         {
-            return db.Get(id)!=null;
+            return db.Get(id) != null;
         }
     }
 }

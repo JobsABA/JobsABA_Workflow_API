@@ -104,12 +104,12 @@ namespace JobsInABA.Workflows
                             JobApplication.User = new UsersBL().Get(JobApplication.ApplicantUserID);
                         }
                     }
-                    var businessUsers = new BusinessUserMapBL().Get().Where(p => p.BusinessID == JobDTO.Business.BusinessID);
-                    if (businessUsers != null)
-                    {
-                        if (businessUsers.Count(p => p.IsOwner == true) > 0)
-                            JobDTO.Business.User = new UsersBL().Get(businessUsers.FirstOrDefault(p => p.IsOwner == true).UserID);
-                    }
+                    //var businessUsers = new BusinessUserMapBL().Get().Where(p => p.BusinessID == JobDTO.Business.BusinessID);
+                    //if (businessUsers != null)
+                    //{
+                    //    if (businessUsers.Count(p => p.IsOwner == true) > 0)
+                    //        JobDTO.Business.User = new UsersBL().Get(businessUsers.FirstOrDefault(p => p.IsOwner == true).UserID);
+                    //}
                 }
             }
             return JobDTOs.ToList();

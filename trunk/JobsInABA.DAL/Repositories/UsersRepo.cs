@@ -222,7 +222,7 @@ namespace JobsInABA.DAL.Repositories
             {
                 try
                 {
-                    model.IsActive = false;
+                    model.IsActive = true;
                     returnModel = DBContext.Users.Add(model);
                     DBContext.SaveChanges();
                 }

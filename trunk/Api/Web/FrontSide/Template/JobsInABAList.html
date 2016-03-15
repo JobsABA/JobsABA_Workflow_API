@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <form class="form-inline">
                 <div class="form-group">
-                    <input type="text" class="form-control bussinessList " ng-model="JobSearchModel.CompnayName" placeholder="COMPANY NAME" ng-enter="searchJobList()">
+                    <input type="text" class="form-control bussinessList " id="txtCompanyName" ng-model="JobSearchModel.CompnayName" placeholder="COMPANY NAME" ng-enter="searchJobList()">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="JobSearchModel.Keywords" placeholder="KEY WORD" ng-enter="searchJobList()">
@@ -27,7 +27,8 @@
         <br /><br />
         <div class="col-lg-12">
             <div class="col-lg-3">
-                <img src="assets/img/JobSearch.png" class="iconImage" title="Search Job" alt="Search Job" />
+                <!--<img src="assets/img/JobSearch.png" class="iconImage" title="Search Job" alt="Search Job" />-->
+                <h4>Search Job</h4>
                 <div style="border: 1px solid gainsboro;padding: 10px;">
                     <!--<h4>Search Job</h4>-->
                     <div class="form-group">
@@ -90,7 +91,7 @@
                                 </div>
                                 <div class="col-lg-2 text-right">
                                     <a ng-if="UserLogin==false" href="#login" class="btn btn-blue" style="color:white">Apply</a>
-                                    <a ng-if="UserLogin==true && o.IsBusinessOwner!=1" class="btn btn-blue" href="javascript:void(0)" ng-click="applyJob(o.JobID)" style="color:white">Apply</a>
+                                    <a ng-if="UserLogin==true && o.businessDetail.IsBusinessOwner!=1" class="btn btn-blue" href="javascript:void(0)" ng-click="applyJob(o.JobID)" style="color:white">Apply</a>
                                 </div>
 
                             </div>

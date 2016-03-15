@@ -32,10 +32,10 @@ namespace Api.Controllers
             return db.GetJobsBySearch(companyName,jobTitle,location, from, to);
         }
 
-        public IEnumerable<JobDTO> GetJobByPaging(int from, int to)
-        {
-            return db.GetJobs().OrderBy(p => p.EndDate).Skip(from).Take(to - from);
-        }
+        //public IEnumerable<JobDTO> GetJobByPaging(int from, int to)
+        //{
+        //    return db.GetJobs().OrderBy(p => p.EndDate).Skip(from).Take(to - from);
+        //}
 
         public IEnumerable<JobDTO> GetJobByBusinessID(int id)
         {

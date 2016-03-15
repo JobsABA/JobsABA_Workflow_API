@@ -28,6 +28,14 @@ namespace JobsInABA.BL
             return oBusinessUserMapDTO;
         }
 
+        //GetBusinessWiseUserOwner
+        public List<BusinessUserMapDTO> GetBusinessOwner(int businessID)
+        {
+            List<BusinessUserMapDTO> oBusinessUserMapDTO = null;
+            oBusinessUserMapDTO = businessUserMapRepos.GetBusinessWiseUserOwner(businessID).Select(p => p.ToDTO()).ToList();
+            return oBusinessUserMapDTO;
+        }
+
         public BusinessUserMapDTO Get(int id)
         {
             BusinessUserMapDTO oBusinessUserMapDTO = null;

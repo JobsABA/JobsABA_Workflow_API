@@ -16,23 +16,26 @@
                     <div class="form-group col-lg-12">
                         <input type="text" class="form-control" ng-model="username" placeholder="User Name" ng-class="{'complusoryClass':username==undefined}" ng-required="true">
                     </div>
-                    <div class="form-group col-lg-4">
+                    <div class="form-group col-lg-6">
                         <input type="text" class="form-control" ng-class="{'complusoryClass':firstName==undefined}" ng-model="firstName" placeholder="First Name" ng-required="true">
                     </div>
-                    <div class="form-group col-lg-4">
+                    <!--<div class="form-group col-lg-4">
                         <input type="text" class="form-control" ng-model="middleName" placeholder="Middle Name" ng-class="{'complusoryClass':middleName==undefined}" ng-required="true">
-                    </div>
-                    <div class="form-group col-lg-4">
+                    </div>-->
+                    <div class="form-group col-lg-6">
                         <input type="text" class="form-control" ng-model="lastName" placeholder="Last Name" ng-class="{'complusoryClass':lastName==undefined}" ng-required="true">
                     </div>
                     <!--<div class="form-group col-lg-6">
                         <input type="text" class="form-control datepicer" ng-model="DOB" placeholder="Select Birth Date">
                     </div>-->
-                    <div class="form-group col-lg-6">
+                    <div class="form-group col-lg-4">
                         <input type="text" class="form-control" ng-model="email" placeholder="Email Address" ng-class="{'complusoryClass':email==undefined}" ng-required="true">
                     </div>
-                    <div class="form-group col-lg-6">
-                        <input type="text" class="form-control" ng-model="phone" placeholder="Contact Number">
+                    <div class="form-group col-lg-4">
+                        <input type="text" class="form-control" ng-model="phone" placeholder="Phone Number">
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="text" class="form-control" ng-model="cellNumber" placeholder="Cell Number">
                     </div>
                     <div class="form-group col-lg-6">
                         <input type="password" class="form-control" ng-model="password" placeholder="Password" ng-class="{'complusoryClass':password==undefined}" ng-required="true">
@@ -84,7 +87,7 @@
                     <!-- Highest Education Level -->
                     <div class="form-group col-lg-4" ng-hide="isOtherEducation">
                         <select class="form-control" ng-model="education" ng-change="changeEducation()">
-                            <option value="">Add Highest Qualification</option>
+                            <option value="">Highest Qualification</option>
                             <option>High School Diploma/GED</option>
                             <option>Some College</option>
                             <option>Associate Degree</option>
@@ -110,7 +113,7 @@
                     <!-- hear From -->
                     <div class="form-group col-lg-4" ng-hide="isOtherRefrence">
                         <select class="form-control" ng-model="refrence" ng-change="changeRefrence()">
-                            <option value="">Hear From</option>
+                            <option value="">How did you hear about JobsInABA.com?</option>
                             <option>Search Engine</option>
                             <option>JobsInABA.com User</option>
                             <option>Link from a Website</option>
@@ -151,7 +154,7 @@
                             <input id="Pinterest" type="checkbox" />
                             <label for="Pinterest">Pinterest</label>
                            
-                            <input type="text" class="form-control col-lg-3" placeholder="Add Other Social Media">
+                            <input type="text" class="form-control col-lg-3" placeholder="Other Social Media">
                         </div>
                     </div>
 

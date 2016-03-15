@@ -1,8 +1,9 @@
-﻿app.controller('JobsController', function ($scope, httpService, $http, $routeParams, $rootScope, $filter) {
+﻿app.controller('JobsController', function ($scope, httpService, $http, $routeParams, $rootScope, $filter, $location) {
     $scope.init = function () {
         $scope.initModel();
         $scope.jobId = parseInt($routeParams.JobID);
-        if ($scope.jobId != undefined)
+        $scope.businessID = parseInt($routeParams.BusinessID);
+        if ($scope.jobId)
             $scope.getJobDetailById($scope.jobId);
         $scope.randomNumber = Math.random();
         $rootScope.reloadDatePicker();
@@ -11,7 +12,7 @@
     $scope.initModel = function () {
         $scope.jobsModel = {
             JobID: '',
-            BusinessID: '',
+            BusinessID: $scope.businessID,
             Title: '',
             Description: '',
             JobTypeID: '',
@@ -29,9 +30,7 @@
         var params = {
             id: id
         }
-        $("#jobDetailMain").block({ message: '<img src="Assets/img/loader.gif" />' });
         $http.get($rootScope.API_PATH + "/Jobs/GetJob/", { params: params }).then(function (data) {
-            console.log(data);
             if (data.data.StartDate != null) {
                 data.data.StartDate = $rootScope.setDateformat(data.data.StartDate);
             }
@@ -47,13 +46,42 @@
                 }
             }
             $scope.objJobDetail = data.data;
-            $("#jobDetailMain").unblock();
+            $scope.jobsModel = data.data;
         }, function (data) {
-            $("#jobDetailMain").unblock();
+
         });
     }
 
-    //Job Create
+    ////create job
+    $scope.createJob = function (obj) {
+        if ($scope.jobsModel.Title == undefined || $scope.jobsModel.Title.length == 0) {
+            toastr.error('Enter job title');
+            return;
+        }
+        obj.BusinessID = $scope.businessID;
+        obj.JobTypeID = 4;
+        if (obj.JobID == "") {
+            obj.JobID = 0;
+            $http.post($rootScope.API_PATH + "/Jobs/PostJob", obj).success(function (data) {
+                $scope.initModel();
+                toastr.success("job created successfully");
+                $location.path('/viewcompanyprofile/' + $scope.businessID);
+            }).error(function (data) {
+                toastr.error("error in job create");
+            })
+        }
+        else {
+            $http.put($rootScope.API_PATH + "/Jobs/PutJob/" + obj.JobID, obj).success(function (data) {
+                $scope.initModel();
+                toastr.success("job updated successfully");
+                $location.path('/viewcompanyprofile/' + $scope.businessID);
+            }).error(function (data) {
+                toastr.error("error in job update");
+            })
+        }
+
+
+    }
 
 
     $scope.init();

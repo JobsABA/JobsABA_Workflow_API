@@ -88,9 +88,9 @@ namespace JobsInABA.Web.Api
                 return BadRequest(ModelState);
             }
 
-            db.Create(service);
+            var objService = db.Create(service);
 
-            return CreatedAtRoute("DefaultApi", new { id = service.ServiceID }, service);
+            return CreatedAtRoute("DefaultApi", new { id = service.ServiceID }, objService);
         }
 
         // DELETE: api/Services/5

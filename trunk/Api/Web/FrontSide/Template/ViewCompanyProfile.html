@@ -244,7 +244,7 @@
                                     <div>
                                         <form id="" style=" text-align: right;" ng-show="IsAddSpecialist">
                                             <div>
-                                                <input type="text" placeholder="COMPANY SPECIALTIES " ng-model="addCompanySpecialistModel.Name" class="form-control">
+                                                <input type="text" placeholder="COMPANY SERVICES " ng-model="addCompanySpecialistModel.Name" class="form-control">
                                             </div>
                                             <div class="text-right">
                                                 <img class='iconImage' ng-if="isUserBusinessOwner==true" ng-click="addCompanySpecialist(addCompanySpecialistModel)" src='assets/img/Save.png'>
@@ -253,19 +253,19 @@
                                         </form>
                                     </div>
 
-                                    <div class="col-lg-12" ng-repeat="o in bussinessDetail.Service">
+                                    <div class="col-lg-12" ng-repeat="o in lstServicelist">
                                         <div style="width:100%;display:inline-block;" ng-mouseenter="onmousehover('isEditSpecialist_',o.ServiceID)" ng-mouseleave="onmouseleave('isEditSpecialist_',o.ServiceID)">
-                                            <p style="width: 75%;float: left;">{{$index+1}}. {{o.Name}}</p>
+                                            <p style="width: 91%;float: left;">{{$index+1}}. {{o.Name}}</p>
                                             <a class="btn-delete" href="javascript:void(0)" ng-if="isUserBusinessOwner==true" ng-show="isEditSpecialist_{{o.ServiceID}}" ng-click="deleteSpecialist(o.ServiceID)"><img src="assets/img/delete-48.png" class="iconImage"></a>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" ng-if="objSpecialist.length==0">
-                                        <p>No Specialist Available.</p>
+                                    <div class="col-lg-12" ng-if="lstServicelist.length==0">
+                                        <p>No Service Available.</p>
                                     </div>
                                 </div>
                             </div>
                             <!-- Employee -->
-                            <div class="col-lg-6">
+                            <!--<div class="col-lg-6">
                                 <div id="companyProfileEmployeeDiv">
                                     <div class="headerDiv">
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -322,9 +322,9 @@
                                         <p>No Employee Available.</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <!-- ACHIEVEMENT -->
-                            <div class="col-lg-6">
+                            <!--<div class="col-lg-6">
                                 <div id="companyProfileAchieveDiv">
                                     <div class="headerDiv">
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -368,9 +368,9 @@
                                         <p>No Achievement Available.</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <!-- Branch -->
-                            <div class="col-lg-6 col-md-6 col-xs-12">
+                            <!--<div class="col-lg-6 col-md-6 col-xs-12">
                                 <div id="companyProfileLocationDiv">
                                     <div class="headerDiv">
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -423,7 +423,7 @@
                                         <p>No Location Available.</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <hr class="hrDivider" />
 
@@ -437,7 +437,7 @@
 
                                         </div>
                                         <div class="col-lg-2 text-right  addIconForCompanyProfile">
-                                            <a href="#createjob" ng-show="isUserBusinessOwner">
+                                            <a href="#createjob/{{bussinessDetail.BusinessID}}" ng-show="isUserBusinessOwner">
                                                 <img class="iconImage" src="/assets/img/addition-sign.png" ng-hide="isEditSummery">
                                             </a>
                                         </div>
@@ -505,12 +505,12 @@
                                                                 {{$index+1}}.
                                                             </div>
                                                             <div class="col-lg-10 col-md-10 col-xs-10">
-                                                                <p>{{oJobApp.ApplicantUserID}}</p>
+                                                                <p><a href="#personprofile/{{oJobApp.User.UserID}}">{{oJobApp.User.UserName}}</a> </p>
                                                                 <p>Applied on <span class="">{{oJobApp.ApplicationDate}}</span> </p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-if="o.JobApplications.length==0">
+                                                    <div class="col-lg-12" ng-if="o.JobApplications==null ||o.JobApplications.length==0">
                                                         <p>No application for this job.</p>
                                                     </div>
                                                 </div>
@@ -532,7 +532,7 @@
                                             </div>
                                             <div class="col-lg-1 text-right">
                                                 <img ng-if="UserLogin==true && isUserBusinessOwner==true" src="assets/img/ApplicationView.png" title="View Application List" ng-click="viewApplivation(o.JobID)" class="iconImage" />
-                                                <a href="#updateJob/{{o.JobID}}"><img ng-if="isUserBusinessOwner==true" ng-show="isMainEditJobList_{{o.JobID}}" class='iconImage' src='assets/img/EDIT_USE.png'></a>
+                                                <a href="#updateJob/{{o.JobID}}/{{bussinessDetail.BusinessID}}"><img ng-if="isUserBusinessOwner==true" ng-show="isMainEditJobList_{{o.JobID}}" class='iconImage' src='assets/img/EDIT_USE.png'></a>
                                                 <img ng-if="isUserBusinessOwner==true" ng-show="isMainEditJobList_{{o.JobID}}" class='iconImage' ng-click="deleteJob(o.JobID)" src='assets/img/delete-48.png'>
 
                                             </div>

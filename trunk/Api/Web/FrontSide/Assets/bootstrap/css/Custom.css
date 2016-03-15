@@ -349,8 +349,8 @@ a {
         left: 0;
         top: auto;
         bottom: 0;
-        padding: 10px 1em;
-        height: 2.4em;
+        padding: 7px 1em;
+        height: 2em;
         background: #EE5A37;
         color: #3c4a50;
         -webkit-transition: -webkit-transform 0.35s;
@@ -666,3 +666,16 @@ hr {
 #companyProfilemainDiv .row {
     background: white !important;
 }
+
+/*::-webkit-input-placeholder {
+    font-size:12px;
+}
+:-moz-placeholder {
+    font-size:11px;
+}
+::-moz-placeholder {
+    font-size:11px;
+}
+:-ms-input-placeholder {
+    font-size:11px;
+}*/

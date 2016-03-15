@@ -1,9 +1,22 @@
-﻿app.controller('PersonProfileController', function ($scope, httpService, $rootScope, $http, $location, $route, $filter) {
+﻿app.controller('PersonProfileController', function ($scope, httpService, $rootScope, $http, $location, $route, $filter, $routeParams) {
 
     $scope.init = function () {
         $scope.initModel();
+        $scope.iniiUserInfoModel();
         $rootScope.loginUserName = httpService.readCookie("uname");
-        $scope.userId = parseInt(httpService.readCookie("uid"));
+
+        $scope.loginUserId = parseInt(httpService.readCookie("uid"));
+        $scope.isOwnLogin = true;
+        $scope.routeUserID = parseInt($routeParams.UserID);
+        if ($scope.routeUserID) {
+            $scope.userId = $scope.routeUserID;
+            if ($scope.routeUserID != $scope.loginUserId) {
+                $scope.isOwnLogin = false;
+            }
+        }
+        else
+            $scope.userId = $scope.loginUserId;
+
         $rootScope.IsPersonProfile == 1;
         $rootScope.IsPersonalProfile = true;
         $scope.isEditProfile_Image = true;
@@ -15,8 +28,7 @@
         $scope.getLoginUserDetail($scope.userId);
     }
 
-    $scope.initModel = function () {
-
+    $scope.iniiUserInfoModel = function () {
         $scope.userProfile = {
             UserID: '',
             UserEmailAddress: '',
@@ -33,10 +45,15 @@
             UserAddressZipCode: '',
             UserAddressAddressTypeID: 1,
             UserPhoneNumber: '',
-            Description:''
+            Description: ''
 
 
         }
+    }
+
+    $scope.initModel = function () {
+
+
 
         $scope.userExprienceModel = {
             UserID: $scope.userId,
@@ -101,7 +118,7 @@
                     if (data.ExprienceModal[i].Business != null) {
                         newObj["BusinessName"] = data.ExprienceModal[i].Business.Name;
                         newObj["City"] = "";
-                        if (data.ExprienceModal[i].Business.BusinessAddresses.length > 0) {
+                        if (data.ExprienceModal[i].Business != null && data.ExprienceModal[i].Business.BusinessAddresses != null && data.ExprienceModal[i].Business.BusinessAddresses.length > 0) {
                             for (var j = 0; j < data.ExprienceModal[i].Business.BusinessAddresses.length; j++) {
                                 if (data.ExprienceModal[i].Business.BusinessAddresses[j].IsPrimary == true) {
                                     newObj["City"] = data.ExprienceModal[i].Business.BusinessAddresses[j].Addres.City;
@@ -196,7 +213,7 @@
     }
 
     //update user inforamtion
-    $scope.updateUserInfo = function (objUser,pname) {
+    $scope.updateUserInfo = function (objUser, pname) {
         var params = {
             id: $scope.userId
         }
@@ -211,7 +228,7 @@
     }
 
     //hide/show edit block for user informaiton update
-    $scope.editUserInfo = function (userProfile,pname) {
+    $scope.editUserInfo = function (userProfile, pname) {
         $scope.copyUserInfoObject = angular.copy(userProfile);
         $scope["isEditProfile_" + pname] = true;
     }
@@ -227,24 +244,19 @@
     //add user exprience
     $scope.addExprience = function (obj) {
         var name = $(".bussinessList").val();
-        var isBusinessFromllist = _.where($rootScope.lstBusiness, { Name: name }).length;
+        var isBusinessFromllist = _.where($rootScope.fulllLstBusiness, { Name: name }).length;
         if (isBusinessFromllist == 0) {
             toastr.error("select company name from list");
             return;
         }
         obj.BusinessID = parseInt($(".bussinessList_ID").val());
-
-        $http.post($rootScope.API_PATH + "/User/AddExprienceSet", obj).success(function (data) {
-            if (data.success == 1) {
-                toastr.success("Exprience added successfully");
-                $scope.getExprience();
-                $scope.initModel();
-                console.log(data);
-                $scope.isADDExprience = false;
-            }
-            else {
-                toastr.error("error in add exprience");
-            }
+        obj.ExperienceID = 0;
+        $http.post($rootScope.API_PATH + "/Experiences/PostExperience", obj).success(function (data) {
+            toastr.success("Exprience added successfully");
+            $scope.initModel();
+            $scope.isADDExprience = false;
+            $scope.getLoginUserDetail($scope.userId);
+            //$scope.lstUserExprience.push(data);
         }).error(function (data) {
             toastr.error("error in add exprience");
         })
@@ -258,7 +270,7 @@
 
     //edit exprience
     $scope.editExprience = function (obj) {
-
+        //$scope.userExprienceModel.BusinessName = obj.Business.Name;
         $scope.userExprienceModel = obj;
         $scope["isEditExprience_" + obj.ExperienceID] = true;
         $rootScope.autocompleteBusinessName();
@@ -268,14 +280,19 @@
 
     //update user exprience set
     $scope.updateExprience = function (obj) {
-        var name = $(".bussinessList").val();
-        var isBusinessFromllist = _.where($rootScope.lstBusiness, { Name: name }).length;
+        var name;
+        if ($(".bussinessList").val().length == 0)
+            name = obj.Business.Name;
+        else
+            name = $(".bussinessList").val();
+        var isBusinessFromllist = _.where($rootScope.fulllLstBusiness, { Name: name }).length;
         if (isBusinessFromllist == 0) {
             toastr.error("select company name from list");
             return;
         }
-        obj.BusinessID = parseInt($(".bussinessList_ID").val());
-
+        if ($(".bussinessList_ID").val().length > 0)
+            obj.BusinessID = parseInt($(".bussinessList_ID").val());
+        obj.UserID = $scope.userId;
         $http.put($rootScope.API_PATH + "/Experiences/PutExperience/" + obj.ExperienceID, obj).success(function (data) {
             toastr.success("exprience updated successfully");
             $scope.initModel();
@@ -304,6 +321,7 @@
     //add user Achievement
     $scope.addAchievement = function (obj) {
         obj.UserID = $scope.userId;
+        obj.AchievementID = 0;
         $http.post($rootScope.API_PATH + "/Achievements/PostAchievement", obj).success(function (data) {
             toastr.success("user award added successfully");
             $scope.initModel();
@@ -363,6 +381,7 @@
     //add user Education
     $scope.addEducation = function (obj) {
         obj.UserID = $scope.userId;
+        obj.EducationID = 0;
         $http.post($rootScope.API_PATH + "/Educations/PostEducation", obj).success(function (data) {
             toastr.success("education added successfully");
             $scope.initModel();
@@ -419,6 +438,7 @@
     //add user skill
     $scope.addSkill = function (obj) {
         obj.UserID = $scope.userId;
+        obj.SkillID = 0;
         $http.post($rootScope.API_PATH + "/Skills/PostSkill", obj).success(function (data) {
             toastr.success("skill added successfully");
             $scope.initModel();
@@ -448,6 +468,7 @@
     //add user LANGUAGE
     $scope.addLanguage = function (obj) {
         obj.UserID = $scope.userId;
+        obj.LanguageID = 0;
         $http.post($rootScope.API_PATH + "/Languages/PostLanguage", obj).success(function (data) {
             toastr.success("add langauge successfully");
             $scope.initModel();

@@ -208,6 +208,16 @@ namespace Api.Controllers
             return db.Get(id) != null;
         }
 
+
+        [HttpGet]
+        [Route("api/Users/ConfirmRegistration/{email}")]
+
+        public IEnumerable<string> ConfirmRegistration(string email)
+        {
+            return new string[] { "value3", "value4" };
+        }
+
+
     }
 
 }

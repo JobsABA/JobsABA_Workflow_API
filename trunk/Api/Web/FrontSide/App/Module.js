@@ -21,6 +21,10 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
         templateUrl: 'Template/PersonProfile.html',
         controller: 'PersonProfileController'
     })
+        .when('/personprofile/:UserID', {
+            templateUrl: 'Template/PersonProfile.html',
+            controller: 'PersonProfileController'
+        })
     .when('/companyprofile', {
         templateUrl: 'Template/CompanyProfile.html',
         controller: 'CompanyProfileController'
@@ -37,11 +41,11 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
     //    templateUrl: 'Template/PublishedJob.html',
     //    controller: 'JobsController'
     //})
-    .when('/createjob', {
+    .when('/createjob/:BusinessID', {
         templateUrl: 'Template/CreateJob.html',
         controller: 'JobsController'
     })
-    .when('/updateJob/:jobId', {
+    .when('/updateJob/:JobID/:BusinessID', {
         templateUrl: 'Template/CreateJob.html',
         controller: 'JobsController'
     })

@@ -40,7 +40,8 @@ namespace Api.Controllers
         [ResponseType(typeof(BusinessDataModel))]
         public IHttpActionResult GetBusiness(int id)
         {
-            BusinessDataModel BusinessDataModel = db.Get().FirstOrDefault(p => p.BusinessID == id);
+            //BusinessDataModel BusinessDataModel = db.Get().FirstOrDefault(p => p.BusinessID == id);
+            BusinessDataModel BusinessDataModel = db.Get(id);
             if (BusinessDataModel == null)
             {
                 return NotFound();
