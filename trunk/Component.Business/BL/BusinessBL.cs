@@ -36,7 +36,7 @@ namespace JobsInABA.BL
             return oBusinessDTO;
         }
 
-        
+
 
         public BusinessDTO Create(BusinessDTO modelDTO)
         {
@@ -78,9 +78,10 @@ namespace JobsInABA.BL
             _BusinessRepo.Dispose();
         }
 
-        public List<BusinessDTO> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
+        public List<BusinessDTO> GetBusinessesBySearch(string companyname, string city, int? from, int? to, out int count)
         {
-            return BusinessAssembler.ToDTOs(businessRepo.GetBusinessesBySearch(companyname,city, from, to));
+            var businessesBySearch = businessRepo.GetBusinessesBySearch(companyname, city, from, to, out count);
+            return BusinessAssembler.ToDTOs(businessesBySearch);
         }
 
 

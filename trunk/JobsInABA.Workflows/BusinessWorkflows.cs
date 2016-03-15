@@ -91,7 +91,6 @@ namespace JobsInABA.Workflows
                     if (businessUsers != null || businessUsers.Count > 0)
                     {
                         if (businessUsers.Count(p => p.IsOwner == true) > 0)
-                        
                         {
                             var userId = businessUsers.FirstOrDefault(p => p.IsOwner == true).UserID;
                             if (userId != 0 || userId != null)
@@ -295,12 +294,13 @@ namespace JobsInABA.Workflows
         public IList<BusinessDataModel> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
         {
             List<BusinessDataModel> businessDataModels = new List<BusinessDataModel>();
-            List<BusinessDTO> businessDTOs = businessBL.GetBusinessesBySearch(companyname, city, from, to);
+            int count = 0;
+            List<BusinessDTO> businessDTOs = businessBL.GetBusinessesBySearch(companyname, city, from, to, out count);
             businessDataModels = businessDTOs.Select(userdto => Get(userdto)).ToList();
             if (businessDataModels != null)
                 foreach (var item in businessDataModels)
                 {
-                    item.Count = businessDataModels.Count;
+                    item.Count = count;
                     var businessUsers = new BusinessUserMapBL().Get().Where(p => p.BusinessID == item.BusinessID);
                     if (businessUsers != null)
                     {

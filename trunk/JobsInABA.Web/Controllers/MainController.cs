@@ -31,5 +31,19 @@ namespace JobsInABA.Web.Controllers
 
             return Json(true);
         }
+
+        public ActionResult ActivateAccount(string UserName)
+        {
+            UserAccountRepo _user = new UserAccountRepo();
+
+            var users = _user.GetUserAccount();
+
+            var user = users.FirstOrDefault(p => p.UserName == UserName);
+
+            user.IsActive = true;
+            _user.UpdateUserAccount(user);
+
+            return Redirect(@"http://localhost:64872/#/login");
+        }
     }
 }

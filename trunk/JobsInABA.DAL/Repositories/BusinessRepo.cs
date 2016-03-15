@@ -178,10 +178,10 @@ namespace JobsInABA.DAL.Repositories
             _DBContext.Dispose();
         }
 
-        public IEnumerable<Business> GetBusinessesBySearch(string companyname, string city, int? from, int? to)
+        public IEnumerable<Business> GetBusinessesBySearch(string companyname, string city, int? from, int? to, out int totalBusinessCount)
         {
             List<Business> oBusinesss = new List<Business>();
-
+            totalBusinessCount = 0;
             try
             {
                 oBusinesss = DBContext.Businesses
@@ -228,7 +228,7 @@ namespace JobsInABA.DAL.Repositories
                                   select a).ToList();
                 }
 
-                int TotalBusinessCount = oBusinesss.Count();
+                totalBusinessCount = oBusinesss.Count();
 
                 if (from.HasValue && to.HasValue)
                 {

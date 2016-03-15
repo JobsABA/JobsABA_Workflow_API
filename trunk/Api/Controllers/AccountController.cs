@@ -74,8 +74,8 @@ namespace Api.Controllers
         {
             if (new UserWorkflows().Get().Count(p => p.UserName == username) > 0)
             {
-                //string link = username+"_"+DateTime.Now.ToShortTimeString();
-                string link = Membership.GeneratePassword(8, 2);
+                string link = username+"_"+DateTime.Now.ToShortTimeString();
+                //string link = Membership.GeneratePassword(8, 2);
                 EmailService.SendPasswordResetEmail(username, link);
                 return Ok();
             }

@@ -47,12 +47,14 @@ namespace JobsInABA.BL
 
         public IEnumerable<JobDTO> GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to)
         {
-            IEnumerable<JobDTO> oJob = JobAssembler.ToDTOs(jobRepos.GetJobsBySearch(companyName,jobTitle,location, from, to));
+            int count = 0;
+            var jobs = jobRepos.GetJobsBySearch(companyName, jobTitle, location, from, to, out count);
+            IEnumerable<JobDTO> oJob = JobAssembler.ToDTOs(jobs);
             if (oJob != null)
             {
                 foreach (var item in oJob)
                 {
-                    item.Count = oJob.Count();
+                    item.Count = count;
                 }
             }
             return oJob;

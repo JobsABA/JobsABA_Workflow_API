@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using JobsInABA.DAL.Entities;
 using JobsInABA.DAL.Repositories;
+using System.Text;
+using JobsInABA.Workflows.Models;
 
 namespace Api.Controllers
 {
@@ -21,6 +23,15 @@ namespace Api.Controllers
         public IEnumerable<UserAccount> GetUserAccounts()
         {
             return db.GetUserAccount();
+        }
+
+        // GET: api/UserAccounts
+        public UserAccount ModifiedPasswordByUserName(SignIn signIn)
+        {
+            var useraccount =  db.GetUserAccount().FirstOrDefault(p => p.UserName == signIn.Username);
+            useraccount.Password = Encoding.ASCII.GetBytes(signIn.Password);
+            new UserAccountRepo().UpdateUserAccount(useraccount);
+            return useraccount;
         }
 
         // GET: api/UserAccounts/5

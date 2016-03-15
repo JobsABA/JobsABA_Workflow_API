@@ -85,8 +85,9 @@ namespace JobsInABA.DAL.Repositories
             db.Dispose();
         }
 
-        public IEnumerable<Job> GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to)
+        public IEnumerable<Job> GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to, out int totalJob)
         {
+            totalJob = 0;
             var record = db.Jobs
                            .Include(p => p.JobApplications)
                            .Include(o => o.JobApplications)
@@ -111,7 +112,7 @@ namespace JobsInABA.DAL.Repositories
                           where b.IsPrimary == true && b.Address != null && b.Address.City != null && b.Address.City.ToLower().Contains(location.ToLower())
                           select a).ToList();
             }
-            int totalJob = record.Count();
+            totalJob = record.Count();
             if (from.HasValue && to.HasValue)
             {
                 record = record.OrderByDescending(x => x.insdt).Skip(from.Value).Take(to.Value - from.Value).ToList();
