@@ -12,8 +12,10 @@
         else
             $scope.Location = '';
 
-        if ($routeParams.CompnayName)
+        if ($routeParams.CompnayName) {
+            $("#txtCompanyName").val($routeParams.CompnayName);
             $scope.JobSearchModel.CompnayName = $routeParams.CompnayName;
+        }
         else
             $scope.CompnayName = '';
 
@@ -34,8 +36,8 @@
             isComplete: true,
             isLastRecord: false,
             initialFrom: 0,
-            initialTo: 4,
-            dataLoadPerReq: 4,
+            initialTo: 8,
+            dataLoadPerReq: 8,
             totalReocrd: 0,
         }
     }
@@ -82,7 +84,7 @@
                                 }
                             }
                         }
-                        if (data[i].Business != null && data[i].Business.User != null && data[i].Business.User.UserID==$scope.userId) {
+                        if (data[i].Business != null && data[i].Business.User != null && data[i].Business.User.UserID == $scope.userId) {
                             newobj["IsBusinessOwner"] = 1;
                         }
                         newobj["BusinessName"] = data[i].Business.Name;

@@ -60,6 +60,7 @@
             //for select menu
             $("a").click(function () {
                 var href = $(this).attr('href');
+                console.log(href);
                 var hrefList = ["#jobsInAba", "#abaServiceProvide", "#blog", "#contactUs"];
                 $("#navbar ul li").each(function () {
                     $(this).removeClass('activeMenu');
@@ -70,6 +71,13 @@
                 }
             });
 
+            $("#navbar ul li").click(function () {
+                if ($(window).width() <= 786)
+                    $(".navbar-toggle").click();
+            });
+
+            
+            
             //for scroll to top
             $('body').append('<div id="toTop" class="btn btn-orange"><i class="fa fa-arrow-up"></i></div>');
             $(window).scroll(function () {
@@ -84,7 +92,7 @@
                 return false;
             });
 
-           
+
         });
     </script>
 </head>

@@ -16,7 +16,8 @@
 
     //for search job
     $scope.searchJob = function () {
-        $location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' +  $("#txtCompanyName").val(), + '&CompnayName=' + $scope.searchjobModel.CompnayName);
+        //$location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' +  $("#txtCompanyName").val(), + '&CompnayName=' + $scope.searchjobModel.CompnayName);
+        $location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' + $scope.searchjobModel.Location + '&CompnayName=' + $("#txtCompanyName").val());
     }
 
     //for display full description for job
