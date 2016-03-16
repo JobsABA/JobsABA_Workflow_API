@@ -104,8 +104,8 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
     $rootScope.API_PATH = 'http://localhost:64872/api/';
     $rootScope.API_PATH_Image = 'http://localhost:64872/';
 
-    //$rootScope.API_PATH = 'http://dev.jobsinaba.com/api/';
-    //$rootScope.API_PATH_Image = 'http://dev.jobsinaba.com/';
+    //$rootScope.API_PATH = 'http://test.jobsinaba.com/api/';
+    //$rootScope.API_PATH_Image = 'http://test.jobsinaba.com/';
     
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if (current && current.$$route) {
@@ -120,6 +120,7 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
     });
     $rootScope.$on("$routeChangeSuccess", function (event, currentRoute, previousRoute) {
         window.scrollTo(0, 0);
+        
     });
 
     $rootScope.$watch(function () {
@@ -130,8 +131,11 @@ app.config(['$routeProvider', '$locationProvider', 'cfpLoadingBarProvider', func
         if (httpService.readCookie("uid") != null && httpService.readCookie("uid") != "") {
             $rootScope.UserLogin = true;
         }
-        else
+        else {
             $rootScope.UserLogin = false;
+            
+        }
+            
         //console.log('url has changed: ' + a);
         // show loading div, etc...
     });

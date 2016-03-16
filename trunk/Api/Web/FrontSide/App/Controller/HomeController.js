@@ -61,6 +61,7 @@
         $("#homePageJobDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
             $("#homePageJobDiv").unblock();
+            data = data.record;
             if (data != null) {
                 for (var i = 0; i < data.length; i++) {
                     var newobj = new Object();

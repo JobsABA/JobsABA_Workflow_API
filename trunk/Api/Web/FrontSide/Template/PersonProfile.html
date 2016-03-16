@@ -265,43 +265,19 @@
                 <br /><br />
                 <!-- Exprience set -->
                 <div id="personalProfileExprience" class="col-lg-12 userProfileBox">
-                    <div class="col-lg-10">
-                        <h4><img src="assets/img/Experince.png" class="iconImage" /> Experience Set</h4>
-                    </div>
-                    <div class="col-lg-2 text-right addIconForuserProfile" ng-show="isOwnLogin">
-                        <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isADDExprience=true">
-                    </div>
-
-                    <div class="col-lg-12" ng-show="isADDExprience">
-                        <div>
-                            <input type="hidden" ng-model="userExprienceModel.BusinessID" id="hiddenBusinessID_0" class="bussinessList_ID" />
-                            <div class="form-group col-lg-12">
-                                <input type="text" id="bussinessList_0" ng-model="userExprienceModel.BusinessName" class="form-control bussinessList" placeholder="CompanyName">
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <input type="text" class="form-control" placeholder="Job Position" ng-model="userExprienceModel.JobPossition">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <input type="text" class="form-control datepicer" placeholder="Start Date" ng-model="userExprienceModel.StartDate" id="startdate">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <input type="text" class="form-control datepicer" placeholder="End Date" ng-model="userExprienceModel.EndDate" id="enddate">
-                            </div>
+                    <div>
+                        <div class="col-lg-10">
+                            <h4><img src="assets/img/Experince.png" class="iconImage" /> Experience Set</h4>
                         </div>
-                        <div class="text-right">
-                            <img class="iconImage" src="assets/img/Save.png" ng-click="addExprience(userExprienceModel)">
-                            <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isADDExprience=false">
+                        <div class="col-lg-2 text-right addIconForuserProfile" ng-show="isOwnLogin">
+                            <img src="assets/img/addition-sign.png" class="iconImage" ng-click="isADDExprience=true">
                         </div>
-                    </div>
-                    <hr style="clear:both;" />
 
-                    <div ng-repeat="o in lstUserExprience">
-                        <div ng-show="isEditExprience_{{o.ExperienceID}}">
-                            <hr style="clear:both" />
+                        <div class="col-lg-12" ng-show="isADDExprience">
                             <div>
-                                <input type="hidden" ng-model="userExprienceModel.BusinessID" id="hiddenBusinessID_{{o.BusinessID}}" class="bussinessList_ID" />
+                                <input type="hidden" ng-model="userExprienceModel.BusinessID" id="hiddenBusinessID_0" class="bussinessList_ID" />
                                 <div class="form-group col-lg-12">
-                                    <input type="text" id="bussinessList_{{o.BusinessID}}" ng-model="userExprienceModel.Business.Name" class="form-control bussinessList" placeholder="CompanyName">
+                                    <input type="text" id="bussinessList_0" ng-model="userExprienceModel.BusinessName" class="form-control bussinessList" placeholder="CompanyName">
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <input type="text" class="form-control" placeholder="Job Position" ng-model="userExprienceModel.JobPossition">
@@ -314,29 +290,57 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                                <img class="iconImage" src="assets/img/Save.png" ng-click="updateExprience(userExprienceModel)">
-                                <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="cancelUpdateExperience(o.ExperienceID)">
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-12" style="line-height:1;" ng-mouseenter="onmousehover('isEditUserExprience_',o.ExperienceID)" ng-mouseleave="onmouseleave('isEditUserExprience_',o.ExperienceID)">
-                            <div class="col-lg-8" style="margin-bottom:20px;">
-                                <p><span class="text">{{$index+1}}. Company Name: </span><a style="float:none;" href="#viewcompanyprofile/{{o.BusinessID}}">{{o.businessDetail.BusinessName}}</a></p>
-                                <p style="margin-left: 15px;"><span class="text">Job Position: </span>{{o.JobPossition}}</p>
-                                <p style="margin-left: 15px;"><span class="text">Location: </span>{{o.businessDetail.City}}</p>
-                                <p style="margin-left: 15px;"><span class="text">Start Date To End Date: </span>{{o.StartDate}} - {{o.EndDate}}</p>
-                            </div>
-                            <div class="col-lg-4 text-right" ng-if="isOwnLogin" ng-show="isEditUserExprience_{{o.ExperienceID}}">
-                                <img class="iconImage" src="assets/img/EDIT_USE.png" ng-click="editExprience(o)">
-                                <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteExprience(o.ExperienceID)">
+                                <img class="iconImage" src="assets/img/Save.png" ng-click="addExprience(userExprienceModel)">
+                                <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="isADDExprience=false">
                             </div>
                         </div>
-                        <br /><br />
+                        <hr style="clear:both;" />
+
+                        <div ng-repeat="o in lstUserExprience">
+                            <div ng-show="isEditExprience_{{o.ExperienceID}}">
+                                <hr style="clear:both" />
+                                <div>
+                                    <input type="hidden" ng-model="userExprienceModel.BusinessID" id="hiddenBusinessID_{{o.BusinessID}}" class="bussinessList_ID" />
+                                    <div class="form-group col-lg-12">
+                                        <input type="text" id="bussinessList_{{o.BusinessID}}" ng-model="userExprienceModel.Business.Name" class="form-control bussinessList" placeholder="CompanyName">
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <input type="text" class="form-control" placeholder="Job Position" ng-model="userExprienceModel.JobPossition">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <input type="text" class="form-control datepicer" placeholder="Start Date" ng-model="userExprienceModel.StartDate" id="startdate">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <input type="text" class="form-control datepicer" placeholder="End Date" ng-model="userExprienceModel.EndDate" id="enddate">
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <img class="iconImage" src="assets/img/Save.png" ng-click="updateExprience(userExprienceModel)">
+                                    <img class="iconImage" src="assets/img/Close Window-48.png" ng-click="cancelUpdateExperience(o.ExperienceID)">
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-12" style="line-height:1;" ng-mouseenter="onmousehover('isEditUserExprience_',o.ExperienceID)" ng-mouseleave="onmouseleave('isEditUserExprience_',o.ExperienceID)">
+                                <div class="col-lg-8" style="margin-bottom:20px;">
+                                    <p><span class="text">{{$index+1}}. Company Name: </span><a style="float:none;" href="#viewcompanyprofile/{{o.BusinessID}}">{{o.businessDetail.BusinessName}}</a></p>
+                                    <p style="margin-left: 15px;"><span class="text">Job Position: </span>{{o.JobPossition}}</p>
+                                    <p style="margin-left: 15px;"><span class="text">Location: </span>{{o.businessDetail.City}}</p>
+                                    <p style="margin-left: 15px;"><span class="text">Start Date To End Date: </span>{{o.StartDate}} - {{o.EndDate}}</p>
+                                </div>
+                                <div class="col-lg-4 text-right" ng-if="isOwnLogin" ng-show="isEditUserExprience_{{o.ExperienceID}}">
+                                    <img class="iconImage" src="assets/img/EDIT_USE.png" ng-click="editExprience(o)">
+                                    <img class="iconImage" src="assets/img/Delete-48.png" ng-click="deleteExprience(o.ExperienceID)">
+                                </div>
+                            </div>
+                            <br /><br />
+                        </div>
+                        <div class="col-lg-12" ng-if="lstUserExprience.length==0">
+                            <p>No exprience found.</p>
+                        </div>
+
                     </div>
-                    <div class="col-lg-12" ng-if="lstUserExprience.length==0">
-                        <p>No exprience found.</p>
-                    </div>
+                    
                 </div>
 
                 <br /><br />

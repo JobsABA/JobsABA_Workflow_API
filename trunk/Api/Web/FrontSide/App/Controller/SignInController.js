@@ -8,6 +8,7 @@
     }
 
     $scope.login = function () {
+
         if ($scope.username.length == 0 || $scope.password.length == 0) {
             toastr.error("Enter username and password.");
             return;
@@ -17,11 +18,16 @@
             Password: $scope.password,
         }
         $http.post($rootScope.API_PATH + "Account/SignIn", signIn).success(function (data) {
-
             toastr.success("Login Successfully.");
-            httpService.createCookie("uid", data.UserID, 365);
-            httpService.createCookie("uname", data.UserEmailAddress, 365);
-            //httpService.createCookie("uname", data.userName, 365);
+
+            if ($scope.isRemember) {
+                httpService.createCookie("uid", data.UserID, 365);
+                httpService.createCookie("uname", data.UserEmailAddress, 365);
+            }
+            else {
+                httpService.createCookie("uid", data.UserID);
+                httpService.createCookie("uname", data.UserEmailAddress);
+            }
             $rootScope.loginUserName = httpService.readCookie("uname");
             $rootScope.userId = parseInt(httpService.readCookie("uid"));
             $rootScope.UserLogin = true;

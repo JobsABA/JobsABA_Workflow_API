@@ -59,7 +59,8 @@
             }
 
             $("#jobsInABAListDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
-            $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
+            $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (listJob) {
+                var data = listJob.record;
                 $("#jobsInABAListDiv").unblock();
                 for (var i = 0; i < data.length; i++) {
                     var newobj = new Object();
@@ -93,7 +94,7 @@
                     data[i].EndDate = $rootScope.setDateformat(data[i].EndDate);
                 }
                 //lazy loading
-                $scope.jobPagingModel.totalReocrd = 11;
+                $scope.jobPagingModel.totalReocrd = listJob.TotalJobCount;
                 $scope.jobPagingModel.pagingJobList = $scope.jobPagingModel.pagingJobList.concat(data);
                 $scope.jobPagingModel.initialFrom += $scope.jobPagingModel.dataLoadPerReq;
                 $scope.jobPagingModel.initialTo += $scope.jobPagingModel.dataLoadPerReq;

@@ -54,6 +54,11 @@ namespace JobsInABA.BL
             {
                 foreach (var item in oJob)
                 {
+                    var businessUsers = new BusinessUserMapBL().GetBusinessOwner(item.BusinessID).FirstOrDefault();
+                    if (businessUsers != null)
+                    {
+                        item.Business.User = new UsersBL().Get(businessUsers.UserID);
+                    }
                     item.Count = count;
                 }
             }
