@@ -16,7 +16,8 @@
 
     //for search job
     $scope.searchJob = function () {
-        $location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' +  $("#txtCompanyName").val(), + '&CompnayName=' + $scope.searchjobModel.CompnayName);
+        //$location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' +  $("#txtCompanyName").val(), + '&CompnayName=' + $scope.searchjobModel.CompnayName);
+        $location.url('/jobsInAba?JobKeyword=' + $scope.searchjobModel.KeyWord + '&Location=' + $scope.searchjobModel.Location + '&CompnayName=' + $("#txtCompanyName").val());
     }
 
     //for display full description for job
@@ -61,6 +62,7 @@
         $("#homePageJobDiv").block({ message: '<img src="Assets/img/loader.gif" />' });
         $http.get($rootScope.API_PATH + "/Jobs/GetJobsBySearch", { params: params }).success(function (data) {
             $("#homePageJobDiv").unblock();
+            data = data.record;
             if (data != null) {
                 for (var i = 0; i < data.length; i++) {
                     var newobj = new Object();

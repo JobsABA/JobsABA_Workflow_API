@@ -37,4 +37,5 @@ namespace JobsInABA.Workflows.Models
     {
         public string ForgotEmailAddress { get; set; }
     }
+
 }

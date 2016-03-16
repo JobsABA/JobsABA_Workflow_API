@@ -1,4 +1,4 @@
-﻿app.controller('ChangePasswordController', function ($scope, $location, httpService, $rootScope, $http, $filter) {
+﻿app.controller('CreatePasswordController', function ($scope, $location, httpService, $rootScope, $http, $filter) {
 
     $scope.ChangePassword = function () {
         var params = {
@@ -7,7 +7,7 @@
             ConfirmPassword: $scope.ConfirmPassword
         }
 
-        $http.get($rootScope.API_PATH + "/User/ChangePassword", { params: params }).success(function (data) {
+        $http.get($rootScope.API_PATH + "/User/CreatePassword", { params: params }).success(function (data) {
             toastr.success("password change successfully");
             $location.path('/personprofile');
         }).error(function (data) {

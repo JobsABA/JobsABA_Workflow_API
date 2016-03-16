@@ -27,9 +27,13 @@ namespace Api.Controllers
             return db.GetJobs();
         }
 
-        public IEnumerable<JobDTO> GetJobsBySearch(string companyName,string jobTitle,string location, int? from, int? to)
+        public IHttpActionResult GetJobsBySearch(string companyName, string jobTitle, string location, int? from, int? to)
         {
-            return db.GetJobsBySearch(companyName,jobTitle,location, from, to);
+            Dictionary<string, object> res = new Dictionary<string, object>();
+            var jobLst = db.GetJobsBySearch(companyName, jobTitle, location, from, to);
+            res["record"] = jobLst;
+            res["TotalJobCount"] = jobLst.FirstOrDefault() != null ? jobLst.FirstOrDefault().Count : 0;
+            return Ok(res);
         }
 
         //public IEnumerable<JobDTO> GetJobByPaging(int from, int to)

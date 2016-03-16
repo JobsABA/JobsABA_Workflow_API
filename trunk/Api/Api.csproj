@@ -1258,6 +1258,7 @@
     <Content Include="Web\FrontSide\App\Controller\ChangePassword.js" />
     <Content Include="Web\FrontSide\App\Controller\CompanyProfileController.js" />
     <Content Include="Web\FrontSide\App\Controller\ContactUsController.js" />
+    <Content Include="Web\FrontSide\App\Controller\CreatePassword.js" />
     <Content Include="Web\FrontSide\App\Controller\footerMenuController.js" />
     <Content Include="Web\FrontSide\App\Controller\HomeController.js" />
     <Content Include="Web\FrontSide\App\Controller\IndexController.js" />
@@ -1711,6 +1712,7 @@
     <Content Include="Web\FrontSide\Template\CompanyProfile.html" />
     <Content Include="Web\FrontSide\Template\ContactUs.html" />
     <Content Include="Web\FrontSide\Template\CreateJob.html" />
+    <Content Include="Web\FrontSide\Template\CreatePassword.html" />
     <Content Include="Web\FrontSide\Template\Home.html" />
     <Content Include="Web\FrontSide\Template\JobDetail.html" />
     <Content Include="Web\FrontSide\Template\JobsInABAList.html" />
