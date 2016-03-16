@@ -122,5 +122,27 @@ namespace JobsInABA.DAL.Repositories
         {
             _DBContext.Dispose();
         }
+
+        public bool ActivateUser(string username)
+        {
+            using (DBContext)
+            {
+                try
+                {
+                    if (DBContext.UserAccounts.Count(p => p.UserName == username) > 0)
+                    {
+                        var user = DBContext.UserAccounts.FirstOrDefault(p => p.UserName == username);
+                        user.IsActive = true;
+                        DBContext.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                        DBContext.SaveChanges();
+                    }
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

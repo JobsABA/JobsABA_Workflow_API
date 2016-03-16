@@ -69,5 +69,10 @@ namespace JobsInABA.BL
         {
             throw new NotImplementedException();
         }
+
+        public bool ActivateUser(string username)
+        {
+            return userAccountRepo.ActivateUser(username);
+        }
     }
 }

@@ -318,5 +318,10 @@ namespace JobsInABA.Workflows
             _PhonesBL.Dispose();
             _UsersBL.Dispose();
         }
+
+        public bool ActivateUser(string username)
+        {
+            return AccountBL.ActivateUser(username);
+        }
     }
 }

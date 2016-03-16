@@ -143,6 +143,15 @@ namespace Api.Controllers
         [ResponseType(typeof(UserDataModel))]
         public IHttpActionResult PostUser([FromBody]UserDataModel user)
         {
+            var result= new AccountController().ForgotPassword("Test32@gmail.com");
+            return Ok();
+
+            //new UserAccountsController().ModifiedPasswordByUserName(new SignIn()
+            //{
+            //    Username = "Test32@gmail.com",
+            //    Password = "admin@1234"
+            //});
+
             //new AccountController().Put("Test13@gmail.com", "Password");
             ////GetUsersByPaging(0, 2);
             //return Ok();
