@@ -1,4 +1,5 @@
 ﻿using Api.Services;
+using JobsInABA.BL.DTOs;
 using JobsInABA.Workflows;
 using JobsInABA.Workflows.Models;
 using System;
@@ -17,9 +18,10 @@ namespace Api.Controllers
     {
         private UserWorkflows db = new UserWorkflows();
 
-        public HttpResponseMessage PostFile()
+        public HttpResponseMessage PostFile(ImageDTO imageDTO)
         {
-            string path=string.Empty;
+            string path = string.Empty;
+            int id = 0;
             HttpRequestMessage request = this.Request;
             if (!request.Content.IsMimeMultipartContent())
             {
@@ -39,13 +41,18 @@ namespace Api.Controllers
 
                     File.Move(finfo.FullName, Path.Combine(root, path));
 
+                    imageDTO.Name = path;
+                    imageDTO.ImageExtension = finfo.Extension;
+
+                    id = new ImagesController().SaveImage(imageDTO);
+
                     return new HttpResponseMessage()
                     {
                         Content = new StringContent("File uploaded.")
                     };
                 }
             );
-            return Request.CreateResponse(HttpStatusCode.BadRequest, path); 
+            return Request.CreateResponse(HttpStatusCode.BadRequest, id);
         }
 
         [Route("api/account/SignIn")]
